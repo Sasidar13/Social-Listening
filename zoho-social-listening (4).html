@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoho Social — Listening</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f5f7;color:#1a1a2e;font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* NAV */
+.topnav{background:#1a1f3a;height:50px;display:flex;align-items:center;padding:0 12px;gap:0;flex-shrink:0;}
+.nav-logo{width:26px;height:26px;position:relative;flex-shrink:0;}
+.nav-logo span{position:absolute;width:11px;height:11px;border-radius:50%;}
+.nav-logo span:nth-child(1){background:#4b9cf5;top:0;left:0;}
+.nav-logo span:nth-child(2){background:#a78bfa;top:0;right:0;}
+.nav-logo span:nth-child(3){background:#34d399;bottom:0;left:50%;transform:translateX(-50%);}
+.nav-div{width:1px;height:22px;background:rgba(255,255,255,0.15);margin:0 10px;}
+.nav-ws{display:flex;align-items:center;gap:6px;cursor:pointer;padding:3px 7px 3px 3px;border-radius:6px;}
+.nav-ws:hover{background:rgba(255,255,255,0.08);}
+.nav-ws-t{width:26px;height:26px;border-radius:5px;background:linear-gradient(135deg,#4b9cf5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;color:#fff;}
+.nav-ws-n{color:rgba(255,255,255,0.85);font-size:12.5px;font-weight:500;}
+.nav-ws-c{color:rgba(255,255,255,0.4);font-size:9px;}
+.nav-links{display:flex;margin-left:14px;}
+.nav-a{color:rgba(255,255,255,0.55);text-decoration:none;padding:0 12px;height:50px;display:flex;align-items:center;font-size:13px;font-weight:500;border-bottom:2.5px solid transparent;transition:all 0.12s;white-space:nowrap;}
+.nav-a:hover{color:rgba(255,255,255,0.9);}
+.nav-a.active{color:#fff;border-bottom-color:#4b9cf5;}
+.nav-ov{color:rgba(255,255,255,0.35);padding:0 8px;height:50px;display:flex;align-items:center;font-size:16px;cursor:pointer;letter-spacing:2px;}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:5px;}
+.np-wrap{display:flex;border-radius:6px;overflow:hidden;}
+.np-btn{background:#4b9cf5;color:#fff;border:none;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;}
+.np-caret{background:#3a8ce0;border:none;color:#fff;padding:7px 9px;cursor:pointer;font-size:10px;border-left:1px solid rgba(255,255,255,0.2);}
+.ni{background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative;transition:background 0.12s;}
+.ni:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);}
+.ni-badge{position:absolute;top:2px;right:2px;background:#ef4444;color:#fff;font-size:8.5px;font-weight:700;width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #1a1f3a;}
+.nav-av{width:30px;height:30px;background:#4b9cf5;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;cursor:pointer;}
+
+/* UNIFIED HEADER ROW — "Listening" + channels + date all on one row */
+.unified-bar{background:#fff;border-bottom:1px solid #e4e6ed;display:flex;align-items:center;height:46px;flex-shrink:0;padding:0 0 0 0;}
+/* Left: Listening label sits in sidebar-width column */
+.ub-left{width:210px;flex-shrink:0;display:flex;align-items:center;padding:0 14px;border-right:1px solid #e4e6ed;}
+.ub-left-title{font-size:15px;font-weight:700;color:#1a1a2e;}
+/* Right: channels + date */
+.ub-right{flex:1;display:flex;align-items:center;gap:3px;padding:0 14px;}
+.ch-all{display:flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12.5px;font-weight:600;color:#4a4f6a;cursor:pointer;border:2px solid transparent;transition:all 0.14s;white-space:nowrap;}
+.ch-all:hover{background:#f4f5f7;}
+.ch-all.active{color:#f97316;border-color:#f97316;font-weight:700;}
+.ch-sep{width:1px;height:20px;background:#e4e6ed;margin:0 4px;flex-shrink:0;}
+.ch-btn{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;background:none;transition:all 0.14s;position:relative;flex-shrink:0;outline:none;}
+.ch-btn:hover{background:#f4f5f7;}
+.ch-btn.active{border-color:#f97316;}
+.ch-btn.active::after{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:16px;height:2.5px;background:#f97316;border-radius:1px;}
+.ch-date{margin-left:auto;display:flex;align-items:center;gap:5px;border:1px solid #e0e2e9;border-radius:6px;padding:5px 10px;font-size:12px;color:#4a4f6a;cursor:pointer;background:#fff;white-space:nowrap;flex-shrink:0;}
+
+/* BODY */
+.body{display:flex;flex:1;min-height:0;position:relative;}
+
+/* SIDEBAR */
+.sidebar{width:210px;background:#fff;border-right:1px solid #e4e6ed;display:flex;flex-direction:column;flex-shrink:0;}
+.sb-add{margin:8px 12px 10px;background:#4b9cf5;color:#fff;border:none;border-radius:7px;padding:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;}
+.sb-lbl{font-size:10px;font-weight:700;color:#9399b0;text-transform:uppercase;letter-spacing:0.8px;padding:0 16px 5px;}
+.sb-list{flex:1;overflow-y:auto;padding-bottom:12px;}
+.si{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;color:#4a4f6a;font-size:12.5px;font-weight:500;border-left:2.5px solid transparent;transition:all 0.1s;position:relative;}
+.si:hover{background:#f7f8fb;color:#1a1a2e;}
+.si.active{background:#eef4ff;color:#4b9cf5;border-left-color:#4b9cf5;font-weight:600;}
+.si svg{flex-shrink:0;opacity:0.4;}
+.si.active svg{opacity:1;}
+.si-badge{margin-left:auto;background:#ef4444;color:#fff;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:50px;}
+.si-dot{color:#c0c5d8;font-size:14px;cursor:pointer;opacity:0;margin-left:auto;}
+.si:hover .si-dot{opacity:1;}
+.si-badge+.si-dot{margin-left:4px;}
+
+/* CONTENT */
+.content{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+
+/* SEARCH HEADER */
+.srch-hdr{background:#fff;padding:8px 18px 0;border-bottom:1px solid #e4e6ed;flex-shrink:0;position:relative;}
+
+.srch-row{display:flex;align-items:center;margin-bottom:8px;}
+.srch-desc{font-size:12px;color:#6b7280;}
+.more-btn{background:none;border:none;cursor:pointer;color:#9399b0;font-size:16px;letter-spacing:2px;padding:3px 6px;border-radius:5px;}
+.more-btn:hover{background:#f4f5f7;color:#4a4f6a;}
+
+/* MORE DROPDOWN */
+.more-dd{position:absolute;top:calc(100% + 4px);right:0;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.10);z-index:300;width:180px;padding:4px 0;display:none;}
+.more-dd.open{display:block;}
+.dd-i{padding:9px 16px;font-size:13px;color:#2d3047;cursor:pointer;display:flex;align-items:center;gap:9px;transition:background 0.1s;}
+.dd-i:hover{background:#f4f5f7;}
+.dd-i svg{width:14px;height:14px;color:#6b7280;}
+.dd-sep{height:1px;background:#f0f1f5;margin:4px 0;}
+
+.tabs{display:flex;gap:4px;padding-bottom:10px;}
+.tag-input[contenteditable]:empty:not(:focus)::before{content:attr(data-placeholder);color:#9399b0;pointer-events:none;position:absolute;}
+.tag-input[contenteditable]{position:relative;}
+.tab{padding:7px 16px;border-radius:50px;border:1.5px solid #e0e2e9;background:#fff;color:#4a4f6a;font-size:12.5px;font-weight:500;cursor:pointer;transition:all 0.12s;margin-bottom:-1px;}
+.tab:hover{border-color:#b0b8d8;}
+.tab.active{border-color:#4b9cf5;color:#4b9cf5;background:#eef4ff;font-weight:600;}
+
+/* TAB PANELS — when panel open, content shrinks */
+.tab-panel{display:none;flex:1;overflow-y:auto;overflow-x:visible;padding:14px 18px 24px;}
+.tab-panel.active{display:block;}
+
+/* when right panel is open, content area narrows */
+.body.panel-open .content{margin-right:360px;}
+
+/* METRIC CARDS */
+.mrow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px;}
+.mc{background:#fff;border-radius:9px;border:1px solid #e4e6ed;padding:13px 15px;cursor:pointer;transition:all 0.12s;}
+.mc:hover{border-color:#b0c8f5;}
+.mc.sel{border-color:#4b9cf5;box-shadow:0 0 0 2px rgba(75,156,245,0.11);}
+.mc-lbl{font-size:11px;color:#9399b0;font-weight:500;display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.mc-ico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.mc-val{font-size:23px;font-weight:700;color:#1a1a2e;margin-bottom:3px;}
+.mc-chg{font-size:11px;font-weight:600;}
+.mc-chg.up{color:#16a34a;}
+.mc-chg.dn{color:#dc2626;}
+.mc-sub{color:#9399b0;font-weight:400;font-size:10.5px;margin-left:2px;}
+
+/* CHART CARD */
+.cc{background:#fff;border-radius:9px;border:1px solid #e4e6ed;padding:14px 16px;margin-bottom:12px;cursor:pointer;transition:all 0.12s;}
+.cc:hover{border-color:#b0c8f5;}
+.cc.sel{border-color:#4b9cf5;box-shadow:0 0 0 2px rgba(75,156,245,0.1);}
+.cc-hdr{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
+.cc-title{font-size:13px;font-weight:600;color:#1a1a2e;flex:1;min-width:80px;}
+.cc-info{color:#c5c9da;font-size:11px;}
+.yg{display:flex;border:1px solid #e0e2e9;border-radius:6px;overflow:hidden;}
+.yb{padding:4px 10px;background:#fff;border:none;font-size:11.5px;font-weight:500;color:#6b7280;cursor:pointer;border-right:1px solid #e0e2e9;transition:all 0.12s;white-space:nowrap;}
+.yb:last-child{border-right:none;}
+.yb.active{background:#eef4ff;color:#4b9cf5;font-weight:600;}
+.xsel{padding:4px 22px 4px 8px;border:1px solid #e0e2e9;border-radius:6px;font-size:11.5px;color:#4a4f6a;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 6px center;cursor:pointer;appearance:none;}
+.cleg{display:flex;gap:11px;align-items:center;}
+.cli{display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7280;}
+.cld{width:8px;height:8px;border-radius:50%;}
+
+/* 2-COL */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+
+/* TABLES */
+.tc{background:#fff;border-radius:9px;border:1px solid #e4e6ed;overflow:hidden;margin-bottom:12px;}
+.tc-hd{padding:11px 15px;border-bottom:1px solid #e4e6ed;font-size:12.5px;font-weight:600;color:#1a1a2e;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.tc-info{color:#c5c9da;font-size:11px;}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:8px 15px;text-align:left;font-size:11px;color:#9399b0;font-weight:600;border-bottom:1px solid #e4e6ed;white-space:nowrap;}
+.s-col{opacity:0.45;font-size:9.5px;}
+tbody tr{cursor:pointer;transition:background 0.09s;}
+tbody tr:hover{background:#f7f8fb;}
+tbody tr.sel{background:#eef4ff;}
+tbody td{padding:9px 15px;font-size:12px;color:#1a1a2e;border-bottom:1px solid #f0f1f5;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+.sn{display:flex;align-items:center;gap:8px;font-weight:500;}
+.si2{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.bw{display:flex;align-items:center;gap:7px;}
+.bt{width:75px;height:4px;background:#f0f1f5;border-radius:2px;}
+.bf{height:4px;border-radius:2px;background:#4b9cf5;}
+.sp{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:50px;font-size:11px;font-weight:600;}
+.sent-bar{display:flex;width:72px;height:7px;border-radius:4px;overflow:hidden;gap:1px;flex-shrink:0;}
+.wc-word{cursor:pointer;font-weight:600;border-radius:4px;padding:2px 4px;transition:opacity 0.15s;line-height:1.3;}
+.wc-word:hover{opacity:0.7;}
+.wc-tab{background:none;border:none;padding:5px 12px;font-size:12px;color:#6b7280;cursor:pointer;border-radius:6px;font-family:inherit;font-weight:500;}
+.wc-tab:hover{background:#f4f5f7;color:#1a1a2e;}
+.wc-tab.active{background:#eef4ff;color:#4b9cf5;font-weight:600;}
+.kw-tab{background:#fff;border:none;padding:5px 13px;font-size:12px;color:#6b7280;cursor:pointer;font-family:inherit;font-weight:500;transition:background 0.1s;}
+.kw-tab:hover{background:#f4f5f7;color:#4a4f6a;}
+.kw-tab.active{background:#eef4ff;color:#4b9cf5;font-weight:600;}
+.kw-dd-btn{border:1px solid #e0e2e9;border-radius:6px;padding:5px 10px;font-size:12px;color:#4a4f6a;background:#fff;cursor:pointer;font-family:inherit;white-space:nowrap;display:flex;align-items:center;gap:4px;}
+.kw-dd-btn:hover{border-color:#b0b8d4;background:#f9fafb;}
+.kw-dd{position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid #e0e2e9;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.1);z-index:200;min-width:150px;padding:6px 0;}
+.kw-dd-item{display:flex;align-items:center;gap:8px;padding:7px 12px;font-size:12.5px;color:#2d3047;cursor:pointer;}
+.kw-dd-item:hover{background:#f4f5f7;}
+.kw-dd-item input{accent-color:#4b9cf5;width:14px;height:14px;cursor:pointer;}
+.seg-pos{background:#22c55e;height:100%;}
+.seg-neu{background:#d1d5db;height:100%;}
+.seg-neg{background:#ef4444;height:100%;}
+.sp-p{background:#f0fdf4;color:#16a34a;}
+.sp-n{background:#f7f8fa;color:#6b7280;}
+.sp-r{background:#fef2f2;color:#dc2626;}
+.sp-m{background:#fffbeb;color:#d97706;}
+
+/* AI */
+.ai-sec{background:#fff;border-radius:9px;border:1px solid #e4e6ed;padding:14px;margin-bottom:12px;}
+.ai-hd{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.ai-tag{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;}
+.ai-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+.ai-c{border:1px solid #e4e6ed;border-radius:7px;padding:11px;cursor:pointer;transition:all 0.12s;}
+.ai-c:hover{border-color:#b0c8f5;}
+.ai-c.sel{border-color:#4b9cf5;background:#fafcff;}
+.ai-n{width:20px;height:20px;background:#eef4ff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#4b9cf5;flex-shrink:0;margin-right:6px;vertical-align:middle;}
+.ai-t{display:flex;align-items:flex-start;gap:0;font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:6px;line-height:1.4;}
+.ai-d{font-size:11px;color:#6b7280;line-height:1.5;margin-bottom:7px;}
+
+/* KW CATS */
+.cat-sec{background:#fff;border-radius:9px;border:1px solid #e4e6ed;padding:14px;}
+.cat-r{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid #f0f1f5;}
+.cat-r:last-child{border-bottom:none;padding-bottom:0;}
+.cat-i{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+.cat-l{font-size:12px;font-weight:600;color:#1a1a2e;min-width:64px;padding-top:2px;}
+.cat-cs{display:flex;flex-wrap:wrap;gap:4px;flex:1;}
+.cat-chip{background:#f4f5f7;color:#4a4f6a;font-size:11px;padding:2px 8px;border-radius:50px;border:1px solid #e8eaed;}
+.va{font-size:11px;color:#4b9cf5;font-weight:500;cursor:pointer;white-space:nowrap;padding-top:3px;}
+
+/* PEOPLE */
+.ua{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.un{font-weight:600;font-size:12px;color:#1a1a2e;}
+.uh{font-size:10.5px;color:#9399b0;}
+.ib{width:65px;height:4px;background:#f0f1f5;border-radius:2px;}
+.if_{height:4px;border-radius:2px;background:#4b9cf5;}
+
+/* MESSAGES TAB */
+.mf-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px;}
+.mf-lbl{font-size:11px;color:#9399b0;font-weight:600;}
+.mfc{padding:4px 12px;border-radius:50px;border:1.5px solid #e0e2e9;background:#fff;font-size:11.5px;color:#4a4f6a;cursor:pointer;transition:all 0.12s;}
+.mfc:hover{border-color:#4b9cf5;color:#4b9cf5;}
+.mfc.active{border-color:#4b9cf5;background:#eef4ff;color:#4b9cf5;font-weight:600;}
+.sort-sel{padding:4px 9px;border:1.5px solid #e0e2e9;border-radius:6px;font-size:11.5px;color:#4a4f6a;background:#fff;cursor:pointer;margin-left:auto;}
+
+/* MSG CARD (shared — used in tab + panel) */
+.msg-card{background:#fff;border-radius:9px;border:1px solid #e4e6ed;padding:13px 14px;margin-bottom:8px;cursor:pointer;transition:all 0.12s;position:relative;overflow:visible;}
+.msg-card:hover{border-color:#b0c8f5;}
+.msg-card.sel{border-color:#4b9cf5;box-shadow:0 0 0 2px rgba(75,156,245,0.09);}
+
+/* MSG TYPE BADGE */
+.msg-type-badge{display:inline-flex;align-items:center;padding:1px 7px;border-radius:50px;font-size:10.5px;font-weight:600;flex-shrink:0;}
+.type-post{background:#eef4ff;color:#4b9cf5;}
+.type-comment{background:#f4f5f7;color:#6b7280;}
+
+/* MSG CARD LAYOUT */
+.msg-av-wrap{position:relative;flex-shrink:0;margin-top:2px;}
+.msg-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+.msg-plat{position:absolute;bottom:-2px;left:-2px;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;border:2px solid #fff;}
+
+/* Card inner: avatar | body */
+.msg-inner{display:flex;gap:10px;align-items:flex-start;}
+
+/* Body: fills width */
+.msg-body{flex:1;min-width:0;}
+
+/* Top row — flex with space-between keeps right side always at the edge */
+.msg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px;width:100%;}
+.msg-head-left{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;min-width:0;}
+.msg-head-right{display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;}
+
+.msg-name{font-size:13px;font-weight:700;color:#1a1a2e;}
+.msg-hdl{font-size:11.5px;color:#9399b0;}
+.msg-time{font-size:11.5px;color:#9399b0;}
+
+/* ··· details/summary dropdown */
+.msg-menu{position:static;flex-shrink:0;}
+.msg-menu summary{list-style:none;cursor:pointer;color:#9399b0;font-size:15px;font-weight:900;letter-spacing:3px;padding:2px 4px;border-radius:4px;user-select:none;line-height:1;display:inline-block;}
+.msg-menu summary::-webkit-details-marker{display:none;}
+.msg-menu summary:hover{background:#f4f5f7;color:#4a4f6a;}
+/* dropdown rendered inside .msg-card which has overflow:visible and position:relative */
+.msg-dd{position:absolute;top:38px;right:14px;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:100;min-width:190px;padding:4px 0;}
+.msg-dd-i{padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;display:flex;align-items:center;gap:9px;white-space:nowrap;}
+.msg-dd-i:hover{background:#f4f5f7;}
+.msg-dd-i svg{width:13px;height:13px;color:#6b7280;flex-shrink:0;}
+.msg-dd-i.danger{color:#dc2626;}
+.msg-dd-i.danger svg{color:#dc2626;}
+.msg-dd-sep{height:1px;background:#f0f1f5;margin:4px 0;}
+
+.msg-txt{font-size:12.5px;color:#3a3f5c;line-height:1.55;margin-bottom:8px;}
+.msg-txt .tag{color:#4b9cf5;}
+.msg-stats{display:flex;align-items:center;gap:14px;}
+.msg-stat{display:flex;align-items:center;gap:4px;color:#9399b0;font-size:11.5px;}
+
+/* PEOPLE TABLE MORE BTN */
+.ppl-more-btn{background:none;border:1px solid #e4e6ed;border-radius:5px;padding:3px 8px;font-size:12px;color:#9399b0;cursor:pointer;letter-spacing:1px;}
+.ppl-more-btn:hover{background:#f4f5f7;color:#4a4f6a;border-color:#c0c5d8;}
+
+/* RIGHT PANEL */
+.rp{position:absolute;top:0;right:0;bottom:0;width:360px;background:#fff;border-left:1px solid #e4e6ed;box-shadow:-4px 0 18px rgba(0,0,0,0.07);display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.22s ease;z-index:200;}
+.rp.open{transform:translateX(0);}
+.rp-hd{padding:13px 16px 11px;border-bottom:1px solid #e4e6ed;display:flex;align-items:flex-start;flex-shrink:0;}
+.rp-info{flex:1;}
+.rp-title{font-size:15px;font-weight:700;color:#1a1a2e;}
+.rp-count{font-size:11.5px;color:#9399b0;margin-top:2px;}
+.rp-close{background:none;border:none;cursor:pointer;color:#9399b0;font-size:18px;padding:0 4px;border-radius:4px;line-height:1;margin-left:8px;}
+.rp-close:hover{background:#f4f5f7;color:#4a4f6a;}
+.rp-filters{padding:10px 14px;border-bottom:1px solid #e4e6ed;display:flex;align-items:center;gap:7px;flex-shrink:0;flex-wrap:wrap;}
+.rpf{display:flex;align-items:center;gap:3px;padding:5px 11px;border:1px solid #e0e2e9;border-radius:6px;background:#fff;font-size:12px;color:#4a4f6a;cursor:pointer;font-weight:500;}
+.rpf svg{width:9px;height:9px;opacity:0.5;}
+.rpf:hover{border-color:#b0b8d8;}
+.rp-sort-row{padding:8px 14px;border-bottom:1px solid #f0f1f5;display:flex;align-items:center;flex-shrink:0;}
+.rp-sort-btn{background:none;border:1px solid #e0e2e9;border-radius:6px;padding:4px 8px;cursor:pointer;color:#4a4f6a;font-size:11.5px;display:flex;align-items:center;gap:4px;}
+.rp-sort-btn:hover{background:#f4f5f7;}
+.rp-feed{flex:1;overflow-y:auto;}
+/* panel messages use same .msg-card but lighter */
+.rp-feed .msg-card{border-radius:0;border-left:none;border-right:none;border-top:none;border-bottom:1px solid #f0f1f5;margin-bottom:0;padding:12px 14px;}
+.rp-feed .msg-card:last-child{border-bottom:none;}
+
+/* IRRELEVANT POPUP */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1000;display:none;align-items:center;justify-content:center;}
+.popup-overlay.open{display:flex;}
+.popup{background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.18);width:360px;padding:20px 22px;position:relative;}
+.popup-title{font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:4px;}
+.popup-desc{font-size:12px;color:#6b7280;margin-bottom:16px;line-height:1.5;}
+.popup-opt{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid #f0f1f5;cursor:pointer;}
+.popup-opt:last-of-type{border-bottom:none;}
+.popup-opt input[type=radio]{margin-top:2px;accent-color:#4b9cf5;flex-shrink:0;}
+.popup-opt-label{font-size:12.5px;color:#2d3047;flex:1;}
+.popup-textarea{width:100%;margin-top:6px;padding:7px 10px;border:1px solid #e0e2e9;border-radius:6px;font-size:12px;color:#2d3047;resize:none;height:72px;font-family:inherit;display:none;}
+.popup-textarea.show{display:block;}
+.popup-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #f0f1f5;}
+.popup-cancel{background:#fff;border:1px solid #e0e2e9;border-radius:6px;padding:7px 16px;font-size:12.5px;cursor:pointer;color:#4a4f6a;}
+.popup-cancel:hover{background:#f4f5f7;}
+.popup-submit{background:#4b9cf5;color:#fff;border:none;border-radius:6px;padding:7px 16px;font-size:12.5px;font-weight:600;cursor:pointer;}
+.popup-submit:hover{background:#3a8ce0;}
+.popup-close{position:absolute;top:14px;right:16px;background:none;border:none;cursor:pointer;color:#9399b0;font-size:18px;line-height:1;}
+
+/* PLAT COLORS */
+.plat-x{background:#000;}
+.plat-ig{background:radial-gradient(circle at 30% 107%,#fdf497,#fd5949 45%,#d6249f 60%,#285aeb 90%);}
+.plat-yt{background:#ff0000;}
+.plat-rd{background:#ff4500;}
+.plat-li{background:#0077b5;}
+.plat-th{background:#000;}
+.plat-wb{background:#4b9cf5;}
+.plat-fb{background:#1877f2;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#dde0ea;border-radius:3px;}
+
+/* KW */
+.kw-r{font-size:11px;color:#9399b0;font-weight:600;width:18px;text-align:center;}
+.kw-n{font-weight:600;color:#1a1a2e;font-size:12px;}
+.eb{height:4px;border-radius:2px;background:#4b9cf5;min-width:3px;}
+.ebw{display:flex;align-items:center;gap:5px;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="nav-logo"><span></span><span></span><span></span></div>
+  <div class="nav-div"></div>
+  <div class="nav-ws">
+    <div class="nav-ws-t">ZT</div>
+    <span class="nav-ws-n">Zylker T...</span>
+    <span class="nav-ws-c">▼</span>
+  </div>
+  <nav class="nav-links">
+    <a href="#" class="nav-a">Home</a>
+    <a href="#" class="nav-a">Posts</a>
+    <a href="#" class="nav-a">Messages</a>
+    <a href="#" class="nav-a">Inbox</a>
+    <a href="#" class="nav-a active">Listening</a>
+    <a href="#" class="nav-a">Reports</a>
+  </nav>
+  <span class="nav-ov">···</span>
+  <div class="nav-r">
+    <div class="np-wrap">
+      <button class="np-btn">+ New Post</button>
+      <button class="np-caret">▾</button>
+    </div>
+    <button class="ni" style="font-size:14px;">
+      <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="10" y2="15"/></svg>
+      <span class="ni-badge">1</span>
+    </button>
+    <button class="ni"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="10" r="3"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.5 3.5l1.4 1.4M15.1 15.1l1.4 1.4M3.5 16.5l1.4-1.4M15.1 4.9l1.4-1.4"/></svg></button>
+    <button class="ni"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 3L9.5 11.5M18 3L12 18l-2.5-6.5M18 3L2 9l6.5 2.5"/></svg></button>
+    <button class="ni"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg></button>
+    <div class="nav-av">SA</div>
+    <button class="ni"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="5" cy="5" r="1.4" fill="currentColor"/><circle cx="10" cy="5" r="1.4" fill="currentColor"/><circle cx="15" cy="5" r="1.4" fill="currentColor"/><circle cx="5" cy="10" r="1.4" fill="currentColor"/><circle cx="10" cy="10" r="1.4" fill="currentColor"/><circle cx="15" cy="10" r="1.4" fill="currentColor"/><circle cx="5" cy="15" r="1.4" fill="currentColor"/><circle cx="10" cy="15" r="1.4" fill="currentColor"/><circle cx="15" cy="15" r="1.4" fill="currentColor"/></svg></button>
+  </div>
+</nav>
+
+<!-- UNIFIED BAR: Listening label left | channels right -->
+<div class="unified-bar">
+  <div class="ub-left">
+    <span class="ub-left-title">Listening</span>
+  </div>
+  <div class="ub-right">
+    <!-- All pill — text only, no icon -->
+    <button class="ch-all active" onclick="selectCh(this,'all')" id="ch-all">All</button>
+    <div class="ch-sep"></div>
+    <button class="ch-btn" title="Facebook" onclick="selectCh(this,'fb')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12a12 12 0 10-13.875 11.855V15.47H7.078V12h3.047v-2.64c0-3.007 1.792-4.669 4.533-4.669 1.313 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.47h-2.796v8.385A12 12 0 0024 12z"/></svg>
+    </button>
+    <button class="ch-btn" title="X" onclick="selectCh(this,'x')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </button>
+    <button class="ch-btn" title="LinkedIn" onclick="selectCh(this,'li')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077b5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </button>
+    <button class="ch-btn" title="Instagram" onclick="selectCh(this,'ig')">
+      <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </button>
+    <button class="ch-btn" title="YouTube" onclick="selectCh(this,'yt')">
+      <svg width="17" height="12" viewBox="0 0 24 17" fill="#ff0000"><path d="M23.495 2.205a3.02 3.02 0 00-2.126-2.138C19.505 0 12 0 12 0s-7.505 0-9.369.067A3.02 3.02 0 00.505 2.205 31.247 31.247 0 000 8.267a31.247 31.247 0 00.505 6.063 2.977 2.977 0 002.126 2.104C4.495 17 12 17 12 17s7.505 0 9.369-.567a2.977 2.977 0 002.126-2.104A31.247 31.247 0 0024 8.267a31.247 31.247 0 00-.505-6.062zM9.609 12.022V4.512l6.264 3.755-6.264 3.755z"/></svg>
+    </button>
+    <button class="ch-btn" title="Reddit" onclick="selectCh(this,'rd')">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="#ff4500"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </button>
+    <button class="ch-btn" title="Threads" onclick="selectCh(this,'th')">
+      <svg width="14" height="16" viewBox="0 0 192 192" fill="#000"><path d="M141.537 88.988a66.667 66.667 0 00-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.63-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.941c22.975.17 40.526 7.52 52.171 21.847 5.71 7.026 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 9.607 125.202.195 97.07 0h-.113C68.882.194 47.292 9.642 32.788 28.08 19.882 44.485 13.224 67.315 13.001 96v.027c.224 28.685 6.882 51.515 19.788 67.92C47.292 182.358 68.882 191.806 96.957 192h.113c24.96-.173 42.554-6.708 57.048-21.189 18.963-18.945 18.392-42.692 12.142-57.27-4.484-10.454-13.033-18.945-24.723-24.553zm-47.565 42.263c-10.4.576-21.212-4.084-21.74-14.123-.38-7.127 5.074-15.077 21.799-16.01 1.905-.109 3.783-.164 5.64-.164 6.017 0 11.638.584 16.719 1.703-1.904 23.591-12.486 28.039-22.418 28.594z"/></svg>
+    </button>
+    <button class="ch-btn" title="Web" onclick="selectCh(this,'wb')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4b9cf5" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+    </button>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <div style="position:relative;flex-shrink:0;">
+      <select id="dateFilter" onchange="updateDateLabel()" style="appearance:none;-webkit-appearance:none;border:1px solid #e0e2e9;border-radius:6px;padding:5px 28px 5px 10px;font-size:12px;color:#4a4f6a;background:#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E\") no-repeat right 8px center;cursor:pointer;font-family:inherit;white-space:nowrap;">
+        <option value="today">📅 Today</option>
+        <option value="week">📅 Last week</option>
+        <option value="month" selected>📅 Last month</option>
+        <option value="custom">📅 Custom range</option>
+      </select>
+    </div>
+    <div style="position:relative;flex-shrink:0;">
+      <button class="more-btn" id="moreBtn" onclick="toggleMore(event)" style="font-size:16px;letter-spacing:2px;padding:4px 7px;">···</button>
+      <div class="more-dd" id="moreDD">
+        <div class="dd-i" onclick="closeMore()"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="14" height="13" rx="1"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="6"/><line x1="13" y1="2" x2="13" y2="6"/></svg>Schedule</div>
+        <div class="dd-sep"></div>
+        <div class="dd-i" onclick="closeMore()"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2z"/><path d="M14 2v4h4"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="13" x2="11" y2="13"/></svg>Export as PDF</div>
+        <div class="dd-i" onclick="closeMore()"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8l7-5 7 5v9a1 1 0 01-1 1H4a1 1 0 01-1-1V8z"/><path d="M8 18V12h4v6"/></svg>Email</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body" id="bodyWrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="sb-add" onclick="openAddSearch()">+ Add search</button>
+    <div class="sb-lbl">Saved Searches</div>
+    <div class="sb-list">
+      <div class="si active" onclick="selectSI(this)"><svg width="13" height="13" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="24" height="18" rx="2"/><path d="M10 8V6a2 2 0 012-2h8a2 2 0 012 2v2"/></svg>Zylker<div style="position:relative;margin-left:auto;" onclick="event.stopPropagation()"><span class="si-dot" onclick="_toggleMenu(event,'simenu-zylker')" style="padding:2px 4px;">⋮</span><div id="simenu-zylker" style="display:none;position:absolute;right:0;top:20px;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:300;min-width:150px;padding:4px 0;" onclick="event.stopPropagation()"><div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu();openEditSearch('Zylker')" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Edit search</div><div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu();this.closest('.si').remove()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Delete</div></div></div></div>
+      <div class="si" onclick="selectSI(this)"><svg width="13" height="13" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="24" height="18" rx="2"/><path d="M10 8V6a2 2 0 012-2h8a2 2 0 012 2v2"/></svg>Zylker App<div style="position:relative;margin-left:auto;" onclick="event.stopPropagation()"><span class="si-dot" onclick="_toggleMenu(event,'simenu-zylkerapp')" style="padding:2px 4px;">⋮</span><div id="simenu-zylkerapp" style="display:none;position:absolute;right:0;top:20px;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:300;min-width:150px;padding:4px 0;" onclick="event.stopPropagation()"><div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu();openEditSearch('Zylker App')" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Edit search</div><div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu();this.closest('.si').remove()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Delete</div></div></div></div>
+      <div class="si" onclick="selectSI(this)"><svg width="13" height="13" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4l3 8h8l-6 5 2 8-7-4-7 4 2-8-6-5h8z"/></svg>Competitors<span class="si-badge">2</span><div style="position:relative;margin-left:auto;" onclick="event.stopPropagation()"><span class="si-dot" onclick="_toggleMenu(event,'simenu-competitors')" style="padding:2px 4px;margin-left:0;">⋮</span><div id="simenu-competitors" style="display:none;position:absolute;right:0;top:20px;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:300;min-width:150px;padding:4px 0;" onclick="event.stopPropagation()"><div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu();openEditSearch('Competitors')" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Edit search</div><div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu();this.closest('.si').remove()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Delete</div></div></div></div>
+      <div class="si" onclick="selectSI(this)"><svg width="13" height="13" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="24" height="18" rx="2"/><path d="M10 8V6a2 2 0 012-2h8a2 2 0 012 2v2"/></svg>AI tools<div style="position:relative;margin-left:auto;" onclick="event.stopPropagation()"><span class="si-dot" onclick="_toggleMenu(event,'simenu-aitools')" style="padding:2px 4px;">⋮</span><div id="simenu-aitools" style="display:none;position:absolute;right:0;top:20px;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:300;min-width:150px;padding:4px 0;" onclick="event.stopPropagation()"><div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu();openEditSearch('AI tools')" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Edit search</div><div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu();this.closest('.si').remove()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Delete</div></div></div></div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content" id="contentArea">
+
+    <!-- ====== COMPETITOR VIEW ====== -->
+    <div id="compView" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+      <!-- Comp header tabs -->
+      <div class="srch-hdr">
+        <div class="tabs">
+          <button class="tab active" onclick="switchCompTab('comp-overview',this)">Overview</button>
+          <button class="tab" onclick="switchCompTab('comp-conversations',this)">Conversations</button>
+          <button class="tab" onclick="switchCompTab('comp-people',this)">People</button>
+          <button class="tab" onclick="switchCompTab('comp-messages',this)">Messages</button>
+        </div>
+      </div>
+
+      <!-- COMP OVERVIEW -->
+      <div id="comp-overview" class="tab-panel active" style="overflow-y:auto;overflow-x:hidden;flex:1;min-height:0;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 14px 0;">
+
+          <!-- SOV / Engagement donut -->
+          <div class="cc" style="cursor:pointer;" onclick="openPanel('Share of voice','all')">
+            <div class="cc-hdr" style="margin-bottom:12px;" onclick="event.stopPropagation()">
+              <span class="cc-title" id="sovTitle">Share of voice</span>
+              <div class="yg" id="sovY" onclick="event.stopPropagation()">
+                <button class="yb active" onclick="toggleSovView(this,'sov')">SOV</button>
+                <button class="yb" onclick="toggleSovView(this,'eng')">Engagement</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:18px;">
+              <div style="position:relative;width:130px;height:130px;flex-shrink:0;">
+                <canvas id="sovChart"></canvas>
+              </div>
+              <div id="sovLegend" style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0;"></div>
+            </div>
+          </div>
+
+          <!-- Sentiment per brand -->
+          <div class="cc" style="cursor:pointer;" onclick="openPanel('Sentiment by brand','all')">
+            <div class="cc-hdr" style="margin-bottom:12px;">
+              <span class="cc-title">Sentiment by brand</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;" id="sentByBrand">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Conversation trend multi-brand -->
+        <div style="padding:0 14px;margin-top:10px;">
+          <div class="cc" style="cursor:pointer;" onclick="openPanel('Conversation trend','all')">
+            <div class="cc-hdr" style="margin-bottom:8px;" onclick="event.stopPropagation()">
+              <span class="cc-title">Conversation trend</span>
+              <div class="yg" id="compTrendY" onclick="event.stopPropagation()">
+                <button class="yb active" onclick="toggleY('compTrendY',this,redrawCompTrend)">Volume</button>
+                <button class="yb" onclick="toggleY('compTrendY',this,redrawCompTrend)">Engagement</button>
+              </div>
+              <select class="xsel" onclick="event.stopPropagation()" onchange="redrawCompTrend()">
+                <option>Day</option><option>Week</option><option>Month</option>
+              </select>
+            </div>
+            <div style="position:relative;height:180px;"><canvas id="compTrendChart"></canvas></div>
+            <!-- Legend -->
+            <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:24px;height:3px;background:#4b9cf5;border-radius:2px;display:inline-block;"></span>Zylker CRM</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:24px;height:3px;background:#f97316;border-radius:2px;display:inline-block;"></span>Salesforce</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:24px;height:3px;background:#22c55e;border-radius:2px;display:inline-block;"></span>HubSpot</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance by source table -->
+        <div style="padding:0 14px 16px;margin-top:10px;">
+          <div class="tc">
+            <div class="tc-hd" style="flex-wrap:wrap;gap:8px;">
+              <span>Performance by source</span>
+              <div style="margin-left:auto;display:flex;gap:0;border:1px solid #e0e2e9;border-radius:7px;overflow:hidden;">
+                <button class="kw-tab active" onclick="switchPerfTab(this,'vol')">Volume</button>
+                <button class="kw-tab" onclick="switchPerfTab(this,'eng')" style="border-left:1px solid #e0e2e9;">Engagement</button>
+                <button class="kw-tab" onclick="switchPerfTab(this,'sent')" style="border-left:1px solid #e0e2e9;">Sentiment</button>
+              </div>
+            </div>
+            <table style="width:100%;">
+              <thead>
+                <tr>
+                  <th style="text-align:left;padding:10px 12px;font-size:11.5px;color:#9399b0;font-weight:500;border-bottom:1px solid #f0f1f5;width:120px;">Source</th>
+                  <th id="perfTh0" style="text-align:right;padding:10px 12px;font-size:11.5px;color:#4b9cf5;font-weight:600;border-bottom:1px solid #f0f1f5;">Zylker CRM</th>
+                  <th id="perfTh1" style="text-align:right;padding:10px 12px;font-size:11.5px;color:#f97316;font-weight:600;border-bottom:1px solid #f0f1f5;">Salesforce</th>
+                  <th id="perfTh2" style="text-align:right;padding:10px 12px;font-size:11.5px;color:#22c55e;font-weight:600;border-bottom:1px solid #f0f1f5;">HubSpot</th>
+                </tr>
+              </thead>
+              <tbody id="perfTbl"></tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /comp-overview -->
+
+      <div id="comp-conversations" class="tab-panel" style="overflow-y:auto;flex:1;">
+
+        <!-- AI Summary -->
+        <div class="ai-sec">
+          <div class="ai-hd"><span style="font-size:12.5px;font-weight:600;color:#1a1a2e;">AI conversation summary</span><span class="ai-tag">✦ AI</span></div>
+          <div class="ai-grid">
+            <div class="ai-c"><div class="ai-t"><span class="ai-n" style="background:#eef4ff;color:#4b9cf5;">1</span>Zylker leads on travel deal buzz</div><div class="ai-d">Zylker CRM dominates travel deal conversations with highly positive sentiment, outpacing competitors on volume across X and Instagram.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-p">😊 Positive</span><button onclick="openPanel('Travel deals','pos')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+            <div class="ai-c"><div class="ai-t"><span class="ai-n" style="background:#fff3eb;color:#f97316;">2</span>Salesforce pricing draws criticism</div><div class="ai-d">Salesforce sees negative spikes around pricing and contract terms, while Zylker CRM is increasingly mentioned as an alternative.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-r">😟 Negative</span><button onclick="openPanel('Salesforce pricing','neg')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+            <div class="ai-c"><div class="ai-t"><span class="ai-n" style="background:#f0fdf4;color:#22c55e;">3</span>HubSpot gains traction on support</div><div class="ai-d">HubSpot's customer support experience is generating positive mentions, narrowing the gap with Zylker on service satisfaction scores.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-p">😊 Positive</span><button onclick="openPanel('HubSpot support','pos')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+            <div class="ai-c"><div class="ai-t"><span class="ai-n" style="background:#eef4ff;color:#4b9cf5;">4</span>Feature comparison driving decisions</div><div class="ai-d">Users are actively comparing CRM features across all three brands, with itinerary planning and automation as the top differentiators.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-m">😐 Mixed</span><button onclick="openPanel('Feature comparison','all')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+          </div>
+        </div>
+
+        <!-- Word cloud full width -->
+        <div class="tc" style="margin-bottom:12px;">
+          <div class="tc-hd">Trending keywords</div>
+          <div style="display:flex;gap:2px;padding:8px 12px;border-bottom:1px solid #f0f1f5;">
+            <button class="wc-tab active" onclick="setCompWcTab(this,'all')">All brands</button>
+            <button class="wc-tab" onclick="setCompWcTab(this,'zylker')" style="color:#4b9cf5;">Zylker CRM</button>
+            <button class="wc-tab" onclick="setCompWcTab(this,'salesforce')" style="color:#f97316;">Salesforce</button>
+            <button class="wc-tab" onclick="setCompWcTab(this,'hubspot')" style="color:#22c55e;">HubSpot</button>
+          </div>
+          <div id="compWordCloud" style="padding:20px;min-height:200px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 18px;line-height:1.6;cursor:default;"></div>
+        </div>
+
+        <!-- Keywords table -->
+        <div class="tc">
+          <div class="tc-hd" style="padding-bottom:10px;flex-wrap:wrap;gap:8px;">
+            <span>Keywords</span>
+            <div style="margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <div class="kw-dd-wrap" style="position:relative;">
+                <button class="kw-dd-btn" onclick="toggleCompDD('cBrandDD')">Brand: <span id="cBrandDDLabel">All</span> ▾</button>
+                <div id="cBrandDD" class="kw-dd" style="display:none;">
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Zylker CRM</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Salesforce</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> HubSpot</label>
+                </div>
+              </div>
+              <div class="kw-dd-wrap" style="position:relative;">
+                <button class="kw-dd-btn" onclick="toggleCompDD('cTypeDD')">Type: <span id="cTypeDDLabel">All</span> ▾</button>
+                <div id="cTypeDD" class="kw-dd" style="display:none;">
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Keywords</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Hashtags</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Mentions</label>
+                </div>
+              </div>
+              <div class="kw-dd-wrap" style="position:relative;">
+                <button class="kw-dd-btn" onclick="toggleCompDD('cSourceDD')">Source: <span id="cSourceDDLabel">All</span> ▾</button>
+                <div id="cSourceDD" class="kw-dd" style="display:none;">
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> X</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Instagram</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Reddit</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Facebook</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> YouTube</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="compKwFilterChange()"> Threads</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table><thead><tr>
+            <th>Keyword <span class="s-col">↕</span></th>
+            <th>Brand <span class="s-col">↕</span></th>
+            <th>Engagement <span class="s-col">↕</span></th>
+            <th>Volume <span class="s-col">↕</span></th>
+            <th>Source <span class="s-col">↕</span></th>
+            <th>Sentiment <span class="s-col">↕</span></th>
+          </tr></thead>
+          <tbody id="compKwTbl"></tbody></table>
+          <div style="padding:10px 0 2px;text-align:center;">
+            <button id="compKwMore" onclick="compKwLoadMore()" style="background:none;border:1px solid #e0e2e9;border-radius:6px;padding:6px 20px;font-size:12px;color:#4b9cf5;cursor:pointer;font-weight:500;">View more</button>
+          </div>
+        </div>
+
+      </div>
+      <div id="comp-people" class="tab-panel" style="overflow-y:auto;flex:1;">
+
+        <!-- Metric row -->
+        <div class="mrow">
+          <div class="mc"><div class="mc-lbl">Unique authors<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="7" cy="6" r="3"/><path d="M1 17c0-3 2.7-5 6-5"/><circle cx="14" cy="8" r="2.5"/><path d="M11 17c0-2.5 1.3-4 3-4s3 1.5 3 4"/></svg></div></div><div class="mc-val">8.1K</div><div class="mc-chg up">▲ 14% <span class="mc-sub">vs previous 30 days</span></div></div>
+        </div>
+
+        <!-- Top authors table with Brand + Source filters -->
+        <div class="tc">
+          <div class="tc-hd" style="flex-wrap:wrap;gap:8px;">
+            <span>Top authors</span>
+            <div style="margin-left:auto;display:flex;gap:6px;align-items:center;">
+              <!-- Brand filter -->
+              <div class="kw-dd-wrap" style="position:relative;">
+                <button class="kw-dd-btn" onclick="toggleCompDD('pplBrandDD')">Brand: <span id="pplBrandLabel">All</span> ▾</button>
+                <div id="pplBrandDD" class="kw-dd" style="display:none;">
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Zylker CRM</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Salesforce</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> HubSpot</label>
+                </div>
+              </div>
+              <!-- Source filter -->
+              <div class="kw-dd-wrap" style="position:relative;">
+                <button class="kw-dd-btn" onclick="toggleCompDD('pplSourceDD')">Source: <span id="pplSourceLabel">All</span> ▾</button>
+                <div id="pplSourceDD" class="kw-dd" style="display:none;">
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> X</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Instagram</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Reddit</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> YouTube</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> LinkedIn</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Threads</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table style="width:100%;">
+            <thead><tr>
+              <th>Author</th>
+              <th>Brand</th>
+              <th>Source</th>
+              <th>Engagement <span class="s-col">↕</span></th>
+              <th>Volume <span class="s-col">↕</span></th>
+              <th>Influence <span class="s-col">↕</span></th>
+              <th>Sentiment</th>
+              <th></th>
+            </tr></thead>
+            <tbody id="compPplTbl"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="comp-messages" class="tab-panel" style="overflow-y:auto;flex:1;">
+        <div class="mf-row">
+          <!-- Brand dropdown -->
+          <div class="kw-dd-wrap" style="position:relative;">
+            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgBrandDD')">Brand: <span id="cMsgBrandLabel">All</span> ▾</button>
+            <div id="cMsgBrandDD" class="kw-dd" style="display:none;">
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Zylker CRM</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Salesforce</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> HubSpot</label>
+            </div>
+          </div>
+          <!-- Engagement dropdown -->
+          <div class="kw-dd-wrap" style="position:relative;">
+            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgEngDD')">Engagement: <span id="cMsgEngLabel">All</span> ▾</button>
+            <div id="cMsgEngDD" class="kw-dd" style="display:none;">
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> High</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Medium</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Low</label>
+            </div>
+          </div>
+          <!-- Sentiment dropdown -->
+          <div class="kw-dd-wrap" style="position:relative;">
+            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgSentDD')">Sentiment: <span id="cMsgSentLabel">All</span> ▾</button>
+            <div id="cMsgSentDD" class="kw-dd" style="display:none;">
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Positive</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Neutral</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Negative</label>
+            </div>
+          </div>
+          <!-- Type dropdown -->
+          <div class="kw-dd-wrap" style="position:relative;">
+            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgTypeDD')">Type: <span id="cMsgTypeLabel">All</span> ▾</button>
+            <div id="cMsgTypeDD" class="kw-dd" style="display:none;">
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Questions</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Complaints</label>
+              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Testimonials</label>
+            </div>
+          </div>
+          <select class="sort-sel" style="margin-left:auto;"><option>Recent first</option><option>Most engagement</option><option>Highest reach</option></select>
+        </div>
+        <div id="compMsgList"></div>
+      </div>
+    </div><!-- /compView -->
+
+    <!-- ====== BRAND VIEW ====== -->
+    <div id="brandView" style="display:block;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+    <!-- SEARCH HEADER -->
+    <div class="srch-hdr" id="srchHdr">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('overview',this)">Overview</button>
+        <button class="tab" onclick="switchTab('conversations',this)">Conversations</button>
+        <button class="tab" onclick="switchTab('people',this)">People</button>
+        <button class="tab" onclick="switchTab('messages',this)">Messages</button>
+      </div>
+    </div>
+
+    <!-- ====== OVERVIEW ====== -->
+    <div id="tab-overview" class="tab-panel active">
+      <div class="mrow">
+        <div class="mc" onclick="openPanel('Conversations','all')"><div class="mc-lbl">Conversations<div class="mc-ico" style="background:#eef4ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#4b9cf5" stroke-width="2"><path d="M18 14a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h12a2 2 0 012 2z"/></svg></div></div><div class="mc-val">5.2K</div><div class="mc-chg up">▲ 18% <span class="mc-sub">vs previous 30 days</span></div></div>
+        <div class="mc" onclick="openPanel('Engagements','all')"><div class="mc-lbl">Engagements<div class="mc-ico" style="background:#fff0f5;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#ec4899" stroke-width="2"><path d="M10 17l-7-7 3-3 4 4 7-9"/></svg></div></div><div class="mc-val">14.1K</div><div class="mc-chg up">▲ 32% <span class="mc-sub">vs previous 30 days</span></div></div>
+        <div class="mc" onclick="openPanel('Sentiment','pos')">
+          <div class="mc-lbl">Sentiment<div class="mc-ico" style="background:#f0fdf4;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#22c55e" stroke-width="2"><circle cx="10" cy="10" r="8"/><path d="M7 13c.8 1 1.8 1.5 3 1.5s2.2-.5 3-1.5"/><circle cx="7.5" cy="8" r="1" fill="#22c55e"/><circle cx="12.5" cy="8" r="1" fill="#22c55e"/></svg></div></div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px;">
+            <span class="mc-val" style="margin:0;">64%</span>
+            <span style="font-size:16px;line-height:1;">😊</span>
+            <span style="font-size:12px;font-weight:600;color:#16a34a;">Positive</span>
+            <span style="font-size:11px;color:#9399b0;margin-left:2px;">· 😐 24% · 😟 12%</span>
+          </div>
+          <div class="mc-chg dn">▼ 4% <span class="mc-sub">vs previous 30 days</span></div>
+        </div>
+        <div class="mc" onclick="openPanel('Unique Authors','all')"><div class="mc-lbl">Unique authors<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="7" cy="6" r="3"/><path d="M1 17c0-3 2.7-5 6-5"/><circle cx="14" cy="8" r="2.5"/><path d="M11 17c0-2.5 1.3-4 3-4s3 1.5 3 4"/></svg></div></div><div class="mc-val">3.4K</div><div class="mc-chg up">▲ 9% <span class="mc-sub">vs previous 30 days</span></div></div>
+      </div>
+      <div class="cc" onclick="openPanel('Conversation trend','all')">
+        <div class="cc-hdr">
+          <span class="cc-title">Conversation trend</span>
+          <div class="yg" id="cvY" onclick="event.stopPropagation()"><button class="yb active" onclick="toggleY('cvY',this,redrawConv)">Volume</button><button class="yb" onclick="toggleY('cvY',this,redrawConv)">Engagement</button></div>
+          <select class="xsel" id="cvX" onclick="event.stopPropagation()" onchange="redrawConv()"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select>
+        </div>
+        <div style="position:relative;height:150px;"><canvas id="cvChart" role="img" aria-label="Conversation trend chart">Volume trending upward.</canvas></div>
+      </div>
+      <div class="cc" onclick="openPanel('Sentiment trend','all')">
+        <div class="cc-hdr">
+          <span class="cc-title">Sentiment trend</span>
+          <div class="cleg"><span class="cli"><span class="cld" style="background:#22c55e;"></span>Positive</span><span class="cli"><span class="cld" style="background:#9ca3af;"></span>Neutral</span><span class="cli"><span class="cld" style="background:#ef4444;"></span>Negative</span></div>
+          <div class="yg" id="stY" onclick="event.stopPropagation()"><button class="yb active" onclick="toggleY('stY',this,redrawSent)">Volume</button><button class="yb" onclick="toggleY('stY',this,redrawSent)">Engagement</button></div>
+          <select class="xsel" id="stX" onclick="event.stopPropagation()" onchange="redrawSent()"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select>
+        </div>
+        <div style="position:relative;height:140px;"><canvas id="stChart" role="img" aria-label="Sentiment trend chart">Positive highest, negative lowest.</canvas></div>
+      </div>
+      <div class="g2">
+        <div class="tc">
+          <div class="tc-hd">Volume by source</div>
+          <table><thead><tr><th>Source</th><th>Volume <span class="s-col">↕</span></th><th>Sentiment <span class="s-col">↕</span></th><th>Engagement <span class="s-col">↕</span></th></tr></thead>
+          <tbody>
+            <tr onclick="openPanel('X (Twitter)','all')"><td><div class="sn"><div class="si2 plat-x" style="color:#fff;font-size:8px;font-weight:900;">𝕏</div>X (Twitter)</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:100%;"></div></div>1.9K</div></td><td><div class="sent-bar" title="Positive 72% · Neutral 18% · Negative 10%"><div class="sent-seg seg-pos" style="width:72%"></div><div class="sent-seg seg-neu" style="width:18%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div></td><td>37%</td></tr>
+            <tr onclick="openPanel('Instagram','all')"><td><div class="sn"><div class="si2 plat-ig" style="font-size:9px;">📸</div>Instagram</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:63%;"></div></div>1.2K</div></td><td><div class="sent-bar" title="Positive 64% · Neutral 22% · Negative 14%"><div class="sent-seg seg-pos" style="width:64%"></div><div class="sent-seg seg-neu" style="width:22%"></div><div class="sent-seg seg-neg" style="width:14%"></div></div></td><td>23%</td></tr>
+            <tr onclick="openPanel('YouTube','all')"><td><div class="sn"><div class="si2 plat-yt" style="color:#fff;font-size:9px;">▶</div>YouTube</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:41%;"></div></div>780</div></td><td><div class="sent-bar" title="Positive 70% · Neutral 20% · Negative 10%"><div class="sent-seg seg-pos" style="width:70%"></div><div class="sent-seg seg-neu" style="width:20%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div></td><td>15%</td></tr>
+            <tr onclick="openPanel('Reddit','all')"><td><div class="sn"><div class="si2 plat-rd" style="font-size:9px;">👽</div>Reddit</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:33%;"></div></div>620</div></td><td><div class="sent-bar" title="Positive 35% · Neutral 48% · Negative 17%"><div class="sent-seg seg-pos" style="width:35%"></div><div class="sent-seg seg-neu" style="width:48%"></div><div class="sent-seg seg-neg" style="width:17%"></div></div></td><td>12%</td></tr>
+            <tr onclick="openPanel('Threads','all')"><td><div class="sn"><div class="si2 plat-th" style="color:#fff;font-size:9px;">🧵</div>Threads</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:23%;"></div></div>430</div></td><td><div class="sent-bar" title="Positive 62% · Neutral 28% · Negative 10%"><div class="sent-seg seg-pos" style="width:62%"></div><div class="sent-seg seg-neu" style="width:28%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div></td><td>8%</td></tr>
+            <tr onclick="openPanel('Web','all')"><td><div class="sn"><div class="si2 plat-wb" style="color:#fff;font-size:9px;">🌐</div>Web</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:13%;"></div></div>250</div></td><td><div class="sent-bar" title="Positive 44% · Neutral 51% · Negative 5%"><div class="sent-seg seg-pos" style="width:44%"></div><div class="sent-seg seg-neu" style="width:51%"></div><div class="sent-seg seg-neg" style="width:5%"></div></div></td><td>5%</td></tr>
+          </tbody></table>
+        </div>
+        <div class="tc" onclick="openPanel('Volume type','all')">
+          <div class="tc-hd">Volume type</div>
+          <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
+            <canvas id="vtChart" role="img" aria-label="Volume type pie chart"></canvas>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;padding:0 8px 8px;">
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#4b9cf5;flex-shrink:0;display:inline-block;"></span>Posts <span style="color:#9399b0;">54%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#a78bfa;flex-shrink:0;display:inline-block;"></span>Comments <span style="color:#9399b0;">33%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#34d399;flex-shrink:0;display:inline-block;"></span>Reposts <span style="color:#9399b0;">9%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#fbbf24;flex-shrink:0;display:inline-block;"></span>Other <span style="color:#9399b0;">4%</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== CONVERSATIONS ====== -->
+    <div id="tab-conversations" class="tab-panel">
+      <div class="ai-sec">
+        <div class="ai-hd"><span style="font-size:12.5px;font-weight:600;color:#1a1a2e;">AI conversation summary</span><span class="ai-tag">✦ AI</span></div>
+        <div class="ai-grid">
+          <div class="ai-c"><div class="ai-t"><span class="ai-n">1</span>Travel deals are driving positive buzz</div><div class="ai-d">Conversations around Zylker's latest travel deals are trending, especially Europe packages, with highly positive sentiment.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-p">😊 Positive</span><button onclick="openPanel('Travel deals buzz','pos')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+          <div class="ai-c"><div class="ai-t"><span class="ai-n">2</span>Customer support experience is a key discussion</div><div class="ai-d">Users appreciate quick resolutions, though some mention longer response times in recent weeks.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-m">😐 Mixed</span><button onclick="openPanel('Customer support discussion','all')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+          <div class="ai-c"><div class="ai-t"><span class="ai-n">3</span>New app features are getting noticed</div><div class="ai-d">The itinerary planner and offline maps are generating excitement, with praise for ease of use.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-p">😊 Positive</span><button onclick="openPanel('New app features','pos')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+          <div class="ai-c"><div class="ai-t"><span class="ai-n">4</span>Pricing and refund policies raise concerns</div><div class="ai-d">Some users express concerns about high prices and unclear refund policy, leading to negative sentiment.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-r">😟 Negative</span><button onclick="openPanel('Pricing concerns','neg')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="tc">
+          <div class="tc-hd">Trending keywords</div>
+          <div id="wordCloud" style="padding:16px;min-height:180px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;line-height:1.5;cursor:default;"></div>
+        </div>
+        <div class="cat-sec">
+          <div style="font-size:12.5px;font-weight:600;color:#1a1a2e;margin-bottom:8px;">Keyword categories</div>
+          <div class="cat-r"><div class="cat-i" style="background:#eef4ff;">👤</div><span class="cat-l">People</span><div class="cat-cs"><span class="cat-chip">travelers</span><span class="cat-chip">solo travelers</span><span class="cat-chip">families</span><span class="cat-chip">digital nomads</span></div><span class="va">View all →</span></div>
+          <div class="cat-r"><div class="cat-i" style="background:#fff0f5;">📍</div><span class="cat-l">Locations</span><div class="cat-cs"><span class="cat-chip">europe</span><span class="cat-chip">bali</span><span class="cat-chip">new york</span><span class="cat-chip">tokyo</span></div><span class="va">View all →</span></div>
+          <div class="cat-r"><div class="cat-i" style="background:#fffbeb;">📅</div><span class="cat-l">Events</span><div class="cat-cs"><span class="cat-chip">summer travel</span><span class="cat-chip">holiday season</span><span class="cat-chip">black friday</span></div><span class="va">View all →</span></div>
+          <div class="cat-r"><div class="cat-i" style="background:#f0fdf4;">🏷️</div><span class="cat-l">Brands</span><div class="cat-cs"><span class="cat-chip">zylker</span><span class="cat-chip">zylker app</span><span class="cat-chip">zylker pro</span></div><span class="va">View all →</span></div>
+          <div class="cat-r"><div class="cat-i" style="background:#f3f0ff;">📦</div><span class="cat-l">Products</span><div class="cat-cs"><span class="cat-chip">flight booking</span><span class="cat-chip">hotel deals</span><span class="cat-chip">travel packages</span></div><span class="va">View all →</span></div>
+        </div>
+      </div>
+      <div class="tc">
+        <div class="tc-hd" style="padding-bottom:0;border-bottom:none;">
+          <span>Keywords</span>
+          <div style="margin-left:auto;display:flex;gap:0;border:1px solid #e0e2e9;border-radius:7px;overflow:hidden;">
+            <button class="kw-tab active" onclick="setKwTab(this,'all')">All</button>
+            <button class="kw-tab" onclick="setKwTab(this,'keyword')" style="border-left:1px solid #e0e2e9;">Keywords</button>
+            <button class="kw-tab" onclick="setKwTab(this,'hashtag')" style="border-left:1px solid #e0e2e9;">Hashtags</button>
+            <button class="kw-tab" onclick="setKwTab(this,'mention')" style="border-left:1px solid #e0e2e9;">Mentions</button>
+          </div>
+        </div>
+        <table><thead><tr>
+          <th>Keyword <span class="s-col">↕</span></th>
+          <th>Engagement <span class="s-col">↕</span></th>
+          <th>Volume <span class="s-col">↕</span></th>
+          <th>Source <span class="s-col">↕</span></th>
+          <th>Sentiment <span class="s-col">↕</span></th>
+        </tr></thead>
+        <tbody id="kwTblBody"></tbody></table>
+        <div style="padding:10px 0 2px;text-align:center;">
+          <button id="kwViewMore" onclick="kwLoadMore()" style="background:none;border:1px solid #e0e2e9;border-radius:6px;padding:6px 20px;font-size:12px;color:#4b9cf5;cursor:pointer;font-weight:500;">View more</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== PEOPLE ====== -->
+    <div id="tab-people" class="tab-panel">
+      <div class="mrow">
+        <div class="mc" onclick="openPanel('Unique Authors','all')"><div class="mc-lbl">Unique authors<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="8" cy="7" r="3"/><path d="M2 17c0-3 2.7-5 6-5s6 2 6 5"/><circle cx="14" cy="8" r="2.5"/><path d="M11 17c0-2.5 1.3-4 3-4s3 1.5 3 4"/></svg></div></div><div class="mc-val">3,267</div><div class="mc-chg up">▲ 18% <span class="mc-sub">vs previous 30 days</span></div></div>
+      </div>
+      <div class="tc"><div class="tc-hd">Top people</div>
+        <table><thead><tr><th>User name <span class="s-col">↕</span></th><th>Source <span class="s-col">↕</span></th><th>Engagement <span class="s-col">↕</span></th><th>Volume <span class="s-col">↕</span></th><th>Influence score <span class="s-col">↕</span></th><th>Sentiment <span class="s-col">↕</span></th><th></th></tr></thead>
+        <tbody id="pplTbl"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ====== MESSAGES TAB ====== -->
+    <div id="tab-messages" class="tab-panel">
+      <div class="mf-row">
+        <span class="mf-lbl">Engagement:</span>
+        <div id="engF" style="display:flex;gap:5px;"><button class="mfc active" onclick="toggleMF('engF',this)">High</button><button class="mfc" onclick="toggleMF('engF',this)">Medium</button><button class="mfc" onclick="toggleMF('engF',this)">Low</button></div>
+        <span class="mf-lbl" style="margin-left:6px;">Sentiment:</span>
+        <div id="sentF" style="display:flex;gap:5px;"><button class="mfc active" onclick="toggleMF('sentF',this)">Positive</button><button class="mfc" onclick="toggleMF('sentF',this)">Neutral</button><button class="mfc" onclick="toggleMF('sentF',this)">Negative</button></div>
+        <span class="mf-lbl" style="margin-left:6px;">Type:</span>
+        <div id="typeF" style="display:flex;gap:5px;"><button class="mfc" onclick="toggleMF('typeF',this)">Questions</button><button class="mfc" onclick="toggleMF('typeF',this)">Complaints</button><button class="mfc" onclick="toggleMF('typeF',this)">Testimonials</button></div>
+        <select class="sort-sel"><option>Recent first</option><option>Most engagement</option><option>Highest reach</option></select>
+      </div>
+      <div id="msgTabList"></div>
+    </div>
+    </div><!-- /brandView -->
+  </div><!-- /content -->
+
+  <!-- RIGHT PANEL -->
+  <div class="rp" id="rpPanel">
+    <div class="rp-hd">
+      <div class="rp-info">
+        <div class="rp-title" id="rpTitle">Messages</div>
+        <div class="rp-count" id="rpCount">5,214 results</div>
+      </div>
+      <button class="rp-close" onclick="closePanel()">✕</button>
+    </div>
+    <div class="rp-filters">
+      <button class="rpf">Engagement <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 6l4 4 4-4"/></svg></button>
+      <button class="rpf">Sentiment <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 6l4 4 4-4"/></svg></button>
+      <button class="rpf" style="margin-left:auto;">
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="17" y2="6"/><line x1="6" y1="10" x2="14" y2="10"/><line x1="9" y1="14" x2="11" y2="14"/></svg>
+        Author
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 6l4 4 4-4"/></svg>
+      </button>
+    </div>
+    <div class="rp-feed" id="rpFeed"></div>
+  </div>
+</div><!-- /body -->
+
+<!-- ===== CREATE SEARCH MODAL ===== -->
+<div id="addSearchOverlay" onclick="handleOverlayClick(event)" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,20,40,0.5);z-index:2000;display:none;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;width:620px;max-width:calc(100vw - 32px);max-height:calc(100vh - 48px);box-shadow:0 24px 64px rgba(0,0,0,0.18);display:flex;flex-direction:column;position:relative;" onclick="event.stopPropagation()">
+
+    <!-- HEADER -->
+    <div style="padding:22px 26px 18px;border-bottom:1px solid #f0f1f5;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;border-radius:14px 14px 0 0;">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:3px;">Create listening search</div>
+        <div style="font-size:12.5px;color:#6b7280;">Track relevant conversations across social media and the web.</div>
+      </div>
+      <button onclick="closeAddSearch()" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:18px;padding:0 2px;line-height:1;border-radius:4px;" onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background='none'">✕</button>
+    </div>
+
+    <!-- BODY -->
+    <div style="padding:20px 26px 16px;overflow-y:auto;flex:1;min-height:0;">
+
+      <!-- SEARCH NAME -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px;">
+        <label style="font-size:13px;font-weight:600;color:#1a1a2e;min-width:96px;flex-shrink:0;">Search name</label>
+        <input id="as-name" type="text" placeholder="Enter a name for this search" style="flex:1;border:1px solid #e0e2e9;border-radius:7px;padding:9px 12px;font-size:13px;color:#1a1a2e;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+      </div>
+
+      <!-- TYPE OF LISTENING -->
+      <div style="margin-bottom:22px;">
+        <div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:10px;">Type of listening</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div id="type-brand" onclick="setListenType('brand')" style="display:flex;align-items:center;gap:12px;border:2px solid #4b9cf5;background:#f0f7ff;border-radius:9px;padding:13px 14px;cursor:pointer;transition:all 0.15s;">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#4b9cf5" stroke-width="1.8"><rect x="4" y="8" width="24" height="18" rx="2"/><path d="M10 8V6a2 2 0 012-2h8a2 2 0 012 2v2"/><line x1="16" y1="14" x2="16" y2="20"/><line x1="13" y1="17" x2="19" y2="17"/></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#1a1a2e;">Brand search</div><div style="font-size:11.5px;color:#6b7280;margin-top:2px;">Track conversations about your brand.</div></div>
+          </div>
+          <div id="type-competitor" onclick="setListenType('competitor')" style="display:flex;align-items:center;gap:12px;border:1.5px solid #e0e2e9;background:#fff;border-radius:9px;padding:13px 14px;cursor:pointer;transition:all 0.15s;">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#9399b0" stroke-width="1.8" id="comp-icon"><path d="M16 4l3 8h8l-6 5 2 8-7-4-7 4 2-8-6-5h8z"/></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#1a1a2e;">Competitor analysis</div><div style="font-size:11.5px;color:#6b7280;margin-top:2px;">Compare your brand with multiple competitors.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOURCES -->
+      <div style="margin-bottom:20px;">
+        <div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:3px;">Sources</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:12px;">Select the platforms to search for conversations.</div>
+
+        <!-- Row 1: X, Instagram, Threads, YouTube -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px;">
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-x" onclick="toggleSource('x')" style="border:1.5px solid #4b9cf5;background:#f5f9ff;border-radius:8px 8px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-x" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">X</span></div>
+            </div>
+            
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-ig" onclick="toggleSource('ig')" style="border:1.5px solid #4b9cf5;background:#f5f9ff;border-radius:8px 8px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="igm" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><path fill="url(#igm)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-ig" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">Instagram</span></div>
+            </div>
+            
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-th" onclick="toggleSource('th')" style="border:1.5px solid #4b9cf5;background:#f5f9ff;border-radius:8px 8px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="20" height="20" viewBox="0 0 192 192" fill="#000"><path d="M141.537 88.988a66.667 66.667 0 00-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.63-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.941c22.975.17 40.526 7.52 52.171 21.847 5.71 7.026 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 9.607 125.202.195 97.07 0h-.113C68.882.194 47.292 9.642 32.788 28.08 19.882 44.485 13.224 67.315 13.001 96v.027c.224 28.685 6.882 51.515 19.788 67.92C47.292 182.358 68.882 191.806 96.957 192h.113c24.96-.173 42.554-6.708 57.048-21.189 18.963-18.945 18.392-42.692 12.142-57.27-4.484-10.454-13.033-18.945-24.723-24.553zm-47.565 42.263c-10.4.576-21.212-4.084-21.74-14.123-.38-7.127 5.074-15.077 21.799-16.01 1.905-.109 3.783-.164 5.64-.164 6.017 0 11.638.584 16.719 1.703-1.904 23.591-12.486 28.039-22.418 28.594z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-th" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">Threads</span></div>
+            </div>
+            
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-yt" onclick="toggleSource('yt')" style="border:1.5px solid #4b9cf5;background:#f5f9ff;border-radius:8px 8px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="22" height="16" viewBox="0 0 24 17" fill="#ff0000"><path d="M23.495 2.205a3.02 3.02 0 00-2.126-2.138C19.505 0 12 0 12 0s-7.505 0-9.369.067A3.02 3.02 0 00.505 2.205 31.247 31.247 0 000 8.267a31.247 31.247 0 00.505 6.063 2.977 2.977 0 002.126 2.104C4.495 17 12 17 12 17s7.505 0 9.369-.567a2.977 2.977 0 002.126-2.104A31.247 31.247 0 0024 8.267a31.247 31.247 0 00-.505-6.062zM9.609 12.022V4.512l6.264 3.755-6.264 3.755z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-yt" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">YouTube</span></div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Row 2: Facebook, Reddit, Web -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-fb" onclick="toggleSource('fb')" style="border:1.5px solid #e0e2e9;background:#fff;border-radius:8px 8px 8px 0 0;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12a12 12 0 10-13.875 11.855V15.47H7.078V12h3.047v-2.64c0-3.007 1.792-4.669 4.533-4.669 1.313 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.47h-2.796v8.385A12 12 0 0024 12z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-fb" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">Facebook</span></div>
+            </div>
+                        <div id="fb-extra" style="display:none;border:1.5px solid #4b9cf5;border-top:none;border-radius:0 0 8px 8px;padding:8px;background:#f5f9ff;">
+              <div style="display:flex;align-items:center;gap:6px;border:1px solid #e0e2e9;border-radius:6px;padding:5px 8px;background:#fff;margin-bottom:5px;">
+                <input type="text" placeholder="Add Facebook pages" id="fb-page-input" onkeydown="addTag(event,'fb')" style="border:none;background:none;outline:none;font-size:11.5px;flex:1;font-family:inherit;color:#1a1a2e;">
+                <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="#9399b0" stroke-width="2"><circle cx="9" cy="9" r="6"/><line x1="14" y1="14" x2="18" y2="18"/></svg>
+              </div>
+              <div id="fb-tags" style="display:flex;flex-wrap:wrap;gap:4px;min-height:4px;"></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-rd" onclick="toggleSource('rd')" style="border:1.5px solid #e0e2e9;background:#fff;border-radius:8px 8px 8px 0 0;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#ff4500"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-rd" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">Reddit</span></div>
+            </div>
+                        <div id="rd-extra" style="display:none;border:1.5px solid #4b9cf5;border-top:none;border-radius:0 0 8px 8px;padding:8px;background:#f5f9ff;">
+              <div style="display:flex;align-items:center;gap:6px;border:1px solid #e0e2e9;border-radius:6px;padding:5px 8px;background:#fff;margin-bottom:5px;">
+                <input type="text" placeholder="Exclude subreddits" id="rd-page-input" onkeydown="addTag(event,'rd')" style="border:none;background:none;outline:none;font-size:11.5px;flex:1;font-family:inherit;color:#1a1a2e;">
+                <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="#9399b0" stroke-width="2"><circle cx="9" cy="9" r="6"/><line x1="14" y1="14" x2="18" y2="18"/></svg>
+              </div>
+              <div id="rd-tags" style="display:flex;flex-wrap:wrap;gap:4px;min-height:4px;"></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div id="stile-wb" onclick="toggleSource('wb')" style="border:1.5px solid #4b9cf5;background:#f5f9ff;border-radius:8px 8px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.12s;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4b9cf5" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              <div style="display:flex;align-items:center;justify-content:center;"><span id="stk-wb" style="font-size:12px;color:#1a1a2e;font-weight:600;margin-top:2px;">Web</span></div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Include connected profile toggle -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding:12px 14px;background:#f9fafb;border-radius:8px;border:1px solid #eaecf0;">
+          <div>
+            <div style="font-size:12.5px;font-weight:600;color:#1a1a2e;display:flex;align-items:center;gap:5px;">Include connected profile data </div>
+            <div style="font-size:11.5px;color:#6b7280;margin-top:2px;">Also include posts, comments and mentions from your connected profiles.</div>
+          </div>
+          <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;margin-left:14px;">
+            <input type="checkbox" checked id="includeProfile" style="opacity:0;width:0;height:0;">
+            <span onclick="toggleSwitch('includeProfile')" style="position:absolute;cursor:pointer;inset:0;background:#4b9cf5;border-radius:50px;" id="switch-includeProfile">
+              <span style="position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:21px;box-shadow:0 1px 3px rgba(0,0,0,0.2);" id="knob-includeProfile"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- BRAND SEARCH SECTION -->
+      <div id="as-brand-section">
+
+        <!-- Include Keywords -->
+        <div style="margin-bottom:6px;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:600;color:#1a1a2e;">Include keywords</span>
+            
+          </div>
+          <div id="kw-blocks-container">
+            <div class="kw-block" style="margin-bottom:10px;">
+              <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
+                <div class="tag-input-area" style="min-height:70px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+                  <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="Type and press Enter — use @mention, #hashtag, &lt;proximity&gt;" style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
+                </div>
+                <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+                  <div style="font-size:11px;color:#9399b0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span>Try:</span>
+                    <span style="color:#4b9cf5;cursor:pointer;" onclick="injectTag(this.closest('.kw-block').querySelector('.tag-input'),'Zylker')">Zylker</span>
+                    <span style="color:#ec4899;cursor:pointer;" onclick="injectTag(this.closest('.kw-block').querySelector('.tag-input'),'#ZylkerApp')">#ZylkerApp</span>
+                    <span style="color:#8b5cf6;cursor:pointer;" onclick="injectTag(this.closest('.kw-block').querySelector('.tag-input'),'@ZylkerHQ')">@ZylkerHQ</span>
+                    
+                    <span style="color:#0369a1;cursor:pointer;font-family:monospace;" onclick="injectProxExample(this.closest('.kw-block').querySelector('.tag-input'))">&lt;zylker-3-travels&gt;</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">
+                    Match:
+                    <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;">
+                      <option selected>Any of these</option>
+                      <option>All of these</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div style="display:flex;gap:6px;margin-top:4px;">
+            <button onclick="addKwBlock('AND')" style="padding:5px 16px;border-radius:6px;border:1.5px solid #4b9cf5;background:#eef4ff;color:#4b9cf5;font-size:12px;font-weight:600;cursor:pointer;">AND</button>
+            <button onclick="addKwBlock('OR')" style="padding:5px 16px;border-radius:6px;border:1.5px solid #e0e2e9;background:#fff;color:#4a4f6a;font-size:12px;cursor:pointer;">OR</button>
+          </div>
+        </div>
+
+        <!-- Exclude Keywords -->
+        <div style="margin-top:18px;margin-bottom:6px;padding-top:18px;border-top:1px solid #f0f1f5;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:600;color:#1a1a2e;">Exclude keywords</span>
+            <span style="font-size:12px;color:#9399b0;">(optional)</span>
+            
+          </div>
+          <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
+            <div class="tag-input-area excl-tag-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+              <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="Type and press Enter to exclude..." style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;position:relative;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
+            </div>
+            <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+              <div style="font-size:11px;color:#9399b0;display:flex;align-items:center;gap:8px;">
+                <span>e.g.</span>
+                <span style="color:#4b9cf5;cursor:pointer;" onclick="injectTagToArea(this.closest('div').previousElementSibling,'jobs','keyword')">jobs</span>
+                <span style="color:#ec4899;cursor:pointer;" onclick="injectTagToArea(this.closest('div').previousElementSibling,'#hiring','hashtag')">#hiring</span>
+                <span style="color:#4b9cf5;cursor:pointer;" onclick="injectTagToArea(this.closest('div').previousElementSibling,'promo','keyword')">promo</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">
+                Match:
+                <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;">
+                  <option selected>Any of these</option>
+                  <option>All of these</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /as-brand-section -->
+
+      <!-- COMPETITOR SECTION -->
+      <div id="as-competitor-section" style="display:none;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a2e;">Brands to compare </div>
+            <div style="font-size:12px;color:#6b7280;margin-top:3px;">Add your brand and competitors. Each brand can have its own keywords.</div>
+          </div>
+          <button onclick="addCompetitor()" style="display:flex;align-items:center;gap:5px;padding:7px 13px;border:1.5px solid #4b9cf5;border-radius:7px;background:#fff;color:#4b9cf5;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;">+ Add competitor</button>
+        </div>
+        <div id="competitors-list" style="display:flex;flex-direction:column;gap:9px;margin-bottom:18px;">
+          <div style="border:1.5px solid #4b9cf5;border-radius:9px;padding:13px 14px;background:#f5f9ff;position:relative;">
+            <div style="font-size:10.5px;font-weight:700;color:#4b9cf5;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:9px;">Your brand</div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div style="width:34px;height:34px;border-radius:50%;background:#4b9cf5;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;">ZT</div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+                <input type="text" placeholder="Brand name" value="Zylker Travels" style="border:1px solid #e0e2e9;border-radius:6px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+                <input type="text" placeholder="Keywords, @mentions, #hashtags" value="Zylker, @ZylkerTravels, #ZylkerTravels" style="border:1px solid #e0e2e9;border-radius:6px;padding:7px 10px;font-size:12.5px;color:#4a4f6a;font-family:inherit;outline:none;width:100%;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compare keywords -->
+        <div style="padding-top:16px;border-top:1px solid #f0f1f5;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+            <span style="font-size:13px;font-weight:600;color:#1a1a2e;">Compare conversations about</span>
+            
+          </div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">These keywords will be applied to all brands in this comparison.</div>
+          <div id="cmp-kw-blocks-container">
+            <div class="kw-block" style="margin-bottom:10px;">
+              <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
+                <div class="tag-input-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="this.querySelector('.tag-input').focus()">
+                  <input class="tag-input" type="text" placeholder="e.g. pricing, price, cost, plans" style="border:none;outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;flex:1;min-width:160px;padding:2px 0;background:transparent;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)">
+                </div>
+                <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;justify-content:flex-end;">
+                  <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option selected>Any of these</option><option>All of these</option></select></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:4px;margin-bottom:0;">
+            <button onclick="addCmpKwBlock('AND')" style="padding:5px 14px;border-radius:6px;border:1.5px solid #4b9cf5;background:#eef4ff;color:#4b9cf5;font-size:12px;font-weight:600;cursor:pointer;">AND</button>
+            <button onclick="addCmpKwBlock('OR')" style="padding:5px 14px;border-radius:6px;border:1.5px solid #e0e2e9;background:#fff;color:#4a4f6a;font-size:12px;cursor:pointer;">OR</button>
+          </div>
+        </div>
+
+        <!-- Exclude keywords -->
+        <div style="padding-top:16px;border-top:1px solid #f0f1f5;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+            <span style="font-size:13px;font-weight:600;color:#1a1a2e;">Exclude keywords</span>
+            <span style="font-size:12px;color:#9399b0;">(optional)</span>
+          </div>
+          <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
+            <div class="tag-input-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="this.querySelector('.tag-input').focus()">
+              <input class="tag-input" type="text" placeholder="e.g. free, discount, promo, coupon" style="border:none;outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;flex:1;min-width:160px;padding:2px 0;background:transparent;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)">
+            </div>
+            <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;justify-content:flex-end;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option selected>Any of these</option><option>All of these</option></select></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /as-competitor-section -->
+
+      <!-- REDUCE NOISE -->
+      <div style="margin-top:20px;padding-top:18px;border-top:1px solid #f0f1f5;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+          <span style="font-size:13px;font-weight:600;color:#1a1a2e;">Reduce noise</span>
+          
+        </div>
+        <div style="display:flex;gap:22px;">
+          <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#1a1a2e;"><input type="checkbox" checked style="accent-color:#4b9cf5;width:14px;height:14px;"> Job listings</label>
+          <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#1a1a2e;"><input type="checkbox" checked style="accent-color:#4b9cf5;width:14px;height:14px;"> Promotions</label>
+          <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#1a1a2e;"><input type="checkbox" checked style="accent-color:#4b9cf5;width:14px;height:14px;"> Coupons &amp; discounts</label>
+        </div>
+      </div>
+
+      <!-- MORE FILTERS -->
+      <div style="padding-top:16px;border-top:1px solid #f0f1f5;margin-bottom:8px;">
+        <button onclick="toggleMoreFilters()" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;">
+          <span style="font-size:13px;font-weight:600;color:#1a1a2e;">More filters</span>
+          <span style="font-size:12px;color:#9399b0;">(optional)</span>
+          <span id="mf-chevron" style="font-size:11px;color:#6b7280;transition:transform 0.2s;margin-left:2px;">▼</span>
+        </button>
+        <div id="mf-desc" style="font-size:12px;color:#6b7280;margin-top:3px;">Location, language, verified users and more.</div>
+        <div id="more-filters-body" style="display:none;margin-top:12px;">
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:13px;color:#1a1a2e;font-weight:500;">Location</span>
+              <select style="border:1px solid #e0e2e9;border-radius:6px;padding:7px 12px;font-size:12.5px;color:#4a4f6a;background:#fff;cursor:pointer;font-family:inherit;">
+                <option>All locations</option><option>United States</option><option>United Kingdom</option><option>India</option><option>Australia</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:13px;color:#1a1a2e;font-weight:500;">Language</span>
+              <select style="border:1px solid #e0e2e9;border-radius:6px;padding:7px 12px;font-size:12.5px;color:#4a4f6a;background:#fff;cursor:pointer;font-family:inherit;">
+                <option>All languages</option><option>English</option><option>Spanish</option><option>French</option><option>German</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- LOOK FOR CONVERSATIONS FROM -->
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f0f1f5;display:flex;align-items:center;gap:16px;">
+        <label style="font-size:13px;font-weight:600;color:#1a1a2e;white-space:nowrap;">Look for conversations from</label>
+        <select style="border:1px solid #e0e2e9;border-radius:7px;padding:8px 12px;font-size:13px;color:#4a4f6a;background:#fff;cursor:pointer;font-family:inherit;flex:1;max-width:220px;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+          <option>Last 7 days</option>
+          <option selected>Last 30 days</option>
+          <option>Last 90 days</option>
+        </select>
+      </div>
+
+    </div><!-- /body -->
+
+    <!-- FOOTER -->
+    <div style="padding:14px 26px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:flex-end;gap:10px;background:#fafafa;border-radius:0 0 14px 14px;flex-shrink:0;">
+      <button onclick="closeAddSearch()" style="padding:9px 22px;border:1.5px solid #e0e2e9;border-radius:7px;background:#fff;color:#4a4f6a;font-size:13px;font-weight:500;cursor:pointer;">Cancel</button>
+      <button onclick="createSearch()" style="padding:9px 22px;border:none;border-radius:7px;background:#4b9cf5;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Create search</button>
+    </div>
+  </div>
+</div>
+
+<!-- IRRELEVANT POPUP -->
+<div class="popup-overlay" id="irrelevantPopup" onclick="popupBgClick(event)">
+  <div class="popup">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-title">Why is this irrelevant?</div>
+    <div class="popup-desc">Your feedback helps improve relevance and noise filtering. Reason is optional.</div>
+    <div class="popup-opt" onclick="selectReason('wrong')"><input type="radio" name="reason" id="r-wrong"><label class="popup-opt-label" for="r-wrong">Wrong context</label></div>
+    <div class="popup-opt" onclick="selectReason('spam')"><input type="radio" name="reason" id="r-spam"><label class="popup-opt-label" for="r-spam">Promotional / spam</label></div>
+    <div class="popup-opt" onclick="selectReason('kw')"><input type="radio" name="reason" id="r-kw"><label class="popup-opt-label" for="r-kw">Keyword used differently</label></div>
+    <div class="popup-opt" onclick="selectReason('author')"><input type="radio" name="reason" id="r-author"><label class="popup-opt-label" for="r-author">Irrelevant author / source</label></div>
+    <div class="popup-opt" onclick="selectReason('other')"><input type="radio" name="reason" id="r-other"><label class="popup-opt-label" for="r-other">Others</label></div>
+    <textarea class="popup-textarea" id="otherText" placeholder="Describe why this is irrelevant..." rows="3"></textarea>
+    <div class="popup-footer">
+      <button class="popup-cancel" onclick="closePopup()">Skip</button>
+      <button class="popup-submit" onclick="submitIrrelevant()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const AVC=['#667eea','#e1306c','#f87171','#fbbf24','#34d399','#a78bfa','#60a5fa','#f472b6','#2dd4bf','#fb923c'];
+const PLATS={
+  'X':{cls:'plat-x',lbl:'X',bg:'#000',xtra:'font-weight:900;'},
+  'Instagram':{cls:'plat-ig',lbl:'In',bg:'#e1306c',xtra:''},
+  'YouTube':{cls:'plat-yt',lbl:'Yt',bg:'#ff0000',xtra:''},
+  'Reddit':{cls:'plat-rd',lbl:'Rd',bg:'#ff4500',xtra:''},
+  'LinkedIn':{cls:'plat-li',lbl:'Li',bg:'#0077b5',xtra:''},
+  'Threads':{cls:'plat-th',lbl:'Th',bg:'#000',xtra:''},
+  'Web':{cls:'plat-wb',lbl:'W',bg:'#4b9cf5',xtra:''},
+  'Facebook':{cls:'plat-fb',lbl:'Fb',bg:'#1877f2',xtra:''},
+};
+const MSGS=[
+  {name:'Arjun Mehta',    handle:'@arjunmehta',    plat:'X',        time:'2h ago',  type:'Post',    text:'Really disappointed with the latest update. The app keeps crashing on iOS. 😤 <span class="tag">#Zylker</span>',                                            likes:86, comments:24, rt:12, sent:'neg', eng:'high'},
+  {name:'Priya Raman',    handle:'@priyaraman',    plat:'Instagram',time:'4h ago',  type:'Comment', text:'Loving the new AI features in Zylker! Makes content planning so much easier. <span class="tag">#Productivity</span> <span class="tag">#Zylker</span>',     likes:210,comments:18, rt:0,  sent:'pos', eng:'high', thumb:'#6366f1'},
+  {name:'TechTalks',      handle:'@techtalks',     plat:'YouTube',  time:'6h ago',  type:'Post',    text:"Zylker's latest update is a game changer for small businesses. Full review here 👇",                                                                         likes:412,comments:52, rt:0,  sent:'neu', eng:'high', thumb:'#1877f2', video:true},
+  {name:'u/growthhacker', handle:'r/Productivity', plat:'Reddit',   time:'8h ago',  type:'Comment', text:'Anyone else facing sync issues with Zylker? It worked fine last week. <span class="tag">#Zylker</span> <span class="tag">#bug</span>',                      likes:26, comments:36, rt:14, sent:'neg', eng:'medium'},
+  {name:'Kavya Nair',     handle:'@kavya',         plat:'LinkedIn', time:'12h ago', type:'Post',    text:'The customer support team at Zylker is top-notch. Quick and helpful responses!',                                                                              likes:48, comments:6,  rt:0,  sent:'pos', eng:'low', thumb:'#0077b5'},
+  {name:'Rohit S',        handle:'@rohits',        plat:'X',        time:'14h ago', type:'Comment', text:'Zylker vs Competitor X — which one do you think is better for social scheduling?',                                                                            likes:14, comments:32, rt:8,  sent:'neu', eng:'medium'},
+  {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        time:'2d ago',  type:'Post',    text:'Just had the most amazing experience with <span class="tag">@ZylkerTravels</span> in Santorini! Already planning my next trip 💙',                            likes:248,comments:32, rt:12, sent:'pos', eng:'high', thumb:'#764ba2'},
+  {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  time:'2d ago',  type:'Post',    text:"The new itinerary planner from Zylker is genuinely one of the best travel tools I've used. Offline maps, live updates.",                                      likes:156,comments:31, rt:22, sent:'pos', eng:'high'},
+];
+const PEOPLE=[
+  {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        bg:AVC[0],init:'SM',eng:16420,vol:218,inf:92,sent:'pos',sl:'72% Positive'},
+  {name:'Travel With Raj',handle:'@travelwithraj', plat:'Instagram',bg:AVC[1],init:'TR',eng:12381,vol:156,inf:88,sent:'pos',sl:'64% Positive'},
+  {name:'Alex Thompson',  handle:'@alexthompson',  plat:'YouTube',  bg:AVC[2],init:'AT',eng:8560, vol:132,inf:76,sent:'pos',sl:'70% Positive'},
+  {name:'WanderMore',     handle:'u/wandermore',   plat:'Reddit',   bg:AVC[3],init:'WM',eng:4913, vol:96, inf:68,sent:'neu',sl:'48% Neutral'},
+  {name:'Priya Sharma',   handle:'@priyasharma',   plat:'LinkedIn', bg:AVC[4],init:'PS',eng:3842, vol:84, inf:62,sent:'pos',sl:'62% Positive'},
+  {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  bg:AVC[5],init:'ND',eng:2175, vol:71, inf:58,sent:'pos',sl:'58% Positive'},
+  {name:'Mike Chen',      handle:'@mikechen',      plat:'Instagram',bg:AVC[6],init:'MC',eng:1904, vol:64, inf:54,sent:'neg',sl:'22% Negative'},
+  {name:'Emily Carter',   handle:'@emilycarter',   plat:'X',        bg:AVC[7],init:'EC',eng:1622, vol:52, inf:51,sent:'pos',sl:'68% Positive'},
+  {name:'Global Explorer',handle:'@globalexplorer',plat:'YouTube',  bg:AVC[8],init:'GE',eng:1208, vol:46, inf:47,sent:'neu',sl:'50% Neutral'},
+  {name:'James Wilson',   handle:'@jameswilson',   plat:'LinkedIn', bg:AVC[9],init:'JW',eng:986,  vol:41, inf:44,sent:'pos',sl:'60% Positive'},
+];
+
+function sE(s){return s==='pos'?'😊':s==='neg'?'😟':'😐';}
+function sC(s){return s==='pos'?'sp-p':s==='neg'?'sp-r':'sp-n';}
+function sentPill(s){
+  const map={pos:['Positive','#f0fdf4','#16a34a'],neg:['Negative','#fef2f2','#dc2626'],neu:['Neutral','#f8f9fa','#6b7280']};
+  const [label,bg,color]=map[s]||map.neu;
+  return `<span style="display:inline-flex;align-items:center;padding:1px 8px;border-radius:50px;font-size:10.5px;font-weight:600;background:${bg};color:${color};flex-shrink:0;">${label}</span>`;
+}
+
+let _openMenu=null;
+function _toggleMenu(e,id){
+  e.stopPropagation();
+  const isOpen=_openMenu===id;
+  _closeMenu();
+  if(!isOpen){const el=document.getElementById(id);if(el)el.style.display='block';_openMenu=id;}
+}
+function _closeMenu(){
+  if(_openMenu){const el=document.getElementById(_openMenu);if(el)el.style.display='none';_openMenu=null;}
+}
+function closeMenus(){_closeMenu();}
+
+function buildMsgCard(m, i, inPanel){
+  const pl=PLATS[m.plat];
+  const av=m.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  const bgCol=AVC[i%AVC.length];
+  const isPost=m.type==='Post';
+  const pfx=inPanel?'p':'t';
+  const menuId=`menu-${pfx}-${i}`;
+  const [sl,sbg,sc]=({pos:['Positive','#f0fdf4','#16a34a'],neg:['Negative','#fef2f2','#dc2626'],neu:['Neutral','#f8f9fa','#6b7280']})[m.sent]||['Neutral','#f8f9fa','#6b7280'];
+  const MI=(txt,extra='')=>`<div onclick="_closeMenu()${extra}" onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">${txt}</div>`;
+  return `<div style="background:#fff;border:1px solid #e4e6ed;border-radius:9px;padding:13px 14px;margin-bottom:8px;cursor:pointer;" onclick="cardClick(event,${i},'${inPanel?'panel':'tab'}')">
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div style="position:relative;flex-shrink:0;">
+        <div style="width:36px;height:36px;border-radius:50%;background:${bgCol};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">${av}</div>
+        <div style="position:absolute;bottom:-2px;left:-2px;width:17px;height:17px;border-radius:50%;background:${pl.bg||'#666'};border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;font-weight:900;">${pl.lbl}</div>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px;">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;min-width:0;">
+            <span style="font-size:13px;font-weight:700;color:#1a1a2e;">${m.name}</span>
+            <span style="font-size:11.5px;color:#9399b0;">${m.handle}</span>
+            <span style="background:${isPost?'#eef4ff':'#f4f5f7'};color:${isPost?'#4b9cf5':'#6b7280'};padding:1px 7px;border-radius:50px;font-size:11px;font-weight:600;">${m.type}</span>
+            <span style="background:${sbg};color:${sc};padding:1px 8px;border-radius:50px;font-size:11px;font-weight:600;">${sl}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap;position:relative;" onclick="event.stopPropagation()">
+            <span style="font-size:11.5px;color:#9399b0;">${m.time}</span>
+            <button onclick="_toggleMenu(event,'${menuId}')" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:15px;font-weight:900;letter-spacing:3px;padding:2px 5px;border-radius:4px;line-height:1;">•••</button>
+            <div id="${menuId}" style="display:none;position:absolute;top:28px;right:0;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:50;min-width:186px;padding:4px 0;" onclick="event.stopPropagation()">
+              ${MI('View in '+m.plat)}
+              ${isPost?MI('Create draft'):''}
+              ${MI('View in inbox')}
+              <div style="height:1px;background:#f0f1f5;margin:4px 0;"></div>
+              ${MI('Exclude author')}
+              <div onclick="_closeMenu();openPopup()" onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Irrelevant match</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12.5px;color:#3a3f5c;line-height:1.55;margin-bottom:8px;">${m.text}</div>
+        <div style="display:flex;gap:14px;">
+          <span style="font-size:11.5px;color:#9399b0;">💬 ${m.comments}</span>
+          <span style="font-size:11.5px;color:#9399b0;">🔁 ${m.rt}</span>
+          <span style="font-size:11.5px;color:#9399b0;">🤍 ${m.likes}</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* RENDER PEOPLE */
+function renderPeople(){
+  document.getElementById('pplTbl').innerHTML=PEOPLE.map((p,i)=>{
+    const pl=PLATS[p.plat];
+    const sc=p.sent==='pos'?'sp-p':p.sent==='neg'?'sp-r':'sp-n';
+    const pId=`ppl-row-${i}`;
+    const safeName=p.name.replace(/'/g,"\\'");
+    const safeHandle=p.handle.replace(/'/g,"\\'");
+    return `<tr onclick="openPanel('${safeName}','all')" style="position:relative;">
+      <td><div style="display:flex;align-items:center;gap:8px;">
+        <div class="ua" style="background:${p.bg};">${p.init}</div>
+        <div><div class="un">${p.name}</div><div class="uh">${p.handle}</div></div>
+      </div></td>
+      <td><div style="display:flex;align-items:center;gap:5px;"><div class="si2 ${pl.cls}" style="width:18px;height:18px;font-size:9px;${pl.xtra}">${pl.lbl}</div>${p.plat}</div></td>
+      <td>${p.eng.toLocaleString()}</td>
+      <td>${p.vol}</td>
+      <td><div style="display:flex;align-items:center;gap:6px;"><div class="ib"><div class="if_" style="width:${p.inf}%;"></div></div><b style="font-size:12px;">${p.inf}</b></div></td>
+      <td>${sentPill(p.sent)}</td>
+      <td style="position:relative;" onclick="event.stopPropagation()">
+        <button onclick="_toggleMenu(event,'pmenu-${i}')" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:15px;font-weight:900;letter-spacing:3px;padding:2px 5px;border-radius:4px;">•••</button>
+        <div id="pmenu-${i}" style="display:none;position:absolute;top:28px;right:0;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:50;min-width:186px;padding:4px 0;" onclick="event.stopPropagation()">
+          <div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">View ${p.handle} profile</div>
+          <div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Message ${p.handle}</div>
+          <div style="height:1px;background:#f0f1f5;margin:4px 0;"></div>
+          <div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Exclude author</div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* RENDER MSG TAB */
+function renderMsgTab(){
+  document.getElementById('msgTabList').innerHTML=MSGS.map((m,i)=>buildMsgCard(m,i,false)).join('');
+}
+
+/* RENDER PANEL FEED */
+function renderFeed(){
+  document.getElementById('rpFeed').innerHTML=MSGS.map((m,i)=>buildMsgCard(m,i,true)).join('');
+}
+
+/* PANEL */
+function openPanel(title, filter){
+  document.getElementById('rpTitle').textContent=title;
+  document.getElementById('rpCount').textContent=(Math.floor(Math.random()*3500)+400).toLocaleString()+' results';
+  renderFeed();
+  document.getElementById('rpPanel').classList.add('open');
+  document.getElementById('bodyWrap').classList.add('panel-open');
+}
+function closePanel(){
+  document.getElementById('rpPanel').classList.remove('open');
+  document.getElementById('bodyWrap').classList.remove('panel-open');
+  closeMenus();
+}
+
+function cardClick(e, i, ctx){
+  if(e.target.closest('[onclick*="_toggleMenu"]')||e.target.closest('[id^="menu-"]')) return;
+  _closeMenu();
+  if(ctx==='tab') openPanel(MSGS[i].name,'all');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('[id^="menu-"]')&&!e.target.closest('[onclick*="_toggleMenu"]')) _closeMenu();
+  if(!e.target.closest('#moreDD')&&!e.target.closest('#moreBtn')) closeMore();
+});
+
+function updateDateLabel(){}
+
+/* ===== COMPETITOR ANALYSIS ===== */
+const BRANDS = [
+  {name:'Zylker CRM', color:'#4b9cf5', sov:38, eng:42, pos:68, neu:20, neg:12},
+  {name:'Salesforce',  color:'#f97316', sov:41, eng:35, pos:52, neu:28, neg:20},
+  {name:'HubSpot',     color:'#22c55e', sov:21, eng:23, pos:61, neu:24, neg:15},
+];
+
+const PERF_DATA = {
+  vol: [
+    {src:'X',        z:'4.8K', s:'7.2K', h:'2.1K'},
+    {src:'Instagram',z:'2.8K', s:'3.9K', h:'2.2K'},
+    {src:'Reddit',   z:'2.6K', s:'1.8K', h:'3.2K'},
+    {src:'Facebook', z:'2.2K', s:'4.6K', h:'1.8K'},
+    {src:'YouTube',  z:'1.9K', s:'5.1K', h:'1.6K'},
+    {src:'Threads',  z:'1.1K', s:'1.4K', h:'800'},
+    {src:'Web',      z:'900',  s:'1.2K', h:'650'},
+  ],
+  eng: [
+    {src:'X',        z:'18.4K',s:'24.1K',h:'9.8K'},
+    {src:'Instagram',z:'11.2K',s:'14.7K',h:'8.8K'},
+    {src:'Reddit',   z:'8.2K', s:'5.6K', h:'11.4K'},
+    {src:'Facebook', z:'7.8K', s:'18.2K',h:'6.4K'},
+    {src:'YouTube',  z:'6.3K', s:'19.2K',h:'5.9K'},
+    {src:'Threads',  z:'3.4K', s:'4.1K', h:'2.6K'},
+    {src:'Web',      z:'2.1K', s:'3.4K', h:'1.8K'},
+  ],
+  sent: [
+    {src:'X',        z:[70,18,12], s:[50,28,22], h:[63,22,15]},
+    {src:'Instagram',z:[68,22,10], s:[55,28,17], h:[65,24,11]},
+    {src:'Reddit',   z:[55,30,15], s:[44,35,21], h:[67,21,12]},
+    {src:'Facebook', z:[62,24,14], s:[48,32,20], h:[60,26,14]},
+    {src:'YouTube',  z:[72,18,10], s:[48,32,20], h:[60,26,14]},
+    {src:'Threads',  z:[64,24,12], s:[52,30,18], h:[62,26,12]},
+    {src:'Web',      z:[58,28,14], s:[46,34,20], h:[64,24,12]},
+  ],
+};
+
+let _sovMode = 'sov';
+let _sovChart = null, _compTrendChart = null;
+let _perfMode = 'vol';
+
+function switchCompTab(tab, btn){
+  document.querySelectorAll('#compView .tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#compView .tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+}
+
+function toggleSovView(btn, mode){
+  document.querySelectorAll('#sovY .yb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _sovMode = mode;
+  renderSovChart();
+  renderSovLegend();
+}
+
+function renderSovChart(){
+  const ctx = document.getElementById('sovChart');
+  if(!ctx) return;
+  const vals = _sovMode==='sov' ? BRANDS.map(b=>b.sov) : BRANDS.map(b=>b.eng);
+  const totalLabel = _sovMode==='sov' ? '5.2K' : '14.1K';
+  const subLabel = _sovMode==='sov' ? 'Total vol' : 'Total eng';
+  const centerPlugin = {id:'ct',beforeDraw(chart){
+    const {ctx:c,chartArea:{top,bottom,left,right}}=chart;
+    const cx=(left+right)/2,cy=(top+bottom)/2;
+    c.save();
+    c.textAlign='center';c.textBaseline='middle';
+    c.font='700 14px system-ui,sans-serif';c.fillStyle='#1a1a2e';
+    c.fillText(totalLabel,cx,cy-7);
+    c.font='400 9.5px system-ui,sans-serif';c.fillStyle='#9399b0';
+    c.fillText(subLabel,cx,cy+8);
+    c.restore();
+  }};
+  if(_sovChart) _sovChart.destroy();
+  _sovChart = new Chart(ctx, {
+    type: 'doughnut',
+    plugins:[centerPlugin],
+    data: {
+      labels: BRANDS.map(b=>b.name),
+      datasets:[{
+        data: vals,
+        backgroundColor: BRANDS.map(b=>b.color),
+        borderWidth: 2,
+        borderColor: '#fff',
+        hoverOffset: 6,
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed}%`},backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}
+      },
+      onClick:(e,els)=>{
+        if(els.length){ const b=BRANDS[els[0].index]; openPanel(b.name+' '+(_sovMode==='sov'?'share of voice':'engagement'),'all'); }
+      }
+    }
+  });
+}
+
+function renderSovLegend(){
+  const el = document.getElementById('sovLegend');
+  if(!el) return;
+  const isSOV = _sovMode==='sov';
+  // Update title
+  const title = document.getElementById('sovTitle');
+  if(title) title.textContent = isSOV ? 'Share of voice' : 'Engagement share';
+  el.innerHTML = BRANDS.map(b=>{
+    const val = isSOV ? b.sov : b.eng;
+    return `<div onclick="openPanel('${b.name}','all')" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:3px 4px;border-radius:5px;transition:background 0.12s;" onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''">
+      <div style="width:9px;height:9px;border-radius:50%;background:${b.color};flex-shrink:0;"></div>
+      <span style="font-size:12.5px;color:#4a4f6a;flex:1;white-space:nowrap;">${b.name}</span>
+      <span style="font-size:13px;font-weight:700;color:#1a1a2e;">${val}%</span>
+    </div>`;
+  }).join('');
+}
+
+function renderSentByBrand(){
+  const el = document.getElementById('sentByBrand');
+  if(!el) return;
+  el.innerHTML = BRANDS.map(b=>`
+    <div onclick="openPanel('${b.name} sentiment','all')" style="cursor:pointer;padding:6px 8px;border-radius:7px;transition:background 0.12s;" onmouseenter="this.style.background='#f8f9fb'" onmouseleave="this.style.background=''">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:${b.color};flex-shrink:0;"></div>
+          <span style="font-size:12.5px;font-weight:600;color:#1a1a2e;">${b.name}</span>
+        </div>
+        <div style="display:flex;gap:10px;font-size:11px;color:#6b7280;">
+          <span style="color:#16a34a;font-weight:500;">😊 ${b.pos}%</span>
+          <span style="color:#6b7280;">😐 ${b.neu}%</span>
+          <span style="color:#dc2626;font-weight:500;">😟 ${b.neg}%</span>
+        </div>
+      </div>
+      <div style="display:flex;height:7px;border-radius:4px;overflow:hidden;gap:1px;">
+        <div style="background:#22c55e;width:${b.pos}%;"></div>
+        <div style="background:#d1d5db;width:${b.neu}%;"></div>
+        <div style="background:#ef4444;width:${b.neg}%;"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCompTrend(){
+  const ctx = document.getElementById('compTrendChart');
+  if(!ctx) return;
+  const labels = ['Aug 31','Sep 4','Sep 8','Sep 12','Sep 16','Sep 20','Sep 24','Sep 28'];
+  const mkData = (base, variance) => labels.map((_,i)=>Math.round(base + variance*Math.sin(i*0.8+base/100)*1.2 + i*variance*0.05 + Math.random()*variance*0.3));
+  if(_compTrendChart) _compTrendChart.destroy();
+  _compTrendChart = new Chart(ctx,{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Zylker CRM', data:mkData(620,80), borderColor:'#4b9cf5', backgroundColor:'rgba(75,156,245,0.06)', tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#4b9cf5'},
+        {label:'Salesforce',  data:mkData(780,90), borderColor:'#f97316', backgroundColor:'rgba(249,115,22,0.06)',  tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#f97316'},
+        {label:'HubSpot',     data:mkData(390,60), borderColor:'#22c55e', backgroundColor:'rgba(34,197,94,0.06)',   tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#22c55e'},
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}},
+      onClick:(e,els)=>{
+        if(els.length){ const b=BRANDS[els[0].datasetIndex]; openPanel(b.name+' conversation trend','all'); }
+        else openPanel('Conversation trend','all');
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10},color:'#9399b0'},border:{display:false}},
+        y:{grid:{color:'#f0f1f5'},ticks:{font:{size:10},color:'#9399b0',maxTicksLimit:5},border:{display:false},grace:'10%'}
+      }
+    }
+  });
+}
+function redrawCompTrend(){ renderCompTrend(); }
+
+function renderPerfTable(){
+  const tbody = document.getElementById('perfTbl');
+  if(!tbody) return;
+  const rows = PERF_DATA[_perfMode];
+  const sentBar = (d) => `<div style="display:flex;height:7px;border-radius:4px;overflow:hidden;gap:1px;width:100px;"><div style="background:#22c55e;width:${d[0]}%;"></div><div style="background:#d1d5db;width:${d[1]}%;"></div><div style="background:#ef4444;width:${d[2]}%;"></div></div>`;
+  if(_perfMode === 'sent'){
+    tbody.innerHTML = rows.map(r=>`<tr onclick="openPanel('${r.src} sentiment','all')" style="cursor:pointer;" onmouseenter="this.style.background='#f8f9fb'" onmouseleave="this.style.background=''">
+      <td style="padding:10px 12px;font-size:12.5px;color:#1a1a2e;border-bottom:1px solid #f0f1f5;font-weight:500;width:120px;">${r.src}</td>
+      <td style="padding:10px 16px;border-bottom:1px solid #f0f1f5;">${sentBar(r.z)}</td>
+      <td style="padding:10px 16px;border-bottom:1px solid #f0f1f5;">${sentBar(r.s)}</td>
+      <td style="padding:10px 16px;border-bottom:1px solid #f0f1f5;">${sentBar(r.h)}</td>
+    </tr>`).join('');
+  } else {
+    tbody.innerHTML = rows.map(r=>`<tr onclick="openPanel('${r.src} — ${_perfMode}','all')" style="cursor:pointer;" onmouseenter="this.style.background='#f8f9fb'" onmouseleave="this.style.background=''">
+      <td style="padding:10px 12px;font-size:12.5px;color:#1a1a2e;border-bottom:1px solid #f0f1f5;font-weight:500;width:120px;">${r.src}</td>
+      <td style="padding:10px 12px;font-size:13px;font-weight:600;color:#1a1a2e;text-align:right;border-bottom:1px solid #f0f1f5;">${r.z}</td>
+      <td style="padding:10px 12px;font-size:13px;font-weight:600;color:#1a1a2e;text-align:right;border-bottom:1px solid #f0f1f5;">${r.s}</td>
+      <td style="padding:10px 12px;font-size:13px;font-weight:600;color:#1a1a2e;text-align:right;border-bottom:1px solid #f0f1f5;">${r.h}</td>
+    </tr>`).join('');
+  }
+}
+
+function switchPerfTab(btn, mode){
+  document.querySelectorAll('.tc .kw-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _perfMode = mode;
+  // Adjust header alignment for sentiment bars vs numbers
+  const isSent = mode === 'sent';
+  [0,1,2].forEach(i=>{
+    const th = document.getElementById('perfTh'+i);
+    if(th) th.style.textAlign = isSent ? 'left' : 'right';
+    if(th) th.style.paddingLeft = isSent ? '16px' : '12px';
+  });
+  renderPerfTable();
+}
+
+/* ===== COMP CONVERSATIONS ===== */
+const COMP_WC_WORDS = {
+  all: [
+    {w:'crm pricing',vol:1840,brand:'salesforce'},{w:'travel deals',vol:1620,brand:'zylker'},
+    {w:'#ZylkerCRM',vol:1380,brand:'zylker'},{w:'@Salesforce',vol:1210,brand:'salesforce'},
+    {w:'sales automation',vol:980,brand:'salesforce'},{w:'#HubSpotCRM',vol:920,brand:'hubspot'},
+    {w:'customer support',vol:860,brand:'hubspot'},{w:'zylker app',vol:780,brand:'zylker'},
+    {w:'@HubSpot',vol:740,brand:'hubspot'},{w:'pricing plans',vol:680,brand:'hubspot'},
+    {w:'#TravelDeals',vol:620,brand:'zylker'},{w:'refund policy',vol:580,brand:'salesforce'},
+    {w:'@ZylkerSupport',vol:520,brand:'zylker'},{w:'feature comparison',vol:480,brand:'all'},
+    {w:'#SalesCloud',vol:420,brand:'salesforce'},{w:'itinerary planner',vol:380,brand:'zylker'},
+    {w:'marketing hub',vol:340,brand:'hubspot'},{w:'#ZylkerTravel',vol:300,brand:'zylker'},
+  ],
+};
+COMP_WC_WORDS.zylker = COMP_WC_WORDS.all.filter(w=>w.brand==='zylker'||w.brand==='all');
+COMP_WC_WORDS.salesforce = COMP_WC_WORDS.all.filter(w=>w.brand==='salesforce'||w.brand==='all');
+COMP_WC_WORDS.hubspot = COMP_WC_WORDS.all.filter(w=>w.brand==='hubspot'||w.brand==='all');
+
+const COMP_BRAND_COLORS = {zylker:'#4b9cf5',salesforce:'#f97316',hubspot:'#22c55e',all:'#6b7280'};
+let _compWcBrand = 'all';
+
+function setCompWcTab(btn, brand){
+  btn.closest('.tc').querySelectorAll('.wc-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _compWcBrand = brand;
+  renderCompWordCloud();
+}
+
+function renderCompWordCloud(){
+  const el = document.getElementById('compWordCloud');
+  if(!el) return;
+  const words = COMP_WC_WORDS[_compWcBrand]||COMP_WC_WORDS.all;
+  const max = Math.max(...words.map(w=>w.vol));
+  const min = Math.min(...words.map(w=>w.vol));
+  const range = max-min||1;
+  const shuffled = [...words].sort(()=>Math.random()-0.5);
+  el.innerHTML = shuffled.map(w=>{
+    const ratio = (w.vol-min)/range;
+    const size = Math.round(11+ratio*17);
+    const color = COMP_BRAND_COLORS[w.brand]||'#6b7280';
+    const opacity = 0.6+ratio*0.4;
+    return `<span class="wc-word" style="font-size:${size}px;color:${color};opacity:${opacity};" onclick="openPanel('${w.w}','all')" title="${w.vol.toLocaleString()} mentions">${w.w}</span>`;
+  }).join('');
+}
+
+let _compKwPage = 0;
+const COMP_KW_PER_PAGE = 5;
+
+function toggleCompDD(id){
+  ['cBrandDD','cTypeDD','cSourceDD'].forEach(d=>{ if(d!==id){ const el=document.getElementById(d); if(el) el.style.display='none'; }});
+  const el=document.getElementById(id);
+  if(el) el.style.display=el.style.display==='none'?'block':'none';
+}
+function getCompChecked(ddId){
+  const el=document.getElementById(ddId); if(!el) return [];
+  return [...el.querySelectorAll('input:checked')].map(i=>i.parentElement.textContent.trim());
+}
+function updateCompDDLabel(ddId,labelId){
+  const el=document.getElementById(ddId); if(!el) return;
+  const checked=getCompChecked(ddId);
+  const total=el.querySelectorAll('input').length;
+  const lbl=document.getElementById(labelId);
+  if(lbl) lbl.textContent=checked.length===total?'All':checked.length===0?'None':checked.length+' selected';
+}
+function compKwFilterChange(){
+  updateCompDDLabel('cBrandDD','cBrandDDLabel');
+  updateCompDDLabel('cTypeDD','cTypeDDLabel');
+  updateCompDDLabel('cSourceDD','cSourceDDLabel');
+  _compKwPage=0; renderCompKwTable();
+}
+function renderCompKwTable(){
+  const tbody=document.getElementById('compKwTbl'); if(!tbody) return;
+  const checkedBrands=getCompChecked('cBrandDD');
+  const checkedTypes=getCompChecked('cTypeDD');
+  const checkedSources=getCompChecked('cSourceDD');
+  const typeMap={'Keywords':'keyword','Hashtags':'hashtag','Mentions':'mention'};
+  const filtered=KW_DATA.filter(r=>{
+    const bOk=checkedBrands.length===0||checkedBrands.includes(r.brand);
+    const tOk=checkedTypes.length===0||checkedTypes.some(t=>typeMap[t]===r.type);
+    const sOk=checkedSources.length===0||checkedSources.some(s=>r.plats.includes(s.toLowerCase()));
+    return bOk&&tOk&&sOk;
+  });
+  const slice=filtered.slice(0,(_compKwPage+1)*COMP_KW_PER_PAGE);
+  tbody.innerHTML=slice.map(r=>`<tr onclick="openPanel('${r.kw}','all')">
+    <td class="kw-n">${r.kw}</td>
+    <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:${r.brandColor};"><span style="width:7px;height:7px;border-radius:50%;background:${r.brandColor};flex-shrink:0;display:inline-block;"></span>${r.brand}</span></td>
+    <td>${r.eng}</td><td>${r.vol}</td><td>${kwPlatIcons(r.plats)}</td><td>${kwSentBar(r.pos,r.neu,r.neg)}</td>
+  </tr>`).join('');
+  const btn=document.getElementById('compKwMore');
+  if(btn) btn.style.display=(_compKwPage+1)*COMP_KW_PER_PAGE>=filtered.length?'none':'inline-block';
+}
+function compKwLoadMore(){_compKwPage++;renderCompKwTable();}
+
+/* ===== COMP PEOPLE ===== */
+const COMP_PPL_DATA = [
+  {name:'@TechReviewPro',  brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'x',  eng:'12.4K', vol:84,  score:92, pos:78, neu:16, neg:6},
+  {name:'@SalesInsider',   brand:'Salesforce',   brandColor:'#f97316', src:'li', eng:'9.8K',  vol:72,  score:88, pos:52, neu:28, neg:20},
+  {name:'@CRMWatcher',     brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'x',  eng:'8.2K',  vol:61,  score:85, pos:70, neu:20, neg:10},
+  {name:'@HubFanatic',     brand:'HubSpot',     brandColor:'#22c55e', src:'ig', eng:'7.6K',  vol:58,  score:83, pos:65, neu:24, neg:11},
+  {name:'@MarketingNerd',  brand:'HubSpot',     brandColor:'#22c55e', src:'x',  eng:'6.9K',  vol:53,  score:80, pos:60, neu:28, neg:12},
+  {name:'@SaaSCritic',     brand:'Salesforce',   brandColor:'#f97316', src:'rd', eng:'6.1K',  vol:47,  score:77, pos:38, neu:34, neg:28},
+  {name:'@ZylkerFan',      brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'th', eng:'5.4K',  vol:42,  score:74, pos:80, neu:14, neg:6},
+  {name:'@CloudAdvisor',   brand:'Salesforce',   brandColor:'#f97316', src:'yt', eng:'4.8K',  vol:38,  score:72, pos:48, neu:32, neg:20},
+  {name:'@StartupStack',   brand:'HubSpot',     brandColor:'#22c55e', src:'x',  eng:'4.2K',  vol:34,  score:69, pos:68, neu:22, neg:10},
+  {name:'@EnterpriseEdge', brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'li', eng:'3.8K',  vol:29,  score:66, pos:74, neu:18, neg:8},
+];
+
+const PLAT_ICON_MAP = {
+  x:  `<div class="si2 plat-x"  style="width:20px;height:20px;font-size:8px;color:#fff;font-weight:900;">𝕏</div>`,
+  ig: `<div class="si2 plat-ig" style="width:20px;height:20px;font-size:9px;">📸</div>`,
+  rd: `<div class="si2 plat-rd" style="width:20px;height:20px;font-size:9px;">👽</div>`,
+  yt: `<div class="si2 plat-yt" style="width:20px;height:20px;font-size:9px;color:#fff;">▶</div>`,
+  th: `<div class="si2 plat-th" style="width:20px;height:20px;font-size:9px;color:#fff;">🧵</div>`,
+  li: `<div class="si2 plat-li" style="width:20px;height:20px;font-size:9px;color:#fff;">in</div>`,
+  fb: `<div class="si2 plat-fb" style="width:20px;height:20px;font-size:9px;color:#fff;">f</div>`,
+};
+const SRC_NAME = {x:'X',ig:'Instagram',rd:'Reddit',yt:'YouTube',th:'Threads',li:'LinkedIn',fb:'Facebook'};
+
+function renderCompPeople(){
+  const tbody = document.getElementById('compPplTbl');
+  if(!tbody) return;
+  // Get filter values
+  const bEl=document.getElementById('pplBrandDD'), sEl=document.getElementById('pplSourceDD');
+  const brands=bEl?[...bEl.querySelectorAll('input:checked')].map(i=>i.parentElement.textContent.trim()):[];
+  const srcs=sEl?[...sEl.querySelectorAll('input:checked')].map(i=>i.parentElement.textContent.trim()):[];
+  // Update labels
+  const updLbl=(ddId,lblId)=>{const el=document.getElementById(ddId);if(!el)return;const c=el.querySelectorAll('input:checked').length,t=el.querySelectorAll('input').length;const lb=document.getElementById(lblId);if(lb)lb.textContent=c===t?'All':c===0?'None':c+' selected';};
+  updLbl('pplBrandDD','pplBrandLabel'); updLbl('pplSourceDD','pplSourceLabel');
+  const filtered = COMP_PPL_DATA.filter(r=>{
+    const bOk = brands.length===0 || brands.includes(r.brand);
+    const sOk = srcs.length===0 || srcs.includes(SRC_NAME[r.src]);
+    return bOk && sOk;
+  });
+  tbody.innerHTML = filtered.map((r,i)=>{
+    const srcMap={x:'X',ig:'Instagram',rd:'Reddit',yt:'YouTube',th:'Threads',li:'LinkedIn',fb:'Facebook'};
+    const pl = PLATS[srcMap[r.src]] || {bg:'#666',lbl:r.src,cls:'plat-x',xtra:''};
+    const init = r.name.replace('@','').slice(0,2).toUpperCase();
+    const bgCol = AVC[i%AVC.length];
+    const menuId = `cpmenu-${i}`;
+    return `<tr onclick="openPanel('${r.name}','all')" style="position:relative;">
+      <td><div style="display:flex;align-items:center;gap:8px;">
+        <div class="ua" style="background:${bgCol};">${init}</div>
+        <div><div class="un">${r.name}</div><div class="uh">${r.name.toLowerCase()}</div></div>
+      </div></td>
+      <td><span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:${r.brandColor};"><span style="width:7px;height:7px;border-radius:50%;background:${r.brandColor};display:inline-block;flex-shrink:0;"></span>${r.brand}</span></td>
+      <td><div style="display:flex;align-items:center;gap:5px;"><div class="si2 ${pl.cls}" style="width:18px;height:18px;font-size:9px;${pl.xtra}">${pl.lbl}</div>${SRC_NAME[r.src]||r.src}</div></td>
+      <td>${r.eng}</td>
+      <td>${r.vol}</td>
+      <td><div style="display:flex;align-items:center;gap:6px;"><div class="ib"><div class="if_" style="width:${r.score}%;"></div></div><b style="font-size:12px;">${r.score}</b></div></td>
+      <td>${sentPill(r.pos>=60?'pos':r.neg>=30?'neg':'neu')}</td>
+      <td style="position:relative;" onclick="event.stopPropagation()">
+        <button onclick="_toggleMenu(event,'${menuId}')" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:15px;font-weight:900;letter-spacing:3px;padding:2px 5px;border-radius:4px;">•••</button>
+        <div id="${menuId}" style="display:none;position:absolute;top:28px;right:0;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:50;min-width:186px;padding:4px 0;" onclick="event.stopPropagation()">
+          <div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">View ${r.name} profile</div>
+          <div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">View conversations</div>
+          <div style="height:1px;background:#f0f1f5;margin:4px 0;"></div>
+          <div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Exclude author</div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// Brand tags for each message (cycles through brands for demo)
+const COMP_MSG_BRANDS = [
+  {name:'Zylker CRM', color:'#4b9cf5'},
+  {name:'Salesforce',  color:'#f97316'},
+  {name:'HubSpot',     color:'#22c55e'},
+  {name:'Zylker CRM', color:'#4b9cf5'},
+  {name:'Salesforce',  color:'#f97316'},
+  {name:'HubSpot',     color:'#22c55e'},
+];
+
+function updateCompMsgLabel(){
+  const upd=(ddId,lblId)=>{
+    const el=document.getElementById(ddId); if(!el) return;
+    const c=el.querySelectorAll('input:checked').length, t=el.querySelectorAll('input').length;
+    const lb=document.getElementById(lblId); if(lb) lb.textContent=c===t?'All':c===0?'None':c+' selected';
+  };
+  upd('cMsgBrandDD','cMsgBrandLabel');
+  upd('cMsgEngDD','cMsgEngLabel');
+  upd('cMsgSentDD','cMsgSentLabel');
+  upd('cMsgTypeDD','cMsgTypeLabel');
+}
+
+function renderCompMsgs(){
+  const el = document.getElementById('compMsgList');
+  if(!el) return;
+  // Build each card then inject brand tag into the header row
+  el.innerHTML = MSGS.map((m,i) => {
+    const b = COMP_MSG_BRANDS[i] || COMP_MSG_BRANDS[0];
+    const card = buildMsgCard(m, i, false);
+    // Inject brand tag after the handle span — find the handle span closing and insert after it
+    const brandTag = `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:${b.color};background:${b.color}18;border-radius:50px;padding:1px 8px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:${b.color};display:inline-block;"></span>${b.name}</span>`;
+    // Insert after the handle span (which ends with m.handle followed by </span>)
+    return card.replace(
+      `<span style="font-size:11.5px;color:#9399b0;">${m.handle}</span>`,
+      `<span style="font-size:11.5px;color:#9399b0;">${m.handle}</span>${brandTag}`
+    );
+  }).join('');
+}
+
+function initCompCharts(){
+  renderSovChart();
+  renderSovLegend();
+  renderSentByBrand();
+  renderCompTrend();
+  renderPerfTable();
+  renderCompWordCloud();
+  renderCompKwTable();
+  renderCompPeople();
+  renderCompMsgs();
+}
+
+/* ---- WORD CLOUD ---- */
+const WC_WORDS=[
+  {w:'travel deals',vol:2184,type:'keyword'},{w:'#ZylkerTravel',vol:1890,type:'hashtag'},
+  {w:'europe travel',vol:1326,type:'keyword'},{w:'@ZylkerSupport',vol:1140,type:'mention'},
+  {w:'zylker app',vol:892,type:'keyword'},{w:'#TravelDeals',vol:820,type:'hashtag'},
+  {w:'customer support',vol:583,type:'keyword'},{w:'refund policy',vol:483,type:'keyword'},
+  {w:'#ZylkerApp',vol:460,type:'hashtag'},{w:'flight booking',vol:410,type:'keyword'},
+  {w:'hotel deals',vol:380,type:'keyword'},{w:'@ZylkerHQ',vol:340,type:'mention'},
+  {w:'itinerary planner',vol:290,type:'keyword'},{w:'#EuropeTravel',vol:260,type:'hashtag'},
+  {w:'offline maps',vol:210,type:'keyword'},{w:'travel packages',vol:190,type:'keyword'},
+  {w:'pricing',vol:160,type:'keyword'},{w:'#CustomerSupport',vol:140,type:'hashtag'},
+  {w:'zylker pro',vol:120,type:'keyword'},{w:'@ZylkerCares',vol:95,type:'mention'},
+  {w:'app update',vol:80,type:'keyword'},{w:'#Zylker',vol:70,type:'hashtag'},
+];
+const WC_COLORS={keyword:['#1a1a2e','#374151','#4a4f6a'],hashtag:['#7c3aed','#a855f7','#c084fc'],mention:['#0369a1','#0ea5e9','#38bdf8']};
+
+let _wcFilter='all', _wcBrand='all';
+
+function setWcBrandTab(btn, brand){
+  document.querySelectorAll('.wc-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _wcBrand = brand;
+  renderWordCloud();
+}
+
+// Keyword dropdown filters
+function toggleKwDD(id){
+  const all = ['brandDD','typeDD','sourceDD'];
+  all.forEach(d=>{ if(d!==id) document.getElementById(d).style.display='none'; });
+  const el = document.getElementById(id);
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.kw-dd-wrap')) {
+    ['brandDD','typeDD','sourceDD','cBrandDD','cTypeDD','cSourceDD','pplBrandDD','pplSourceDD','cMsgBrandDD','cMsgEngDD','cMsgSentDD','cMsgTypeDD'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+  }
+});
+function getChecked(ddId){
+  const el = document.getElementById(ddId);
+  if(!el) return [];
+  return [...el.querySelectorAll('input:checked')].map(i=>i.parentElement.textContent.trim());
+}
+function updateDDLabel(ddId, labelId){
+  const checked = getChecked(ddId);
+  const total = document.getElementById(ddId).querySelectorAll('input').length;
+  document.getElementById(labelId).textContent = checked.length===total ? 'All' : checked.length===0 ? 'None' : checked.length+' selected';
+}
+function kwFilterChange(){
+  updateDDLabel('brandDD','brandDDLabel');
+  updateDDLabel('typeDD','typeDDLabel');
+  updateDDLabel('sourceDD','sourceDDLabel');
+  _kwPage = 0;
+  renderKwTable();
+}
+
+function renderWordCloud(){
+  const el=document.getElementById('wordCloud');
+  if(!el) return;
+  const filtered=_wcFilter==='all'?WC_WORDS:WC_WORDS.filter(w=>w.type===_wcFilter);
+  if(!filtered.length){el.innerHTML='<span style="color:#c0c5d8;font-size:13px;">No items</span>';return;}
+  const max=Math.max(...filtered.map(w=>w.vol));
+  const min=Math.min(...filtered.map(w=>w.vol));
+  const range=max-min||1;
+  const shuffled=[...filtered].sort(()=>Math.random()-0.5);
+  el.innerHTML=shuffled.map(w=>{
+    const ratio=(w.vol-min)/range;
+    const size=Math.round(11+ratio*18);
+    const colors=WC_COLORS[w.type];
+    const color=colors[Math.min(colors.length-1,Math.floor((1-ratio)*colors.length))];
+    return `<span class="wc-word" style="font-size:${size}px;color:${color};" onclick="openPanel('${w.w}','all')" title="${w.vol.toLocaleString()} mentions">${w.w}</span>`;
+  }).join('');
+}
+function setWcTab(btn, filter){
+  document.querySelectorAll('.wc-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _wcFilter=filter;
+  renderWordCloud();
+}
+
+/* ---- KEYWORDS TABLE ---- */
+const KW_DATA=[
+  {kw:'travel deals',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'keyword',eng:'16,420',vol:'2,184',plats:'fb ig x',pos:72,neu:18,neg:10},
+  {kw:'europe travel',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'keyword',eng:'12,381',vol:'1,326',plats:'ig yt rd',pos:64,neu:22,neg:14},
+  {kw:'crm pricing',brand:'Salesforce',brandColor:'#f97316',type:'keyword',eng:'9,840',vol:'1,120',plats:'x rd fb',pos:42,neu:32,neg:26},
+  {kw:'zylker app',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'keyword',eng:'8,560',vol:'892',plats:'x rd th',pos:70,neu:20,neg:10},
+  {kw:'customer support',brand:'HubSpot',brandColor:'#22c55e',type:'keyword',eng:'7,913',vol:'780',plats:'fb x',pos:58,neu:30,neg:12},
+  {kw:'#ZylkerTravel',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'hashtag',eng:'6,210',vol:'640',plats:'x ig th',pos:78,neu:15,neg:7},
+  {kw:'@Salesforce',brand:'Salesforce',brandColor:'#f97316',type:'mention',eng:'5,840',vol:'610',plats:'x fb',pos:50,neu:30,neg:20},
+  {kw:'refund policy',brand:'Salesforce',brandColor:'#f97316',type:'keyword',eng:'5,342',vol:'583',plats:'yt rd th',pos:20,neu:38,neg:42},
+  {kw:'#HubSpotCRM',brand:'HubSpot',brandColor:'#22c55e',type:'hashtag',eng:'4,780',vol:'520',plats:'x ig',pos:72,neu:20,neg:8},
+  {kw:'flight booking',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'keyword',eng:'3,780',vol:'380',plats:'fb ig yt',pos:60,neu:28,neg:12},
+  {kw:'@ZylkerSupport',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'mention',eng:'3,340',vol:'340',plats:'x fb',pos:44,neu:30,neg:26},
+  {kw:'sales automation',brand:'Salesforce',brandColor:'#f97316',type:'keyword',eng:'3,120',vol:'310',plats:'x fb li',pos:62,neu:26,neg:12},
+  {kw:'@HubSpot',brand:'HubSpot',brandColor:'#22c55e',type:'mention',eng:'2,940',vol:'290',plats:'x ig',pos:66,neu:24,neg:10},
+  {kw:'#TravelDeals',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'hashtag',eng:'2,280',vol:'210',plats:'x th',pos:74,neu:18,neg:8},
+  {kw:'pricing plans',brand:'HubSpot',brandColor:'#22c55e',type:'keyword',eng:'1,980',vol:'190',plats:'rd fb',pos:55,neu:28,neg:17},
+  {kw:'#CustomerSupport',brand:'Salesforce',brandColor:'#f97316',type:'hashtag',eng:'1,760',vol:'160',plats:'x fb',pos:40,neu:38,neg:22},
+];
+let _kwPage=0, _kwFilter='all';
+const KW_PER_PAGE=5;
+
+function kwPlatIcons(str){
+  const map={fb:`<div class="si2 plat-fb" style="width:17px;height:17px;font-size:8px;color:#fff;">f</div>`,ig:`<div class="si2 plat-ig" style="width:17px;height:17px;font-size:8px;">📸</div>`,x:`<div class="si2 plat-x" style="width:17px;height:17px;font-size:7px;color:#fff;font-weight:900;">𝕏</div>`,yt:`<div class="si2 plat-yt" style="width:17px;height:17px;font-size:8px;color:#fff;">▶</div>`,rd:`<div class="si2 plat-rd" style="width:17px;height:17px;font-size:8px;">👽</div>`,th:`<div class="si2 plat-th" style="width:17px;height:17px;font-size:8px;color:#fff;">🧵</div>`,li:`<div class="si2 plat-li" style="width:17px;height:17px;font-size:8px;color:#fff;">💼</div>`};
+  return `<div style="display:flex;gap:3px;">${str.split(' ').map(p=>map[p]||'').join('')}</div>`;
+}
+function kwSentBar(pos,neu,neg){
+  return `<div class="sent-bar" title="Positive ${pos}% · Neutral ${neu}% · Negative ${neg}%"><div class="sent-seg seg-pos" style="width:${pos}%"></div><div class="sent-seg seg-neu" style="width:${neu}%"></div><div class="sent-seg seg-neg" style="width:${neg}%"></div></div>`;
+}
+function renderKwTable(){
+  const tbody=document.getElementById('kwTblBody');
+  if(!tbody) return;
+  // Get active filters
+  const checkedBrands = getChecked('brandDD');
+  const checkedTypes = getChecked('typeDD');
+  const checkedSources = getChecked('sourceDD');
+  const typeMap = {'Keywords':'keyword','Hashtags':'hashtag','Mentions':'mention'};
+  const filtered = KW_DATA.filter(r=>{
+    const brandOk = checkedBrands.length===0 || checkedBrands.includes(r.brand);
+    const typeOk = checkedTypes.length===0 || checkedTypes.some(t=>typeMap[t]===r.type);
+    const srcOk = checkedSources.length===0 || checkedSources.some(s=>r.plats.includes(s.toLowerCase()));
+    return brandOk && typeOk && srcOk;
+  });
+  const slice=filtered.slice(0,(_kwPage+1)*KW_PER_PAGE);
+  tbody.innerHTML=slice.map(r=>`<tr onclick="openPanel('${r.kw}','all')">
+    <td class="kw-n">${r.kw}</td>
+    <td>${r.eng}</td><td>${r.vol}</td><td>${kwPlatIcons(r.plats)}</td><td>${kwSentBar(r.pos,r.neu,r.neg)}</td>
+  </tr>`).join('');
+  const btn=document.getElementById('kwViewMore');
+  if(btn) btn.style.display=(_kwPage+1)*KW_PER_PAGE>=filtered.length?'none':'inline-block';
+}
+function kwLoadMore(){_kwPage++;renderKwTable();}
+function setKwTab(btn,filter){
+  document.querySelectorAll('.kw-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _kwFilter=filter;
+  _kwPage=0;
+  renderKwTable();
+}
+
+/* MORE DROPDOWN */
+function toggleMore(e){e.stopPropagation();document.getElementById('moreDD').classList.toggle('open');}
+function closeMore(){document.getElementById('moreDD').classList.remove('open');}
+
+/* POPUP */
+function openPopup(){
+  document.getElementById('irrelevantPopup').classList.add('open');
+  document.querySelectorAll('input[name=reason]').forEach(r=>r.checked=false);
+  document.getElementById('otherText').classList.remove('show');
+  document.getElementById('otherText').value='';
+}
+function closePopup(){document.getElementById('irrelevantPopup').classList.remove('open');}
+function popupBgClick(e){if(e.target===document.getElementById('irrelevantPopup'))closePopup();}
+function selectReason(id){
+  document.querySelectorAll('.popup-opt input').forEach(r=>r.checked=false);
+  document.getElementById('r-'+id).checked=true;
+  document.getElementById('otherText').classList.toggle('show',id==='other');
+}
+function submitIrrelevant(){closePopup();}
+
+/* NAV */
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  closePanel();
+}
+function selectSI(el){
+  document.querySelectorAll('.si').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const isComp = el.querySelector('path[d="M16 4l3 8h8l-6 5 2 8-7-4-7 4 2-8-6-5h8z"]') !== null;
+  const bv = document.getElementById('brandView');
+  const cv = document.getElementById('compView');
+  if(isComp){
+    bv.style.display = 'none';
+    cv.style.display = 'flex';
+    cv.style.flexDirection = 'column';
+    cv.style.flex = '1';
+    cv.style.overflow = 'hidden';
+    // Reset to Overview tab
+    document.querySelectorAll('#compView .tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('#compView .tab-panel').forEach(p=>p.classList.remove('active'));
+    const firstTab = cv.querySelector('.tab');
+    const firstPanel = cv.querySelector('.tab-panel');
+    if(firstTab) firstTab.classList.add('active');
+    if(firstPanel) firstPanel.classList.add('active');
+    setTimeout(initCompCharts, 80);
+  } else {
+    cv.style.display = 'none';
+    bv.style.display = 'flex';
+    bv.style.flexDirection = 'column';
+    bv.style.flex = '1';
+    bv.style.overflow = 'hidden';
+  }
+  const content=document.getElementById('contentArea');
+  content.style.opacity='0.6';
+  setTimeout(()=>{content.style.opacity='1'; content.style.transition='opacity 0.2s';},150);
+}
+function selectCh(btn,id){
+  document.querySelectorAll('.ch-btn,.ch-all').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function toggleY(gid,btn,cb){
+  document.querySelectorAll('#'+gid+' .yb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(cb)cb();
+}
+function toggleMF(gid,btn){
+  document.querySelectorAll('#'+gid+' .mfc').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* CHARTS */
+let cvChart,stChart;
+function mkD(n){const d=[];for(let i=n-1;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);d.push(`${x.toLocaleString('default',{month:'short'})} ${x.getDate()}`);}return d;}
+function mkW(n){return Array.from({length:n},(_,i)=>`W${i+1}`);}
+function mkM(){return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];}
+function rand(n,mn,mx){let v=Math.floor((mn+mx)/2),a=[];for(let i=0;i<n;i++){v=Math.max(mn,Math.min(mx,v+Math.floor(Math.random()*80-38)));a.push(v);}return a;}
+const R={v30:rand(30,200,950),e30:rand(30,400,2100),r30:rand(30,1000,8500),vW:rand(4,1200,5500),eW:rand(4,2500,12500),rW:rand(4,5000,45000),vM:rand(9,3500,16000),eM:rand(9,7000,32000),rM:rand(9,18000,85000),p30:rand(30,350,900),n30:rand(30,120,380),ng30:rand(30,40,180),pW:rand(4,2200,5000),nW:rand(4,700,1800),ngW:rand(4,250,800),pM:rand(9,6500,14000),nM:rand(9,1800,5500),ngM:rand(9,700,2200)};
+const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:9}},scales:{x:{grid:{display:false},ticks:{color:'#9399b0',font:{size:10},maxTicksLimit:8,maxRotation:0},border:{display:false}},y:{grid:{color:'#f0f1f5'},ticks:{color:'#9399b0',font:{size:10}},border:{display:false}}}};
+
+function getCv(){
+  const y=document.querySelector('#cvY .yb.active')?.textContent||'Volume';
+  const x=document.getElementById('cvX')?.value||'day';
+  const src={day:{Volume:R.v30,Engagement:R.e30,Reach:R.r30},week:{Volume:R.vW,Engagement:R.eW,Reach:R.rW},month:{Volume:R.vM,Engagement:R.eM,Reach:R.rM}};
+  const lbl={day:mkD(30),week:mkW(4),month:mkM()};
+  return{labels:lbl[x],data:src[x][y]||src[x].Volume};
+}
+function getSt(){
+  const y=document.querySelector('#stY .yb.active')?.textContent||'Volume';
+  const x=document.getElementById('stX')?.value||'day';
+  const m=y==='Engagement'?3.1:1;
+  const src={day:{p:R.p30,n:R.n30,ng:R.ng30},week:{p:R.pW,n:R.nW,ng:R.ngW},month:{p:R.pM,n:R.nM,ng:R.ngM}};
+  const lbl={day:mkD(30),week:mkW(4),month:mkM()};
+  const d=src[x];
+  return{labels:lbl[x],pos:d.p.map(v=>Math.round(v*m)),neu:d.n.map(v=>Math.round(v*m)),neg:d.ng.map(v=>Math.round(v*m))};
+}
+function initVtChart(){
+  const ctx=document.getElementById('vtChart');
+  if(!ctx) return;
+  new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['Posts','Comments','Reposts / Shares','Other'],
+      datasets:[{data:[54,33,9,4],backgroundColor:['#4b9cf5','#a78bfa','#34d399','#fbbf24'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,cutout:'62%',
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed}%`},backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}
+      }
+    }
+  });
+}
+function initCharts(){
+  const cc=document.getElementById('cvChart');
+  const sc=document.getElementById('stChart');
+  if(!cc||!sc)return;
+  const cd=getCv();
+  cvChart=new Chart(cc,{type:'line',data:{labels:cd.labels,datasets:[{label:'Value',data:cd.data,borderColor:'#4b9cf5',backgroundColor:'rgba(75,156,245,0.07)',borderWidth:2,fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#4b9cf5',pointBorderColor:'#fff',pointBorderWidth:1.5}]},options:{...CO}});
+  const sd=getSt();
+  stChart=new Chart(sc,{type:'line',data:{labels:sd.labels,datasets:[
+    {label:'Positive',data:sd.pos,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.05)',borderWidth:2,fill:true,tension:0.4,pointRadius:2.5,pointBackgroundColor:'#22c55e'},
+    {label:'Neutral', data:sd.neu,borderColor:'#9ca3af',backgroundColor:'rgba(156,163,175,0.04)',borderWidth:2,fill:true,tension:0.4,pointRadius:2.5,pointBackgroundColor:'#9ca3af',borderDash:[4,3]},
+    {label:'Negative',data:sd.neg,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.04)',borderWidth:2,fill:true,tension:0.4,pointRadius:2.5,pointBackgroundColor:'#ef4444'},
+  ]},options:{...CO}});
+}
+function redrawConv(){if(!cvChart)return;const d=getCv();cvChart.data.labels=d.labels;cvChart.data.datasets[0].data=d.data;cvChart.update('none');}
+function redrawSent(){if(!stChart)return;const d=getSt();stChart.data.labels=d.labels;stChart.data.datasets[0].data=d.pos;stChart.data.datasets[1].data=d.neu;stChart.data.datasets[2].data=d.neg;stChart.update('none');}
+
+/* ===== ADD SEARCH MODAL ===== */
+let _listenType='brand', _competitorCount=1, _mfOpen=false;
+
+/* ---- TAG INPUT SYSTEM ---- */
+const TAG_COLORS = {
+  keyword:  {bg:'#eef4ff', color:'#4b9cf5', border:'#c7deff'},
+  hashtag:  {bg:'#fdf4ff', color:'#a855f7', border:'#e9d5ff'},
+  mention:  {bg:'#f0fdf4', color:'#16a34a', border:'#bbf7d0'},
+  phrase:   {bg:'#fff7ed', color:'#ea580c', border:'#fed7aa'},
+  proximity:{bg:'#f0f9ff', color:'#0369a1', border:'#bae6fd'},
+};
+
+function detectTagType(val){
+  if(val.startsWith('#')) return 'hashtag';
+  if(val.startsWith('@')) return 'mention';
+  if(val.startsWith('"')||val.startsWith("'")) return 'phrase';
+  if(val.startsWith('<')&&val.endsWith('>')) return 'proximity';
+  return 'keyword';
+}
+
+function createTagEl(val){
+  const type = detectTagType(val);
+  const c = TAG_COLORS[type]||TAG_COLORS.keyword;
+  const display = type==='phrase' ? `"${val.replace(/^["']|["']$/g,'')}"` : val;
+  const span = document.createElement('span');
+  span.contentEditable = 'false';
+  span.style.cssText = `display:inline-flex;align-items:center;gap:3px;background:${c.bg};color:${c.color};border:1px solid ${c.border};border-radius:50px;padding:2px 8px 2px 10px;font-size:12px;font-weight:500;white-space:nowrap;cursor:default;margin:1px 2px;`;
+  span.innerHTML = `${display}<button onclick="this.parentNode.remove()" style="background:none;border:none;cursor:pointer;color:${c.color};opacity:0.5;font-size:14px;line-height:1;padding:0;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.5">×</button>`;
+  return span;
+}
+
+/* ---- TAG INPUT SYSTEM ----
+   Each .tag-input is a contenteditable div.
+   We intercept ALL keystrokes, maintain rawVal ourselves,
+   and re-render the div content from scratch on each keystroke.
+   This means the browser never gets a chance to create rogue text nodes.
+-------------------------------------------------------------------- */
+const _rv = new WeakMap(); // el → current raw string being typed
+const _tags = new WeakMap(); // el → array of committed tag values
+
+function _ph(t){ return `<span style="color:#b8c0cc;font-style:italic;">${t}</span>`; }
+function _col(t,c){ return `<span style="color:${c};">${t}</span>`; }
+
+function _ghostHTML(v){
+  if(!v) return '';
+  if(v==='@') return _col('@','#9399b0')+_ph('username');
+  if(v.startsWith('@')) return _col('@'+v.slice(1),'#16a34a');
+  if(v==='#') return _col('#','#9399b0')+_ph('hashtag');
+  if(v.startsWith('#')) return _col('#'+v.slice(1),'#a855f7');
+  if(v==='"') return _col('"','#9399b0')+_ph('your phrase')+_ph('"');
+  if(v.startsWith('"')) return _col(v,'#ea580c')+(!v.endsWith('"')?_ph('"'):'');
+  if(v==='<'){
+    return _col('&lt;','#9399b0')+_ph('first_word')+_ph('-distance-second_word')+_ph('&gt;');
+  }
+  if(v.startsWith('<')){
+    const inner=v.slice(1), parts=inner.split('-');
+    const w1=parts[0]||'', d=parts.length>1?parts[1]:null, w2=parts.length>2?parts.slice(2).join('-'):null;
+    return _col('&lt;','#9399b0')+
+      (w1?_col(w1,'#374151'):_ph('first_word'))+
+      (d!==null?(_col('-','#9399b0')+(d?_col(d,'#374151'):_ph('distance'))):_ph('-distance'))+
+      (w2!==null?(_col('-','#9399b0')+(w2?_col(w2,'#374151'):_ph('second_word'))):_ph('-second_word'))+
+      _ph('&gt;');
+  }
+  return `<span style="color:#1a1a2e;">${v}</span>`;
+}
+
+function _splitGhost(v){
+  // Returns {typed: html of what user typed (colored), placeholder: html of remaining hints (grey italic)}
+  if(!v) return {typed:'', placeholder:''};
+
+  if(v.startsWith('@')){
+    const typed = v.length>1 ? `<span style="color:#16a34a;">${v}</span>` : `<span style="color:#9399b0;">@</span>`;
+    const ph = v.length===1 ? `<span style="color:#b8c0cc;font-style:italic;">username</span>` : '';
+    return {typed, placeholder:ph};
+  }
+  if(v.startsWith('#')){
+    const typed = v.length>1 ? `<span style="color:#a855f7;">${v}</span>` : `<span style="color:#9399b0;">#</span>`;
+    const ph = v.length===1 ? `<span style="color:#b8c0cc;font-style:italic;">hashtag</span>` : '';
+    return {typed, placeholder:ph};
+  }
+  if(v.startsWith('"')){
+    const typed = `<span style="color:#ea580c;">${v}</span>`;
+    const ph = !v.endsWith('"') ? `<span style="color:#b8c0cc;font-style:italic;">"</span>` : '';
+    return {typed, placeholder:ph};
+  }
+  if(v.startsWith('<')){
+    const inner = v.slice(1);
+    const parts = inner.split('-');
+    const w1 = parts[0]||'';
+    const d  = parts.length>1 ? parts[1] : null;
+    const w2 = parts.length>2 ? parts.slice(2).join('-') : null;
+
+    let typed = `<span style="color:#9399b0;">&lt;</span>`;
+    let ph = '';
+
+    if(w1){ typed += `<span style="color:#374151;">${w1}</span>`; } else { ph += `<span style="color:#b8c0cc;font-style:italic;">first_word</span>`; return {typed, placeholder:ph+`<span style="color:#b8c0cc;font-style:italic;">-distance-second_word&gt;</span>`}; }
+    if(d!==null){ typed += `<span style="color:#9399b0;">-</span>`+(d?`<span style="color:#374151;">${d}</span>`:''); if(!d){ ph=`<span style="color:#b8c0cc;font-style:italic;">distance-second_word&gt;</span>`; return {typed,placeholder:ph}; } }
+    else { ph = `<span style="color:#b8c0cc;font-style:italic;">-distance-second_word&gt;</span>`; return {typed, placeholder:ph}; }
+    if(w2!==null){ typed += `<span style="color:#9399b0;">-</span>`+(w2?`<span style="color:#374151;">${w2}</span>`:''); if(!w2){ ph=`<span style="color:#b8c0cc;font-style:italic;">second_word&gt;</span>`; return {typed,placeholder:ph}; } }
+    else { ph = `<span style="color:#b8c0cc;font-style:italic;">-second_word&gt;</span>`; return {typed, placeholder:ph}; }
+    typed += `<span style="color:#9399b0;">&gt;</span>`;
+    return {typed, placeholder:''};
+  }
+  // Plain keyword — just show typed text, no placeholder
+  return {typed:`<span style="color:#374151;">${v}</span>`, placeholder:''};
+}
+
+function _rerender(el){
+  const raw = _rv.get(el)||'';
+  const committed = _tags.get(el)||[];
+  // Build HTML: committed tags + ghost for current raw
+  const tagHTML = committed.map(v=>{
+    const type = detectTagType(v);
+    const c = TAG_COLORS[type]||TAG_COLORS.keyword;
+    let display = v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if(type==='phrase') display = `"${v.replace(/^["']|["']$/g,'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"`;
+    return `<span contenteditable="false" style="display:inline-flex;align-items:center;gap:3px;background:${c.bg};color:${c.color};border:1px solid ${c.border};border-radius:50px;padding:2px 8px 2px 10px;font-size:12px;font-weight:500;white-space:nowrap;cursor:default;margin:1px 2px;" class="committed-tag">${display}<button onclick="removeTag(this,event)" style="background:none;border:none;cursor:pointer;color:${c.color};opacity:0.5;font-size:14px;line-height:1;padding:0;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.5">×</button></span>`;
+  }).join('');
+  // Caret anchor — a zero-width span the caret sits in
+  const caretHTML = `<span class="caret-anchor" style="display:inline;font-size:13px;color:#1a1a2e;outline:none;"></span>`;
+  // Split ghost: typed part + caret + placeholder part
+  const {typed, placeholder} = _splitGhost(raw);
+  el.innerHTML = tagHTML +
+    (typed ? `<span contenteditable="false" style="display:inline;font-size:13px;font-family:monospace;pointer-events:none;user-select:none;">${typed}</span>` : '') +
+    caretHTML +
+    (placeholder ? `<span contenteditable="false" style="display:inline;font-size:13px;font-family:monospace;pointer-events:none;user-select:none;color:#b8c0cc;font-style:italic;">${placeholder}</span>` : '');
+  // Place caret inside the caret-anchor span
+  const anchor = el.querySelector('.caret-anchor');
+  if(anchor){
+    const range = document.createRange();
+    range.setStart(anchor,0);
+    range.collapse(true);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+}
+
+function removeTag(btn, e){
+  e.stopPropagation();
+  const el = btn.closest('.tag-input');
+  const idx = [...el.querySelectorAll('.committed-tag')].indexOf(btn.parentElement);
+  const tags = _tags.get(el)||[];
+  tags.splice(idx,1);
+  _tags.set(el,tags);
+  _rerender(el);
+}
+
+function handleTagKeydown(e, el){
+  // Intercept everything — don't let browser edit the DOM
+  if(['Tab','Escape','F1','F2','F3','F4','F5'].includes(e.key)) return;
+  e.preventDefault();
+
+  let raw = _rv.get(el)||'';
+  const tags = _tags.get(el)||[];
+
+  if(e.key==='Backspace'){
+    if(raw.length>0){ raw=raw.slice(0,-1); _rv.set(el,raw); }
+    else if(tags.length>0){ tags.pop(); _tags.set(el,tags); }
+    _rerender(el); return;
+  }
+  if(e.key==='Enter'||e.key===','||(e.key===' '&&!raw.startsWith('<')&&!raw.startsWith('"'))){
+    let val=raw.trim();
+    if(!val) return;
+    if(val.startsWith('<')){
+      const inner=val.slice(1), parts=inner.split('-');
+      if(parts.length<3||!parts[0]||!parts[1]||!parts.slice(2).join('')) return;
+      val=`<${inner}>`;
+    } else if(val.startsWith('"')&&!val.endsWith('"')) val+='"';
+    tags.push(val); _tags.set(el,tags);
+    _rv.set(el,''); _rerender(el); return;
+  }
+  // Regular character
+  if(e.key.length===1){
+    raw+=e.key; _rv.set(el,raw); _rerender(el);
+  }
+}
+
+function handleTagInput(el){ /* handled by keydown */ }
+
+function focusTagArea(area){
+  const el=area.querySelector('.tag-input');
+  if(el){ el.focus(); _rerender(el); }
+}
+
+function injectProxExample(el){
+  if(!el) return;
+  if(!_tags.has(el)) _tags.set(el,[]);
+  _tags.get(el).push('<zylker-3-travels>');
+  _rv.set(el,''); _rerender(el); el.focus();
+}
+function startProximity(el){
+  if(!_tags.has(el)) _tags.set(el,[]);
+  _rv.set(el,'<'); _rerender(el); el.focus();
+}
+
+function hideSyntaxHint(){}
+
+function injectTag(el, val){
+  if(!el) return;
+  if(!_tags.has(el)) _tags.set(el,[]);
+  _tags.get(el).push(val);
+  _rv.set(el,''); _rerender(el); el.focus();
+}
+function injectTagToArea(area, val){
+  const el=area.querySelector('.tag-input');
+  if(el) injectTag(el,val);
+}
+// createTagEl kept for compatibility (people table etc.)
+function createTagEl(val){
+  const type=detectTagType(val);
+  const c=TAG_COLORS[type]||TAG_COLORS.keyword;
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const display=type==='phrase'?`"${esc(val.replace(/^["']|["']$/g,''))}"`:esc(val);
+  const span=document.createElement('span');
+  span.contentEditable='false';
+  span.style.cssText=`display:inline-flex;align-items:center;gap:3px;background:${c.bg};color:${c.color};border:1px solid ${c.border};border-radius:50px;padding:2px 8px 2px 10px;font-size:12px;font-weight:500;white-space:nowrap;cursor:default;margin:1px 2px;`;
+  span.innerHTML=`${display}<button onclick="this.parentNode.remove()" style="background:none;border:none;cursor:pointer;color:${c.color};opacity:0.5;font-size:14px;line-height:1;padding:0;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.5">×</button>`;
+  return span;
+}
+
+function makeKwBlockHTML(){
+  const d=document.createElement('div');
+  d.className='kw-block';
+  d.style.cssText='margin-bottom:10px;position:relative;';
+  d.innerHTML=`<div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
+    <div class="tag-input-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+      <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="Type and press Enter — use @mention, #hashtag, &lt;proximity&gt;" style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;position:relative;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
+    </div>
+    <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+      <div style="font-size:11px;color:#9399b0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span>Try:</span>
+        <span style="color:#4b9cf5;cursor:pointer;" onclick="injectTag(this.closest('.kw-block').querySelector('.tag-input'),'Zylker')">Zylker</span>
+        <span style="color:#ec4899;cursor:pointer;" onclick="injectTag(this.closest('.kw-block').querySelector('.tag-input'),'#ZylkerApp')">#ZylkerApp</span>
+        <span style="color:#8b5cf6;cursor:pointer;" onclick="injectTag(this.closest('.kw-block').querySelector('.tag-input'),'@ZylkerHQ')">@ZylkerHQ</span>
+        <span style="color:#0369a1;cursor:pointer;font-family:monospace;" onclick="injectProxExample(this.closest('.kw-block').querySelector('.tag-input'))">&lt;zylker-3-travels&gt;</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;background:#fff;font-family:inherit;cursor:pointer;"><option>Any of these</option><option>All of these</option></select></div>
+    </div>
+  </div>
+  <button onclick="removeKwBlock(this)" style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;background:#e0e2e9;border:none;color:#4a4f6a;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;" onmouseenter="this.style.background='#ef4444';this.style.color='#fff'" onmouseleave="this.style.background='#e0e2e9';this.style.color='#4a4f6a'">×</button>`;
+  return d;
+}
+function makeOpLabel(op){
+  const d=document.createElement('div');
+  d.className='kw-op-label';
+  d.style.cssText='display:flex;align-items:center;gap:10px;margin:6px 0;';
+  d.innerHTML=`<div style="flex:1;height:1px;background:#e8eaed;"></div><span style="font-size:11.5px;font-weight:700;color:#4b9cf5;background:#eef4ff;border:1px solid #c7deff;border-radius:50px;padding:2px 12px;">${op}</span><div style="flex:1;height:1px;background:#e8eaed;"></div>`;
+  return d;
+}
+function addKwBlock(op){
+  const c=document.getElementById('kw-blocks-container');
+  c.appendChild(makeOpLabel(op));
+  c.appendChild(makeKwBlockHTML());
+}
+function addCmpKwBlock(op){
+  const c=document.getElementById('cmp-kw-blocks-container');
+  c.appendChild(makeOpLabel(op));
+  c.appendChild(makeKwBlockHTML());
+}
+function removeKwBlock(btn){
+  const block=btn.closest('.kw-block');
+  const prev=block.previousElementSibling;
+  if(prev&&prev.classList.contains('kw-op-label')) prev.remove();
+  block.remove();
+}
+
+// Prefill configs per saved search
+const SEARCH_CONFIGS = {
+  'Zylker': {
+    type:'brand', name:'Zylker',
+    sources:{x:true,ig:true,th:true,yt:true,fb:true,rd:false,wb:false},
+    keywords:[['Zylker','#ZylkerApp','@ZylkerHQ']],
+    exclude:['spam','bot'],
+    dateRange:'Last 30 days',
+    noise:{jobs:true,promo:true,coupons:false},
+  },
+  'Zylker App': {
+    type:'brand', name:'Zylker App',
+    sources:{x:true,ig:true,th:false,yt:false,fb:false,rd:true,wb:false},
+    keywords:[['Zylker App','#ZylkerApp'],['travel deals','flight booking']],
+    exclude:['competitor'],
+    dateRange:'Last 30 days',
+    noise:{jobs:true,promo:false,coupons:false},
+  },
+  'Competitors': {
+    type:'competitor', name:'Competitors',
+    sources:{x:true,ig:true,th:true,yt:true,fb:true,rd:true,wb:false},
+    keywords:[['Zylker CRM','Salesforce','HubSpot']],
+    exclude:[],
+    dateRange:'Last 30 days',
+    noise:{jobs:false,promo:false,coupons:false},
+  },
+  'AI tools': {
+    type:'brand', name:'AI tools',
+    sources:{x:true,ig:false,th:false,yt:true,fb:false,rd:true,wb:true},
+    keywords:[['AI tools','#AItools','@ZylkerAI']],
+    exclude:['ads'],
+    dateRange:'Last 7 days',
+    noise:{jobs:true,promo:true,coupons:true},
+  },
+};
+
+function openEditSearch(name){
+  const cfg = SEARCH_CONFIGS[name];
+  // Open modal fresh first
+  openAddSearch();
+  if(!cfg) return;
+  // Update modal title and button to Edit mode
+  const titleEl = document.querySelector('#addSearchOverlay div[style*="font-size:17px"]');
+  if(titleEl) titleEl.textContent = 'Edit listening search';
+  const createBtn = document.querySelector('#addSearchOverlay button[onclick="createSearch()"]');
+  if(createBtn){ createBtn.textContent='Save changes'; createBtn.setAttribute('onclick','saveEditSearch()'); }
+  const hdr = titleEl;
+
+  // 1. Search name
+  document.getElementById('as-name').value = cfg.name;
+
+  // 2. Listen type
+  setListenType(cfg.type);
+
+  // 3. Sources
+  Object.entries(cfg.sources).forEach(([id, on])=>{
+    const tile=document.getElementById('stile-'+id);
+    const lbl=document.getElementById('stk-'+id);
+    const extra=document.getElementById(id+'-extra');
+    if(!tile) return;
+    _srcState[id]=on;
+    tile.style.border=on?'2px solid #4b9cf5':'1.5px solid #e0e2e9';
+    tile.style.background=on?'#f0f7ff':'#fff';
+    if(lbl){ lbl.style.color=on?'#4b9cf5':'#6b7280'; lbl.style.fontWeight=on?'700':'500'; }
+    if(extra) extra.style.display=on?'block':'none';
+  });
+
+  // 4. Prefill include keywords (first block)
+  setTimeout(()=>{
+    const container = document.getElementById('kw-blocks-container');
+    if(!container) return;
+    cfg.keywords.forEach((group, gi)=>{
+      // Get or create block
+      let block = container.children[gi];
+      if(gi>0 && !block){ document.getElementById('addAndBlock')&&document.getElementById('addAndBlock').click(); block=container.children[gi]; }
+      if(!block) return;
+      const el = block.querySelector('.tag-input');
+      if(!el) return;
+      if(!_tags.has(el)) _tags.set(el,[]);
+      _tags.set(el, [...group]);
+      _rv.set(el,'');
+      _rerender(el);
+    });
+
+    // 5. Prefill exclude keywords
+    const exclEl = document.querySelector('.excl-tag-area .tag-input');
+    if(exclEl && cfg.exclude.length){
+      _tags.set(exclEl, [...cfg.exclude]);
+      _rv.set(exclEl,'');
+      _rerender(exclEl);
+    }
+
+    // 6. Noise checkboxes
+    const noiseBoxes = document.querySelectorAll('#addSearchOverlay input[type=checkbox]');
+    const labels = ['jobs','promo','coupons'];
+    noiseBoxes.forEach((cb,i)=>{ if(labels[i]) cb.checked = cfg.noise[labels[i]]||false; });
+
+    // 7. Date range
+    const dateSel = document.querySelector('#addSearchOverlay select');
+    if(dateSel){
+      [...dateSel.options].forEach(o=>{ o.selected = o.text===cfg.dateRange; });
+    }
+  }, 60);
+}
+
+function openAddSearch(){
+  const ov=document.getElementById('addSearchOverlay');
+  ov.style.display='flex';
+  ov.style.alignItems='center';
+  ov.style.justifyContent='center';
+  document.body.style.overflow='hidden';
+  setListenType('brand');
+}
+function saveEditSearch(){
+  // Reset modal back to create mode and close
+  const titleEl=document.querySelector('#addSearchOverlay div[style*="font-size:17px"]');
+  if(titleEl) titleEl.textContent='Create listening search';
+  const saveBtn=document.querySelector('#addSearchOverlay button[onclick="saveEditSearch()"]');
+  if(saveBtn){ saveBtn.textContent='Create search'; saveBtn.setAttribute('onclick','createSearch()'); }
+  closeAddSearch();
+}
+function closeAddSearch(){
+  // Reset modal title/button if in edit mode
+  const titleEl=document.querySelector('#addSearchOverlay div[style*="font-size:17px"]');
+  if(titleEl) titleEl.textContent='Create listening search';
+  const saveBtn=document.querySelector('#addSearchOverlay button[onclick="saveEditSearch()"]');
+  if(saveBtn){ saveBtn.textContent='Create search'; saveBtn.setAttribute('onclick','createSearch()'); }
+  const ov=document.getElementById('addSearchOverlay');
+  ov.style.display='none';
+  ov.style.alignItems='';
+  ov.style.justifyContent='';
+  document.body.style.overflow='';
+  document.getElementById('as-name').value='';
+  hideSyntaxHint();
+  // Reset all tag-input areas
+  document.querySelectorAll('#addSearchOverlay .tag-input-area').forEach(area=>{
+    area.querySelectorAll('span').forEach(s=>s.remove());
+    const inp=area.querySelector('.tag-input');
+    if(inp) inp.value='';
+  });
+  // Reset kw-blocks to one
+  ['kw-blocks-container','cmp-kw-blocks-container'].forEach(cid=>{
+    const kc=document.getElementById(cid);
+    if(!kc) return;
+    while(kc.children.length>1) kc.removeChild(kc.lastChild);
+  });
+  _competitorCount=1;
+  const cl=document.getElementById('competitors-list');
+  if(cl) while(cl.children.length>1) cl.removeChild(cl.lastChild);
+  if(_mfOpen) toggleMoreFilters();
+  setListenType('brand');
+}
+function handleOverlayClick(e){
+  if(e.target===document.getElementById('addSearchOverlay')) closeAddSearch();
+}
+function setListenType(type){
+  _listenType=type;
+  const brandCard=document.getElementById('type-brand');
+  const compCard=document.getElementById('type-competitor');
+  const compIcon=document.getElementById('comp-icon');
+  if(type==='brand'){
+    brandCard.style.border='2px solid #4b9cf5'; brandCard.style.background='#f0f7ff';
+    compCard.style.border='1.5px solid #e0e2e9'; compCard.style.background='#fff';
+    if(compIcon) compIcon.setAttribute('stroke','#9399b0');
+    document.getElementById('as-brand-section').style.display='block';
+    document.getElementById('as-competitor-section').style.display='none';
+  } else {
+    compCard.style.border='2px solid #4b9cf5'; compCard.style.background='#f0f7ff';
+    brandCard.style.border='1.5px solid #e0e2e9'; brandCard.style.background='#fff';
+    if(compIcon) compIcon.setAttribute('stroke','#4b9cf5');
+    document.getElementById('as-brand-section').style.display='none';
+    document.getElementById('as-competitor-section').style.display='block';
+  }
+}
+
+const _srcState={'x':true,'ig':true,'th':true,'fb':false,'rd':false,'yt':true,'wb':true};
+function toggleSource(id){
+  const tile=document.getElementById('stile-'+id);
+  const lbl=document.getElementById('stk-'+id);
+  const extra=document.getElementById(id+'-extra');
+  if(!tile) return;
+  _srcState[id]=!_srcState[id];
+  const on=_srcState[id];
+  tile.style.border=on?'2px solid #4b9cf5':'1.5px solid #e0e2e9';
+  tile.style.background=on?'#f0f7ff':'#fff';
+  tile.style.borderRadius=extra?(on?'8px 8px 0 0':'8px'):'8px';
+  if(lbl){ lbl.style.color=on?'#4b9cf5':'#6b7280'; lbl.style.fontWeight=on?'700':'500'; }
+  if(extra) extra.style.display=on?'block':'none';
+}
+function toggleSwitch(id){
+  const cb=document.getElementById(id);
+  const sw=document.getElementById('switch-'+id);
+  const knob=document.getElementById('knob-'+id);
+  cb.checked=!cb.checked;
+  sw.style.background=cb.checked?'#4b9cf5':'#d1d5db';
+  knob.style.left=cb.checked?'21px':'3px';
+}
+function addTag(e,src){
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const inp=document.getElementById(src+'-page-input');
+    const val=inp.value.trim().replace(/,/g,'');
+    if(!val) return;
+    const tags=document.getElementById(src+'-tags');
+    const tag=document.createElement('span');
+    tag.style.cssText='display:inline-flex;align-items:center;gap:4px;background:#eef4ff;color:#4b9cf5;border:1px solid #c7deff;border-radius:50px;padding:2px 8px;font-size:11.5px;font-weight:500;';
+    tag.innerHTML=val+' <span onclick="this.parentNode.remove()" style="cursor:pointer;color:#9399b0;font-size:14px;line-height:1;">×</span>';
+    tags.appendChild(tag);
+    inp.value='';
+  }
+}
+function appendToLastKw(val){
+  const blocks=document.querySelectorAll('#kw-blocks-container .kw-block textarea');
+  const last=blocks[blocks.length-1];
+  if(last){ last.value+=(last.value?', ':'')+val; last.focus(); }
+}
+function appendExcl(val){ const t=document.getElementById('as-exclude'); if(t){ t.value+=(t.value?', ':'')+val; t.focus(); } }
+
+function addKwBlock(op){
+  const container=document.getElementById('kw-blocks-container');
+  // Add operator label
+  const opLabel=document.createElement('div');
+  opLabel.className='kw-op-label';
+  opLabel.style.cssText='display:flex;align-items:center;gap:10px;margin:6px 0;';
+  opLabel.innerHTML=`<div style="flex:1;height:1px;background:#e8eaed;"></div><span style="font-size:12px;font-weight:700;color:#4b9cf5;background:#eef4ff;border:1px solid #c7deff;border-radius:50px;padding:2px 12px;">${op}</span><div style="flex:1;height:1px;background:#e8eaed;"></div>`;
+  container.appendChild(opLabel);
+  // Add new block
+  const block=document.createElement('div');
+  block.className='kw-block';
+  block.style.cssText='margin-bottom:10px;position:relative;';
+  block.innerHTML=`<div style="border:1px solid #e0e2e9;border-radius:8px;overflow:hidden;">
+    <textarea rows="3" placeholder="Enter keywords, hashtags, mentions or phrases..." style="width:100%;border:none;padding:10px 12px;font-size:13px;font-family:inherit;resize:none;outline:none;color:#1a1a2e;display:block;"></textarea>
+    <div style="background:#f9fafb;padding:7px 12px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:11.5px;color:#9399b0;"></div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#4a4f6a;">
+        Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:3px 8px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option selected>Any of these</option><option>All of these</option></select>
+      </div>
+    </div>
+  </div>
+  <button onclick="removeKwBlock(this)" style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;background:#ef4444;border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>`;
+  container.appendChild(block);
+}
+function removeKwBlock(btn){
+  const block=btn.closest('.kw-block');
+  // also remove the preceding op label
+  const prev=block.previousElementSibling;
+  if(prev&&prev.classList.contains('kw-op-label')) prev.remove();
+  block.remove();
+}
+
+function toggleMoreFilters(){
+  _mfOpen=!_mfOpen;
+  document.getElementById('more-filters-body').style.display=_mfOpen?'block':'none';
+  document.getElementById('mf-chevron').style.transform=_mfOpen?'rotate(180deg)':'';
+  document.getElementById('mf-desc').style.display=_mfOpen?'block':'block';
+}
+
+function addCompetitor(){
+  _competitorCount++;
+  const colors=['#ef4444','#f97316','#8b5cf6','#22c55e','#ec4899','#06b6d4'];
+  const c=colors[(_competitorCount-1)%colors.length];
+  const letter=String.fromCharCode(64+_competitorCount);
+  const div=document.createElement('div');
+  div.style.cssText='border:1.5px solid #e0e2e9;border-radius:9px;padding:13px 14px;position:relative;';
+  div.innerHTML=`<button onclick="this.parentNode.remove()" style="position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;color:#c0c5d8;font-size:18px;line-height:1;" onmouseenter="this.style.color=\'#ef4444\'" onmouseleave="this.style.color=\'#c0c5d8\'">✕</button>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <div style="width:34px;height:34px;border-radius:50%;background:${c};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;">${letter}</div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px;padding-right:24px;">
+        <input type="text" placeholder="Competitor name" style="border:1px solid #e0e2e9;border-radius:6px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;width:100%;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+        <input type="text" placeholder="Keywords, @mentions, #hashtags" style="border:1px solid #e0e2e9;border-radius:6px;padding:7px 10px;font-size:12.5px;color:#4a4f6a;font-family:inherit;outline:none;width:100%;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+      </div>
+    </div>`;
+  document.getElementById('competitors-list').appendChild(div);
+}
+
+function createSearch(){
+  const name=document.getElementById('as-name').value.trim();
+  if(!name){ document.getElementById('as-name').focus(); document.getElementById('as-name').style.borderColor='#ef4444'; return; }
+  document.getElementById('as-name').style.borderColor='#e0e2e9';
+  const list=document.querySelector('.sb-list');
+  const item=document.createElement('div');
+  item.className='si';
+  item.onclick=function(){selectSI(this);};
+  const icon = _listenType==='competitor'
+    ? '<svg width="13" height="13" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4l3 8h8l-6 5 2 8-7-4-7 4 2-8-6-5h8z"/></svg>'
+    : '<svg width="13" height="13" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="24" height="18" rx="2"/><path d="M10 8V6a2 2 0 012-2h8a2 2 0 012 2v2"/></svg>';
+  const mid='simenu-'+name.replace(/\s/g,'').toLowerCase()+Date.now();
+  item.innerHTML=`${icon}${name}<div style="position:relative;margin-left:auto;" onclick="event.stopPropagation()"><span class="si-dot" onclick="_toggleMenu(event,'${mid}')" style="padding:2px 4px;">⋮</span><div id="${mid}" style="display:none;position:absolute;right:0;top:20px;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:300;min-width:150px;padding:4px 0;" onclick="event.stopPropagation()"><div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu();openAddSearch()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Edit search</div><div onmouseenter="this.style.background='#fff5f5'" onmouseleave="this.style.background=''" onclick="_closeMenu();this.closest('.si').remove()" style="padding:9px 14px;font-size:12.5px;color:#dc2626;cursor:pointer;white-space:nowrap;">Delete</div></div></div>`;
+  list.appendChild(item);
+  closeAddSearch();
+  selectSI(item);
+  const content=document.getElementById('contentArea');
+  content.style.opacity='0.4';
+  content.style.transition='opacity 0.3s';
+  setTimeout(()=>{content.style.opacity='1';},350);
+}
+
+renderPeople();
+renderMsgTab();
+initCharts();
+initVtChart();
+renderWordCloud();
+renderKwTable();
+</script>
+</body>
+</html>
