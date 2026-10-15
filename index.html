@@ -105,7 +105,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .body.panel-open .content{margin-right:360px;}
 
 /* METRIC CARDS */
-.mrow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px;}
+.mrow{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:11px;margin-bottom:14px;align-items:stretch;}
+.mrow-left{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.sent-spectrum{background:#fff;border:1px solid #e4e6ed;border-radius:10px;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:box-shadow 0.15s;}
+.sent-spectrum:hover{box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+.sent-spectrum{background:#fff;border:1px solid #e4e6ed;border-radius:10px;padding:14px 20px 12px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:box-shadow 0.15s;}
+.sent-spectrum:hover{box-shadow:0 2px 12px rgba(0,0,0,0.07);}
 .mc{background:#fff;border-radius:9px;border:1px solid #e4e6ed;padding:13px 15px;cursor:pointer;transition:all 0.12s;}
 .mc:hover{border-color:#b0c8f5;}
 .mc.sel{border-color:#4b9cf5;box-shadow:0 0 0 2px rgba(75,156,245,0.11);}
@@ -128,10 +133,157 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .yb{padding:4px 10px;background:#fff;border:none;font-size:11.5px;font-weight:500;color:#6b7280;cursor:pointer;border-right:1px solid #e0e2e9;transition:all 0.12s;white-space:nowrap;}
 .yb:last-child{border-right:none;}
 .yb.active{background:#eef4ff;color:#4b9cf5;font-weight:600;}
+/* TREND ANOMALIES (built from existing UI tokens) */
+.tr-an-hd{display:flex;align-items:center;gap:6px;margin:14px 0 8px;font-size:12.5px;font-weight:600;color:#1a1a2e;}
+.tr-badge{margin-left:auto;font-size:11px;font-weight:500;color:#6b7280;background:#f4f5f7;border-radius:50px;padding:2px 9px;}
+.tr-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.an-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:50px;border:1.5px solid #e0e2e9;background:#fff;font-size:11.5px;color:#4a4f6a;cursor:pointer;font-family:inherit;transition:all 0.12s;}
+.an-chip:hover{border-color:#4b9cf5;color:#4b9cf5;}
+.an-chip.sel{border-color:#4b9cf5;background:#eef4ff;color:#4b9cf5;font-weight:600;}
+.tr-note{font-size:11.5px;color:#9399b0;padding:8px 0 0;}
+.tr-detail{margin-top:10px;border:1px solid #e4e6ed;border-radius:7px;padding:13px 14px;background:#fff;cursor:default;}
+.tr-d-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.tr-d-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#1a1a2e;}
+.tr-d-val{display:flex;align-items:baseline;gap:7px;margin-top:9px;flex-wrap:wrap;}
+.tr-d-val .n{font-size:23px;font-weight:700;color:#1a1a2e;line-height:1.1;}
+.tr-d-val .p{font-size:11px;font-weight:600;}
+.tr-d-val .s{font-size:11px;color:#9399b0;}
+.tr-ai{margin-top:12px;padding-top:11px;border-top:1px solid #f0f1f5;}
+.tr-ai .ai-hd{margin-bottom:6px;}
+.tr-stats{display:flex;gap:34px;margin-top:12px;padding-top:11px;border-top:1px solid #f0f1f5;align-items:flex-start;flex-wrap:wrap;}
+.tr-stat .l{font-size:11px;color:#9399b0;font-weight:500;margin-bottom:4px;}
+.tr-stat .v{font-size:13px;font-weight:700;color:#1a1a2e;}
+.tr-d-foot{display:flex;justify-content:flex-end;margin-top:8px;}
+.tr-btn{border:1.5px solid #e0e2e9;background:#fff;color:#4a4f6a;border-radius:7px;padding:5px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.12s;}
+.tr-btn:hover{border-color:#4b9cf5;color:#4b9cf5;}
+/* TRENDS TAB */
+.tt-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.cat-dd-btn{min-width:190px;justify-content:space-between;font-weight:600;color:#1a1a2e;}
+.cat-add-btn{border:1px solid #e0e2e9;background:#fff;color:#4b9cf5;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+.cat-add-btn:hover{border-color:#4b9cf5;background:#f4f8ff;}
+.cat-dd-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;}
+.cat-dd-item:hover{background:#f4f5f7;}
+.cat-dd-item.active{color:#4b9cf5;font-weight:600;background:#f4f8ff;}
+.cat-dd-sep{height:1px;background:#f0f1f5;margin:4px 0;}
+.tt-kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:11px;margin-bottom:12px;}
+.tt-top.side{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;margin-bottom:12px;align-items:stretch;}
+.tt-top.side .ai-sec,.tt-top.side .tc{margin-bottom:0;}
+.tt-top.side .tc{display:flex;flex-direction:column;}
+.tt-top.side .tt-intent{flex:1;}
+.tt-intent{display:flex;align-items:center;gap:24px;padding:16px 18px;}
+.tt-donut{position:relative;width:140px;height:140px;flex-shrink:0;}
+.tt-irows{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.tt-irow{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;cursor:pointer;font-size:12px;color:#4a4f6a;}
+.tt-irow:hover{background:#f4f5f7;}
+.tt-irow .d{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.tt-irow .nm{flex:1;min-width:70px;}
+.tt-ibar{width:70px;height:5px;border-radius:3px;background:#f0f1f5;overflow:hidden;flex-shrink:0;}
+.tt-ibar i{display:block;height:100%;border-radius:3px;}
+.tt-irow .ct{font-weight:600;color:#1a1a2e;min-width:40px;text-align:right;}
+.tt-irow .pc{width:34px;text-align:right;color:#9399b0;font-size:11px;}
+.tt-catn{font-weight:600;color:#1a1a2e;font-size:12.5px;}
+.tt-krow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.tt-more{font-size:11px;color:#4b9cf5;font-weight:500;cursor:pointer;white-space:nowrap;}
+.tt-vrow{display:flex;align-items:center;gap:14px;}
+.tt-vrow b{min-width:48px;text-align:right;font-size:13px;color:#1a1a2e;}
+.tt-vrow span{min-width:44px;text-align:right;font-size:11px;color:#9399b0;white-space:nowrap;}
+.tt-vbar{flex:1;height:6px;border-radius:3px;background:#f0f1f5;overflow:hidden;}
+.tt-vbar i{display:block;height:100%;background:#4b9cf5;border-radius:3px;}
+.tt-kwtable{table-layout:fixed;}
+.sg{display:inline-flex;align-items:center;padding:2px 9px;border-radius:50px;font-size:11px;font-weight:600;white-space:nowrap;}
+.tt-subs{font-size:11px;color:#9399b0;}
+/* CREATE-SEARCH: preview + alerts */
+.as-main{display:flex;flex:1;min-height:0;}
+#as-right{width:380px;flex-shrink:0;border-left:1px solid #f0f1f5;background:#fafbfc;display:flex;flex-direction:column;min-height:0;}
+.pv-hd{padding:16px 20px 10px;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.pv-title{font-size:13px;font-weight:600;color:#1a1a2e;}
+.pv-stale{font-size:10.5px;font-weight:600;color:#d97706;background:#fffbeb;border-radius:50px;padding:2px 8px;}
+.pv-refresh{margin-left:auto;background:none;border:none;color:#4b9cf5;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;padding:0;}
+.pv-body{flex:1;overflow-y:auto;padding:4px 20px 20px;min-height:0;}
+.pv-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 4px 6px;}
+.pv-ico{width:46px;height:46px;border-radius:50%;background:#eef4ff;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.pv-t{font-size:14px;font-weight:600;color:#1a1a2e;margin-bottom:4px;}
+.pv-s{font-size:12px;color:#6b7280;line-height:1.5;max-width:270px;margin-bottom:18px;}
+.pv-list{list-style:none;margin:0 0 20px;padding:0;width:100%;text-align:left;display:flex;flex-direction:column;gap:12px;}
+.pv-list li{display:flex;gap:10px;align-items:flex-start;}
+.pv-li-ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pv-list b{display:block;font-size:12.5px;color:#1a1a2e;font-weight:600;}
+.pv-list .d{font-size:11.5px;color:#9399b0;line-height:1.4;}
+.pv-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 24px;border:none;border-radius:7px;background:#4b9cf5;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+.pv-btn:hover{background:#3b8be8;}
+.pv-sec{background:#fff;border:1px solid #e4e6ed;border-radius:9px;padding:13px 14px;margin-bottom:10px;}
+.pv-lbl{font-size:11px;font-weight:600;color:#9399b0;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;}
+.pv-vol{display:flex;align-items:baseline;gap:7px;}
+.pv-vol b{font-size:26px;font-weight:700;color:#1a1a2e;line-height:1.1;}
+.pv-vol span{font-size:12.5px;color:#6b7280;}
+.pv-flagnote{font-size:11.5px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:7px;padding:7px 9px;line-height:1.45;margin-bottom:9px;}
+.pv-fk{display:grid;grid-template-columns:minmax(0,1fr) 70px auto;align-items:center;gap:9px;padding:4px 0;font-size:12.5px;color:#1a1a2e;}
+.pv-fk .n{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pv-fk .bar{height:5px;border-radius:3px;background:#f0f1f5;overflow:hidden;}
+.pv-fk .bar i{display:block;height:100%;background:#f59e0b;border-radius:3px;}
+.pv-fk .v{font-size:11.5px;color:#92400e;font-weight:600;white-space:nowrap;}
+.pv-ok{font-size:12.5px;color:#16a34a;display:flex;align-items:flex-start;gap:7px;line-height:1.45;}
+.pv-msg{padding:9px 0;border-top:1px solid #f0f1f5;}
+.pv-msgs .pv-msg:first-child{border-top:none;padding-top:2px;}
+.pv-msg-h{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.pv-av{width:24px;height:24px;border-radius:50%;color:#fff;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pv-who{flex:1;min-width:0;font-size:11px;color:#9399b0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pv-who b{color:#1a1a2e;font-size:12px;margin-right:4px;}
+.pv-msg-t{font-size:12.5px;color:#3a3f5c;line-height:1.5;}
+.pv-hl{background:#eef4ff;color:#2563eb;border-radius:3px;padding:0 3px;font-weight:600;}
+.pv-skel{border-radius:9px;background:linear-gradient(90deg,#eef0f4 25%,#f6f7f9 50%,#eef0f4 75%);background-size:200% 100%;animation:pv-sh 1.2s infinite;margin-bottom:10px;}
+@keyframes pv-sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.al-badge{font-size:10.5px;font-weight:600;color:#4b9cf5;background:#eef4ff;border-radius:50px;padding:1px 8px;}
+.al-h{font-size:11px;font-weight:700;color:#9399b0;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+.al-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0;}
+.al-row label{display:flex;align-items:center;gap:10px;font-size:13px;color:#4a4f6a;cursor:pointer;}
+.al-row input[type=checkbox]{width:16px;height:16px;accent-color:#4b9cf5;cursor:pointer;margin:0;}
+.al-sel{border:1px solid #e0e2e9;border-radius:8px;padding:8px 12px;font-size:13px;color:#2d3047;background:#fff;font-family:inherit;cursor:pointer;min-width:200px;}
+.al-sel:focus,.al-pbtn:focus{outline:none;border-color:#4b9cf5;}
+.al-div{height:1px;background:#f0f1f5;margin:14px 0;}
+.al-nrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.al-pbtn{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:200px;border:1px solid #e0e2e9;border-radius:8px;padding:8px 12px;font-size:13px;color:#9399b0;background:#fff;font-family:inherit;cursor:pointer;}
+.al-via{font-size:13px;color:#4a4f6a;}
+.al-chs{display:flex;gap:8px;margin-top:10px;}
+.al-ch{padding:6px 16px;border:1.5px solid #e0e2e9;border-radius:7px;background:#fff;color:#6b7280;font-size:12.5px;cursor:pointer;font-family:inherit;}
+.al-ch.on{border-color:#4b9cf5;background:#eef4ff;color:#4b9cf5;font-weight:600;}
+/* modal polish: accordions, one chevron for every dropdown, "new" sparkle */
+.acc{border:1px solid #e4e6ed;border-radius:10px;background:#fff;overflow:hidden;transition:border-color 0.15s;}
+.acc.open{border-color:#cfe0fa;}
+.acc-hd{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;}
+.acc-hd:hover{background:#fafbfc;}
+.acc-l{flex:1;min-width:0;}
+.acc-ti{display:flex;align-items:center;gap:6px;}
+.acc-t{font-size:13px;font-weight:600;color:#1a1a2e;}
+.acc-o{font-size:12px;color:#9399b0;}
+.acc-d{font-size:12px;color:#6b7280;margin-top:3px;}
+.acc-chev{width:16px;height:16px;flex-shrink:0;color:#6b7280;transition:transform 0.2s;}
+.acc-body{padding:14px 16px 16px;border-top:1px solid #f0f1f5;}
+#addSearchOverlay select,#catModalOverlay select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;background-repeat:no-repeat !important;background-position:right 10px center !important;background-size:11px 11px !important;padding-right:28px !important;}
+.al-caret{width:12px;height:12px;flex-shrink:0;color:#6b7280;}
+.sp-new{display:inline-flex;align-items:center;margin-left:5px;vertical-align:-1px;}
+
+
+th.tt-sort{cursor:pointer;user-select:none;}
+th.tt-sort:hover{color:#4a4f6a;}
+th.tt-sort.sorted{color:#1a1a2e;}
+.tt-type{font-size:11px;color:#9399b0;margin-top:2px;font-weight:400;}
+.tt-sent{font-size:11px;color:#9399b0;margin-top:4px;}
+.tt-eng{display:flex;align-items:center;gap:6px;}
+.tt-chev{background:none;border:none;cursor:pointer;padding:2px 3px;border-radius:4px;display:inline-flex;}
+.tt-chev:hover{background:#f0f1f5;}
+.tt-bk{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:3px 0;}
+.tt-bkwrap{margin-top:8px;}
+tr.tt-open td{vertical-align:top;}
+.tt-bi{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;}
+
+
 .xsel{padding:4px 22px 4px 8px;border:1px solid #e0e2e9;border-radius:6px;font-size:11.5px;color:#4a4f6a;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 6px center;cursor:pointer;appearance:none;}
 .cleg{display:flex;gap:11px;align-items:center;}
 .cli{display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7280;}
 .cld{width:8px;height:8px;border-radius:50%;}
+.cli-cb{cursor:pointer;user-select:none;gap:5px;font-size:11.5px;color:#4a4f6a;}
+.cli-cb input{width:13px;height:13px;margin:0;cursor:pointer;}
 
 /* 2-COL */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
@@ -312,7 +464,6 @@ tbody tr:last-child td{border-bottom:none;}
 .plat-ig{background:radial-gradient(circle at 30% 107%,#fdf497,#fd5949 45%,#d6249f 60%,#285aeb 90%);}
 .plat-yt{background:#ff0000;}
 .plat-rd{background:#ff4500;}
-.plat-li{background:#0077b5;}
 .plat-th{background:#000;}
 .plat-wb{background:#4b9cf5;}
 .plat-fb{background:#1877f2;}
@@ -381,9 +532,6 @@ tbody tr:last-child td{border-bottom:none;}
     <button class="ch-btn" title="X" onclick="selectCh(this,'x')">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
     </button>
-    <button class="ch-btn" title="LinkedIn" onclick="selectCh(this,'li')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077b5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-    </button>
     <button class="ch-btn" title="Instagram" onclick="selectCh(this,'ig')">
       <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
     </button>
@@ -447,7 +595,6 @@ tbody tr:last-child td{border-bottom:none;}
           <button class="tab active" onclick="switchCompTab('comp-overview',this)">Overview</button>
           <button class="tab" onclick="switchCompTab('comp-conversations',this)">Conversations</button>
           <button class="tab" onclick="switchCompTab('comp-people',this)">People</button>
-          <button class="tab" onclick="switchCompTab('comp-messages',this)">Messages</button>
         </div>
       </div>
 
@@ -635,7 +782,7 @@ tbody tr:last-child td{border-bottom:none;}
                   <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Instagram</label>
                   <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Reddit</label>
                   <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> YouTube</label>
-                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> LinkedIn</label>
+                  <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Facebook</label>
                   <label class="kw-dd-item"><input type="checkbox" checked onchange="renderCompPeople()"> Threads</label>
                 </div>
               </div>
@@ -656,48 +803,6 @@ tbody tr:last-child td{border-bottom:none;}
           </table>
         </div>
       </div>
-      <div id="comp-messages" class="tab-panel" style="overflow-y:auto;flex:1;">
-        <div class="mf-row">
-          <!-- Brand dropdown -->
-          <div class="kw-dd-wrap" style="position:relative;">
-            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgBrandDD')">Brand: <span id="cMsgBrandLabel">All</span> ▾</button>
-            <div id="cMsgBrandDD" class="kw-dd" style="display:none;">
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Zylker CRM</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Salesforce</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> HubSpot</label>
-            </div>
-          </div>
-          <!-- Engagement dropdown -->
-          <div class="kw-dd-wrap" style="position:relative;">
-            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgEngDD')">Engagement: <span id="cMsgEngLabel">All</span> ▾</button>
-            <div id="cMsgEngDD" class="kw-dd" style="display:none;">
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> High</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Medium</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Low</label>
-            </div>
-          </div>
-          <!-- Sentiment dropdown -->
-          <div class="kw-dd-wrap" style="position:relative;">
-            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgSentDD')">Sentiment: <span id="cMsgSentLabel">All</span> ▾</button>
-            <div id="cMsgSentDD" class="kw-dd" style="display:none;">
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Positive</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Neutral</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Negative</label>
-            </div>
-          </div>
-          <!-- Type dropdown -->
-          <div class="kw-dd-wrap" style="position:relative;">
-            <button class="kw-dd-btn" onclick="toggleCompDD('cMsgTypeDD')">Type: <span id="cMsgTypeLabel">All</span> ▾</button>
-            <div id="cMsgTypeDD" class="kw-dd" style="display:none;">
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Questions</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Complaints</label>
-              <label class="kw-dd-item"><input type="checkbox" checked onchange="updateCompMsgLabel()"> Testimonials</label>
-            </div>
-          </div>
-          <select class="sort-sel" style="margin-left:auto;"><option>Recent first</option><option>Most engagement</option><option>Highest reach</option></select>
-        </div>
-        <div id="compMsgList"></div>
-      </div>
     </div><!-- /compView -->
 
     <!-- ====== BRAND VIEW ====== -->
@@ -706,45 +811,82 @@ tbody tr:last-child td{border-bottom:none;}
     <div class="srch-hdr" id="srchHdr">
       <div class="tabs">
         <button class="tab active" onclick="switchTab('overview',this)">Overview</button>
-        <button class="tab" onclick="switchTab('conversations',this)">Conversations</button>
-        <button class="tab" onclick="switchTab('people',this)">People</button>
-        <button class="tab" onclick="switchTab('messages',this)">Messages</button>
+        <button class="tab" onclick="switchTab('conversations',this)">Trends</button>
+        <button class="tab" onclick="switchTab('people',this)">Author</button>
       </div>
     </div>
 
     <!-- ====== OVERVIEW ====== -->
     <div id="tab-overview" class="tab-panel active">
-      <div class="mrow">
-        <div class="mc" onclick="openPanel('Conversations','all')"><div class="mc-lbl">Conversations<div class="mc-ico" style="background:#eef4ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#4b9cf5" stroke-width="2"><path d="M18 14a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h12a2 2 0 012 2z"/></svg></div></div><div class="mc-val">5.2K</div><div class="mc-chg up">▲ 18% <span class="mc-sub">vs previous 30 days</span></div></div>
-        <div class="mc" onclick="openPanel('Engagements','all')"><div class="mc-lbl">Engagements<div class="mc-ico" style="background:#fff0f5;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#ec4899" stroke-width="2"><path d="M10 17l-7-7 3-3 4 4 7-9"/></svg></div></div><div class="mc-val">14.1K</div><div class="mc-chg up">▲ 32% <span class="mc-sub">vs previous 30 days</span></div></div>
-        <div class="mc" onclick="openPanel('Sentiment','pos')">
-          <div class="mc-lbl">Sentiment<div class="mc-ico" style="background:#f0fdf4;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#22c55e" stroke-width="2"><circle cx="10" cy="10" r="8"/><path d="M7 13c.8 1 1.8 1.5 3 1.5s2.2-.5 3-1.5"/><circle cx="7.5" cy="8" r="1" fill="#22c55e"/><circle cx="12.5" cy="8" r="1" fill="#22c55e"/></svg></div></div>
-          <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px;">
-            <span class="mc-val" style="margin:0;">64%</span>
-            <span style="font-size:16px;line-height:1;">😊</span>
-            <span style="font-size:12px;font-weight:600;color:#16a34a;">Positive</span>
-            <span style="font-size:11px;color:#9399b0;margin-left:2px;">· 😐 24% · 😟 12%</span>
-          </div>
-          <div class="mc-chg dn">▼ 4% <span class="mc-sub">vs previous 30 days</span></div>
+      <!-- SNAPSHOT ROW: 2x2 metrics + sentiment gauge -->
+      <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:12px;margin-bottom:14px;align-items:stretch;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;">
+          <div class="mc" onclick="openPanel('Volume','all')"><div class="mc-lbl">Volume<div class="mc-ico" style="background:#eef4ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#4b9cf5" stroke-width="2"><path d="M18 14a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h12a2 2 0 012 2z"/></svg></div></div><div class="mc-val">5.2K</div><div class="mc-chg up">▲ 18% <span class="mc-sub">vs previous 30 days</span></div></div>
+          <div class="mc" onclick="openPanel('Engagements','all')"><div class="mc-lbl">Engagements<div class="mc-ico" style="background:#fff0f5;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#ec4899" stroke-width="2"><path d="M10 17l-7-7 3-3 4 4 7-9"/></svg></div></div><div class="mc-val">14.1K</div><div class="mc-chg up">▲ 32% <span class="mc-sub">vs previous 30 days</span></div></div>
+          <div class="mc" onclick="openPanel('Unique Authors','all')"><div class="mc-lbl">Unique authors<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="7" cy="6" r="3"/><path d="M1 17c0-3 2.7-5 6-5"/><circle cx="14" cy="8" r="2.5"/><path d="M11 17c0-2.5 1.3-4 3-4s3 1.5 3 4"/></svg></div></div><div class="mc-val">3.4K</div><div class="mc-chg up">▲ 9% <span class="mc-sub">vs previous 30 days</span></div></div>
+          <div class="mc" onclick="openPanel('Impressions','all')"><div class="mc-lbl">Impressions<div class="mc-ico" style="background:#fef3c7;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#d97706" stroke-width="2"><path d="M1 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="3"/></svg></div></div><div class="mc-val">1.8M</div><div class="mc-chg up">▲ 11% <span class="mc-sub">vs previous 30 days</span></div></div>
         </div>
-        <div class="mc" onclick="openPanel('Unique Authors','all')"><div class="mc-lbl">Unique authors<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="7" cy="6" r="3"/><path d="M1 17c0-3 2.7-5 6-5"/><circle cx="14" cy="8" r="2.5"/><path d="M11 17c0-2.5 1.3-4 3-4s3 1.5 3 4"/></svg></div></div><div class="mc-val">3.4K</div><div class="mc-chg up">▲ 9% <span class="mc-sub">vs previous 30 days</span></div></div>
+        <!-- Sentiment gauge -->
+        <div class="sent-spectrum" onclick="openPanel('Sentiment','all')" style="padding:16px 24px;">
+          <div class="mc-lbl" style="margin-bottom:4px;">Sentiment</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:40px;flex:1;">
+            <svg viewBox="0 0 200 118" width="250" height="148" style="flex-shrink:0;">
+              <defs>
+                <linearGradient id="arcGrad" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="180" y2="0">
+                  <stop offset="0%" stop-color="#ef4444"/><stop offset="35%" stop-color="#fbbf24"/><stop offset="70%" stop-color="#86efac"/><stop offset="100%" stop-color="#22c55e"/>
+                </linearGradient>
+              </defs>
+              <path d="M 20,100 A 80,80 0 0,1 180,100" fill="none" stroke="url(#arcGrad)" stroke-width="16" stroke-linecap="round"/>
+              <line x1="100" y1="100" x2="100" y2="32" stroke="#1a1a2e" stroke-width="3.5" stroke-linecap="round" transform="rotate(25.2 100 100)"/>
+              <circle cx="100" cy="100" r="7" fill="#1a1a2e"/>
+              <text x="20" y="116" font-size="10.5" fill="#ef4444" font-weight="600" text-anchor="middle">Neg</text>
+              <text x="180" y="116" font-size="10.5" fill="#22c55e" font-weight="600" text-anchor="middle">Pos</text>
+            </svg>
+            <div style="display:flex;flex-direction:column;gap:9px;">
+              <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-size:36px;font-weight:700;color:#1a1a2e;line-height:1;">64%</span><span style="font-size:15px;font-weight:600;color:#16a34a;">Positive</span></div>
+              <div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#4a4f6a;">
+                <div>😐 <b style="color:#1a1a2e;">24%</b> Neutral</div>
+                <div>😟 <b style="color:#1a1a2e;">12%</b> Negative</div>
+              </div>
+              <div style="font-size:13px;color:#dc2626;">▼ 4% <span style="color:#9399b0;">vs previous 30 days</span></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="cc" onclick="openPanel('Conversation trend','all')">
+      <div class="cc" id="trendCard" style="cursor:default;">
         <div class="cc-hdr">
           <span class="cc-title">Conversation trend</span>
-          <div class="yg" id="cvY" onclick="event.stopPropagation()"><button class="yb active" onclick="toggleY('cvY',this,redrawConv)">Volume</button><button class="yb" onclick="toggleY('cvY',this,redrawConv)">Engagement</button></div>
+          <div class="yg" id="cvY" onclick="event.stopPropagation()"><button class="yb active" onclick="toggleY('cvY',this,redrawConv)">Volume</button><button class="yb" onclick="toggleY('cvY',this,redrawConv)">Engagement</button><button class="yb" onclick="toggleY('cvY',this,redrawConv)">Impressions</button></div>
           <select class="xsel" id="cvX" onclick="event.stopPropagation()" onchange="redrawConv()"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select>
         </div>
-        <div style="position:relative;height:150px;"><canvas id="cvChart" role="img" aria-label="Conversation trend chart">Volume trending upward.</canvas></div>
+        <div style="position:relative;height:270px;"><canvas id="cvChart" role="img" aria-label="Conversation trend chart with expected range and detected anomalies"></canvas></div>
+        <div class="cleg" id="trendLegend" style="justify-content:center;margin-top:8px;flex-wrap:wrap;">
+          <span class="cli"><span class="cld" style="background:#4b9cf5;"></span>Actual</span>
+          <span class="cli"><span class="cld" style="background:#b8c4d6;"></span>Expected range</span>
+          <span class="cli"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#f97316" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 11.5V4.5M5 7l3-3 3 3"/></svg>Spike</span>
+          <span class="cli"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#e5546b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v7M5 9l3 3 3-3"/></svg>Drop</span>
+        </div>
+        <div id="trendAnoms"></div>
+        <div id="trendDetail"></div>
       </div>
-      <div class="cc" onclick="openPanel('Sentiment trend','all')">
+      <div class="cc" id="sentCard" style="cursor:default;">
         <div class="cc-hdr">
           <span class="cc-title">Sentiment trend</span>
-          <div class="cleg"><span class="cli"><span class="cld" style="background:#22c55e;"></span>Positive</span><span class="cli"><span class="cld" style="background:#9ca3af;"></span>Neutral</span><span class="cli"><span class="cld" style="background:#ef4444;"></span>Negative</span></div>
-          <div class="yg" id="stY" onclick="event.stopPropagation()"><button class="yb active" onclick="toggleY('stY',this,redrawSent)">Volume</button><button class="yb" onclick="toggleY('stY',this,redrawSent)">Engagement</button></div>
+          <div class="cleg" onclick="event.stopPropagation()">
+            <label class="cli cli-cb"><input type="checkbox" checked style="accent-color:#22c55e;" onchange="toggleSentSeries(0,this.checked)">Positive</label>
+            <label class="cli cli-cb"><input type="checkbox" checked style="accent-color:#9ca3af;" onchange="toggleSentSeries(1,this.checked)">Neutral</label>
+            <label class="cli cli-cb"><input type="checkbox" checked style="accent-color:#ef4444;" onchange="toggleSentSeries(2,this.checked)">Negative</label>
+          </div>
           <select class="xsel" id="stX" onclick="event.stopPropagation()" onchange="redrawSent()"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option></select>
         </div>
-        <div style="position:relative;height:140px;"><canvas id="stChart" role="img" aria-label="Sentiment trend chart">Positive highest, negative lowest.</canvas></div>
+        <div style="position:relative;height:230px;"><canvas id="stChart" role="img" aria-label="Sentiment trend chart with detected anomalies"></canvas></div>
+        <div class="cleg" id="sentLegend" style="justify-content:center;margin-top:8px;flex-wrap:wrap;">
+          <span class="cli"><span class="cld" style="background:#b8c4d6;"></span>Expected range</span>
+          <span class="cli"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#f97316" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 11.5V4.5M5 7l3-3 3 3"/></svg>Spike</span>
+          <span class="cli"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#e5546b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v7M5 9l3 3 3-3"/></svg>Drop</span>
+        </div>
+        <div id="sentAnoms"></div>
+        <div id="sentDetail"></div>
       </div>
       <div class="g2">
         <div class="tc">
@@ -765,9 +907,10 @@ tbody tr:last-child td{border-bottom:none;}
             <canvas id="vtChart" role="img" aria-label="Volume type pie chart"></canvas>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;padding:0 8px 8px;">
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#4b9cf5;flex-shrink:0;display:inline-block;"></span>Posts <span style="color:#9399b0;">54%</span></span>
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#a78bfa;flex-shrink:0;display:inline-block;"></span>Comments <span style="color:#9399b0;">33%</span></span>
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#34d399;flex-shrink:0;display:inline-block;"></span>Reposts <span style="color:#9399b0;">9%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#4b9cf5;flex-shrink:0;display:inline-block;"></span>Posts <span style="color:#9399b0;">48%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#a78bfa;flex-shrink:0;display:inline-block;"></span>Comments <span style="color:#9399b0;">30%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#f472b6;flex-shrink:0;display:inline-block;"></span>Reviews <span style="color:#9399b0;">10%</span></span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#34d399;flex-shrink:0;display:inline-block;"></span>Reposts <span style="color:#9399b0;">8%</span></span>
             <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#fbbf24;flex-shrink:0;display:inline-block;"></span>Other <span style="color:#9399b0;">4%</span></span>
           </div>
         </div>
@@ -776,77 +919,101 @@ tbody tr:last-child td{border-bottom:none;}
 
     <!-- ====== CONVERSATIONS ====== -->
     <div id="tab-conversations" class="tab-panel">
-      <div class="ai-sec">
-        <div class="ai-hd"><span style="font-size:12.5px;font-weight:600;color:#1a1a2e;">AI conversation summary</span><span class="ai-tag">✦ AI</span></div>
-        <div class="ai-grid">
-          <div class="ai-c"><div class="ai-t"><span class="ai-n">1</span>Travel deals are driving positive buzz</div><div class="ai-d">Conversations around Zylker's latest travel deals are trending, especially Europe packages, with highly positive sentiment.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-p">😊 Positive</span><button onclick="openPanel('Travel deals buzz','pos')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
-          <div class="ai-c"><div class="ai-t"><span class="ai-n">2</span>Customer support experience is a key discussion</div><div class="ai-d">Users appreciate quick resolutions, though some mention longer response times in recent weeks.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-m">😐 Mixed</span><button onclick="openPanel('Customer support discussion','all')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
-          <div class="ai-c"><div class="ai-t"><span class="ai-n">3</span>New app features are getting noticed</div><div class="ai-d">The itinerary planner and offline maps are generating excitement, with praise for ease of use.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-p">😊 Positive</span><button onclick="openPanel('New app features','pos')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
-          <div class="ai-c"><div class="ai-t"><span class="ai-n">4</span>Pricing and refund policies raise concerns</div><div class="ai-d">Some users express concerns about high prices and unclear refund policy, leading to negative sentiment.</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-r">😟 Negative</span><button onclick="openPanel('Pricing concerns','neg')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>
+      <!-- category switcher -->
+      <div class="tt-bar">
+        <div class="kw-dd-wrap" style="position:relative;">
+          <button class="kw-dd-btn cat-dd-btn" onclick="toggleCatDD()"><span id="catDDLabel">All conversations</span> ▾</button>
+          <div id="catDD" class="kw-dd" style="display:none;min-width:220px;"></div>
+        </div>
+        <button class="cat-add-btn" onclick="openCategoryModal()">+ Category</button>
+      </div>
+
+      <!-- KPI snapshot (categories only) -->
+      <div id="ttKpis" class="tt-kpis" style="display:none;"></div>
+
+      <!-- AI summary (+ intent beside it in category view) -->
+      <div id="ttTop" class="tt-top">
+        <div class="ai-sec" id="ttAiSec">
+          <div class="ai-hd"><span style="font-size:12.5px;font-weight:600;color:#1a1a2e;">AI conversation summary</span><span class="ai-tag">✦ AI</span></div>
+          <div class="ai-grid" id="ttAiGrid"></div>
         </div>
       </div>
-      <div class="g2">
-        <div class="tc">
+
+      <!-- keyword cloud (all conversations) + intent -->
+      <div class="g2" id="ttMid">
+        <div class="tc" id="ttWcCard" style="margin-bottom:0;">
           <div class="tc-hd">Trending keywords</div>
           <div id="wordCloud" style="padding:16px;min-height:180px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;line-height:1.5;cursor:default;"></div>
         </div>
-        <div class="cat-sec">
-          <div style="font-size:12.5px;font-weight:600;color:#1a1a2e;margin-bottom:8px;">Keyword categories</div>
-          <div class="cat-r"><div class="cat-i" style="background:#eef4ff;">👤</div><span class="cat-l">People</span><div class="cat-cs"><span class="cat-chip">travelers</span><span class="cat-chip">solo travelers</span><span class="cat-chip">families</span><span class="cat-chip">digital nomads</span></div><span class="va">View all →</span></div>
-          <div class="cat-r"><div class="cat-i" style="background:#fff0f5;">📍</div><span class="cat-l">Locations</span><div class="cat-cs"><span class="cat-chip">europe</span><span class="cat-chip">bali</span><span class="cat-chip">new york</span><span class="cat-chip">tokyo</span></div><span class="va">View all →</span></div>
-          <div class="cat-r"><div class="cat-i" style="background:#fffbeb;">📅</div><span class="cat-l">Events</span><div class="cat-cs"><span class="cat-chip">summer travel</span><span class="cat-chip">holiday season</span><span class="cat-chip">black friday</span></div><span class="va">View all →</span></div>
-          <div class="cat-r"><div class="cat-i" style="background:#f0fdf4;">🏷️</div><span class="cat-l">Brands</span><div class="cat-cs"><span class="cat-chip">zylker</span><span class="cat-chip">zylker app</span><span class="cat-chip">zylker pro</span></div><span class="va">View all →</span></div>
-          <div class="cat-r"><div class="cat-i" style="background:#f3f0ff;">📦</div><span class="cat-l">Products</span><div class="cat-cs"><span class="cat-chip">flight booking</span><span class="cat-chip">hotel deals</span><span class="cat-chip">travel packages</span></div><span class="va">View all →</span></div>
+        <div class="tc" id="ttIntentCard" style="margin-bottom:0;">
+          <div class="tc-hd">Intent</div>
+          <div class="tt-intent">
+            <div class="tt-donut"><canvas id="intentChart" role="img" aria-label="Conversation intent breakdown"></canvas></div>
+            <div class="tt-irows" id="ttIntentRows"></div>
+          </div>
         </div>
       </div>
+
+      <!-- keyword categories (all conversations) -->
+      <div class="tc" id="ttCatCard">
+        <div class="tc-hd">Keyword categories</div>
+        <table>
+          <thead><tr><th style="width:140px;">Category</th><th>Related keywords</th><th style="width:380px;">Volume</th></tr></thead>
+          <tbody id="ttCatBody"></tbody>
+        </table>
+      </div>
+
+      <!-- keywords table -->
       <div class="tc">
         <div class="tc-hd" style="padding-bottom:0;border-bottom:none;">
           <span>Keywords</span>
           <div style="margin-left:auto;display:flex;gap:0;border:1px solid #e0e2e9;border-radius:7px;overflow:hidden;">
-            <button class="kw-tab active" onclick="setKwTab(this,'all')">All</button>
-            <button class="kw-tab" onclick="setKwTab(this,'keyword')" style="border-left:1px solid #e0e2e9;">Keywords</button>
-            <button class="kw-tab" onclick="setKwTab(this,'hashtag')" style="border-left:1px solid #e0e2e9;">Hashtags</button>
-            <button class="kw-tab" onclick="setKwTab(this,'mention')" style="border-left:1px solid #e0e2e9;">Mentions</button>
+            <button class="kw-tab active" onclick="ttKwTab(this,'all')">All</button>
+            <button class="kw-tab" onclick="ttKwTab(this,'keyword')" style="border-left:1px solid #e0e2e9;">Words</button>
+            <button class="kw-tab" onclick="ttKwTab(this,'hashtag')" style="border-left:1px solid #e0e2e9;">Hashtags</button>
+            <button class="kw-tab" onclick="ttKwTab(this,'mention')" style="border-left:1px solid #e0e2e9;">Mentions</button>
           </div>
         </div>
-        <table><thead><tr>
-          <th>Keyword <span class="s-col">↕</span></th>
-          <th>Engagement <span class="s-col">↕</span></th>
-          <th>Volume <span class="s-col">↕</span></th>
-          <th>Source <span class="s-col">↕</span></th>
-          <th>Sentiment <span class="s-col">↕</span></th>
+        <table class="tt-kwtable">
+          <colgroup><col style="width:23%"><col style="width:11%"><col style="width:25%"><col style="width:13%"><col style="width:15%"><col style="width:13%"></colgroup>
+          <thead><tr>
+          <th>Keyword</th>
+          <th class="tt-sort" onclick="ttSort('vol')">Volume <span class="s-col" id="ttSrt-vol">↕</span></th>
+          <th class="tt-sort" onclick="ttSort('eng')">Engagement <span class="s-col" id="ttSrt-eng">↕</span></th>
+          <th class="tt-sort" onclick="ttSort('imp')">Impressions <span class="s-col" id="ttSrt-imp">↕</span></th>
+          <th class="tt-sort" onclick="ttSort('sent')">Sentiment <span class="s-col" id="ttSrt-sent">↕</span></th>
+          <th>Source</th>
         </tr></thead>
-        <tbody id="kwTblBody"></tbody></table>
+        <tbody id="ttKwBody"></tbody></table>
         <div style="padding:10px 0 2px;text-align:center;">
-          <button id="kwViewMore" onclick="kwLoadMore()" style="background:none;border:1px solid #e0e2e9;border-radius:6px;padding:6px 20px;font-size:12px;color:#4b9cf5;cursor:pointer;font-weight:500;">View more</button>
+          <button id="ttKwMore" onclick="ttKwMore()" style="background:none;border:1px solid #e0e2e9;border-radius:6px;padding:6px 20px;font-size:12px;color:#4b9cf5;cursor:pointer;font-weight:500;">View more</button>
         </div>
       </div>
     </div>
 
     <!-- ====== PEOPLE ====== -->
     <div id="tab-people" class="tab-panel">
-      <div class="mrow">
-        <div class="mc" onclick="openPanel('Unique Authors','all')"><div class="mc-lbl">Unique authors<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8b5cf6" stroke-width="2"><circle cx="8" cy="7" r="3"/><path d="M2 17c0-3 2.7-5 6-5s6 2 6 5"/><circle cx="14" cy="8" r="2.5"/><path d="M11 17c0-2.5 1.3-4 3-4s3 1.5 3 4"/></svg></div></div><div class="mc-val">3,267</div><div class="mc-chg up">▲ 18% <span class="mc-sub">vs previous 30 days</span></div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px;">
+        <div class="mc" onclick="openPanel('Unique authors','all')"><div class="mc-lbl">Unique<div class="mc-ico" style="background:#f3f0ff;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/><circle cx="17" cy="9" r="2.8"/><path d="M15.5 14.2c3.2-.4 6.5 1.3 6.5 4.8"/></svg></div></div><div class="mc-val">3,267</div><div class="mc-chg up">▲ 18% <span class="mc-sub">vs previous 30 days</span></div></div><div class="mc" onclick="openPanel('Repeat authors','all')"><div class="mc-lbl">Repeat<div class="mc-ico" style="background:#eef4ff;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4b9cf5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></div></div><div class="mc-val">842</div><div class="mc-chg up">▲ 9% <span class="mc-sub">vs previous 30 days</span></div></div><div class="mc" onclick="openPanel('Critics','all')"><div class="mc-lbl">Critics<div class="mc-ico" style="background:#fef2f2;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 16c1-1.2 2.2-1.8 4-1.8s3 .6 4 1.8"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></div></div><div class="mc-val">214</div><div class="mc-chg dn">▲ 6% <span class="mc-sub">vs previous 30 days</span></div></div><div class="mc" onclick="openPanel('High-impact authors','all')"><div class="mc-lbl">High-impact<div class="mc-ico" style="background:#fffbeb;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div></div><div class="mc-val">96</div><div class="mc-chg up">▲ 12% <span class="mc-sub">vs previous 30 days</span></div></div>
       </div>
-      <div class="tc"><div class="tc-hd">Top people</div>
-        <table><thead><tr><th>User name <span class="s-col">↕</span></th><th>Source <span class="s-col">↕</span></th><th>Engagement <span class="s-col">↕</span></th><th>Volume <span class="s-col">↕</span></th><th>Influence score <span class="s-col">↕</span></th><th>Sentiment <span class="s-col">↕</span></th><th></th></tr></thead>
-        <tbody id="pplTbl"></tbody></table>
+      <div class="tc"><div class="tc-hd">Top authors</div>
+        <table class="tt-kwtable">
+          <colgroup><col style="width:19%"><col style="width:10%"><col style="width:8%"><col style="width:20%"><col style="width:10%"><col style="width:11%"><col style="width:9%"><col style="width:8%"><col style="width:5%"></colgroup>
+          <thead><tr>
+            <th>Author</th>
+            <th class="tt-sort" onclick="pplSort('fol')" title="Followers (subscribers on YouTube)">Followers <span class="s-col" id="pplSrt-fol">↕</span></th>
+            <th class="tt-sort" onclick="pplSort('vol')">Volume <span class="s-col" id="pplSrt-vol">↕</span></th>
+            <th class="tt-sort" onclick="pplSort('eng')">Engagement <span class="s-col" id="pplSrt-eng">↕</span></th>
+            <th class="tt-sort" onclick="pplSort('imp')">Impressions <span class="s-col" id="pplSrt-imp">↕</span></th>
+            <th class="tt-sort" onclick="pplSort('sent')">Sentiment <span class="s-col" id="pplSrt-sent">↕</span></th>
+            <th>Signal</th>
+            <th>Source</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="pplTbl"></tbody></table>
       </div>
     </div>
 
-    <!-- ====== MESSAGES TAB ====== -->
-    <div id="tab-messages" class="tab-panel">
-      <div class="mf-row">
-        <span class="mf-lbl">Engagement:</span>
-        <div id="engF" style="display:flex;gap:5px;"><button class="mfc active" onclick="toggleMF('engF',this)">High</button><button class="mfc" onclick="toggleMF('engF',this)">Medium</button><button class="mfc" onclick="toggleMF('engF',this)">Low</button></div>
-        <span class="mf-lbl" style="margin-left:6px;">Sentiment:</span>
-        <div id="sentF" style="display:flex;gap:5px;"><button class="mfc active" onclick="toggleMF('sentF',this)">Positive</button><button class="mfc" onclick="toggleMF('sentF',this)">Neutral</button><button class="mfc" onclick="toggleMF('sentF',this)">Negative</button></div>
-        <span class="mf-lbl" style="margin-left:6px;">Type:</span>
-        <div id="typeF" style="display:flex;gap:5px;"><button class="mfc" onclick="toggleMF('typeF',this)">Questions</button><button class="mfc" onclick="toggleMF('typeF',this)">Complaints</button><button class="mfc" onclick="toggleMF('typeF',this)">Testimonials</button></div>
-        <select class="sort-sel"><option>Recent first</option><option>Most engagement</option><option>Highest reach</option></select>
-      </div>
-      <div id="msgTabList"></div>
-    </div>
     </div><!-- /brandView -->
   </div><!-- /content -->
 
@@ -874,7 +1041,7 @@ tbody tr:last-child td{border-bottom:none;}
 
 <!-- ===== CREATE SEARCH MODAL ===== -->
 <div id="addSearchOverlay" onclick="handleOverlayClick(event)" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,20,40,0.5);z-index:2000;display:none;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:14px;width:620px;max-width:calc(100vw - 32px);max-height:calc(100vh - 48px);box-shadow:0 24px 64px rgba(0,0,0,0.18);display:flex;flex-direction:column;position:relative;" onclick="event.stopPropagation()">
+  <div style="background:#fff;border-radius:14px;width:1000px;max-width:calc(100vw - 32px);max-height:calc(100vh - 48px);box-shadow:0 24px 64px rgba(0,0,0,0.18);display:flex;flex-direction:column;position:relative;" onclick="event.stopPropagation()">
 
     <!-- HEADER -->
     <div style="padding:22px 26px 18px;border-bottom:1px solid #f0f1f5;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;border-radius:14px 14px 0 0;">
@@ -885,8 +1052,9 @@ tbody tr:last-child td{border-bottom:none;}
       <button onclick="closeAddSearch()" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:18px;padding:0 2px;line-height:1;border-radius:4px;" onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background='none'">✕</button>
     </div>
 
-    <!-- BODY -->
-    <div style="padding:20px 26px 16px;overflow-y:auto;flex:1;min-height:0;">
+    <div class="as-main">
+    <!-- BODY (left: search details) -->
+    <div id="as-left" style="padding:20px 26px 16px;overflow-y:auto;flex:1;min-width:0;min-height:0;">
 
       <!-- SEARCH NAME -->
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px;">
@@ -1104,8 +1272,8 @@ tbody tr:last-child td{border-bottom:none;}
           <div id="cmp-kw-blocks-container">
             <div class="kw-block" style="margin-bottom:10px;">
               <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
-                <div class="tag-input-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="this.querySelector('.tag-input').focus()">
-                  <input class="tag-input" type="text" placeholder="e.g. pricing, price, cost, plans" style="border:none;outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;flex:1;min-width:160px;padding:2px 0;background:transparent;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)">
+                <div class="tag-input-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+                  <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="e.g. pricing, price, cost, plans" style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;position:relative;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
                 </div>
                 <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;justify-content:flex-end;">
                   <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option selected>Any of these</option><option>All of these</option></select></div>
@@ -1126,8 +1294,8 @@ tbody tr:last-child td{border-bottom:none;}
             <span style="font-size:12px;color:#9399b0;">(optional)</span>
           </div>
           <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;">
-            <div class="tag-input-area" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="this.querySelector('.tag-input').focus()">
-              <input class="tag-input" type="text" placeholder="e.g. free, discount, promo, coupon" style="border:none;outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;flex:1;min-width:160px;padding:2px 0;background:transparent;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)">
+            <div class="tag-input-area excl-tag-area-cmp" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+              <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="e.g. free, discount, promo, coupon" style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;position:relative;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
             </div>
             <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;justify-content:flex-end;">
               <div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;">Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option selected>Any of these</option><option>All of these</option></select></div>
@@ -1142,7 +1310,7 @@ tbody tr:last-child td{border-bottom:none;}
           <span style="font-size:13px;font-weight:600;color:#1a1a2e;">Reduce noise</span>
           
         </div>
-        <div style="display:flex;gap:22px;">
+        <div id="as-noise" style="display:flex;gap:22px;">
           <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#1a1a2e;"><input type="checkbox" checked style="accent-color:#4b9cf5;width:14px;height:14px;"> Job listings</label>
           <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#1a1a2e;"><input type="checkbox" checked style="accent-color:#4b9cf5;width:14px;height:14px;"> Promotions</label>
           <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:#1a1a2e;"><input type="checkbox" checked style="accent-color:#4b9cf5;width:14px;height:14px;"> Coupons &amp; discounts</label>
@@ -1150,14 +1318,15 @@ tbody tr:last-child td{border-bottom:none;}
       </div>
 
       <!-- MORE FILTERS -->
-      <div style="padding-top:16px;border-top:1px solid #f0f1f5;margin-bottom:8px;">
-        <button onclick="toggleMoreFilters()" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:0;">
-          <span style="font-size:13px;font-weight:600;color:#1a1a2e;">More filters</span>
-          <span style="font-size:12px;color:#9399b0;">(optional)</span>
-          <span id="mf-chevron" style="font-size:11px;color:#6b7280;transition:transform 0.2s;margin-left:2px;">▼</span>
+      <div class="acc" id="acc-mf" style="margin-top:16px;">
+        <button class="acc-hd" data-pv-ignore onclick="toggleMoreFilters()">
+          <div class="acc-l">
+            <div class="acc-ti"><span class="acc-t">More filters</span><span class="acc-o">(optional)</span></div>
+            <div id="mf-desc" class="acc-d">Location, language, verified users and more.</div>
+          </div>
+          <svg id="mf-chevron" class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <div id="mf-desc" style="font-size:12px;color:#6b7280;margin-top:3px;">Location, language, verified users and more.</div>
-        <div id="more-filters-body" style="display:none;margin-top:12px;">
+        <div id="more-filters-body" class="acc-body" style="display:none;">
           <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
             <div style="display:flex;align-items:center;gap:8px;">
               <span style="font-size:13px;color:#1a1a2e;font-weight:500;">Location</span>
@@ -1175,11 +1344,36 @@ tbody tr:last-child td{border-bottom:none;}
         </div>
       </div>
 
+      <!-- ALERTS -->
+      <div class="acc" id="acc-al" data-pv-ignore style="margin-top:12px;margin-bottom:8px;">
+        <button class="acc-hd" onclick="toggleAlerts()">
+          <div class="acc-l">
+            <div class="acc-ti"><span class="acc-t">Alerts</span><span class="acc-o">(optional)</span><span id="al-badge" class="al-badge" style="display:none;"></span></div>
+            <div class="acc-d">Get notified when conversations spike or shift.</div>
+          </div>
+          <svg id="al-chevron" class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="alerts-body" class="acc-body" style="display:none;">
+          <div class="al-h">Alert metrics</div>
+          <div class="al-row"><label><input type="checkbox" id="al-vol" onchange="alRefreshBadge()"> Volume</label><select id="al-vol-sel" class="al-sel"><option>Moderate increase</option><option>Massive increase</option></select></div><div class="al-row"><label><input type="checkbox" id="al-eng" onchange="alRefreshBadge()"> Engagement</label><select id="al-eng-sel" class="al-sel"><option>Moderate increase</option><option>Massive increase</option></select></div><div class="al-row"><label><input type="checkbox" id="al-pos" onchange="alRefreshBadge()"> Positive sentiment</label><select id="al-pos-sel" class="al-sel"><option>Moderate increase</option><option>Massive increase</option></select></div><div class="al-row"><label><input type="checkbox" id="al-neg" onchange="alRefreshBadge()"> Negative sentiment</label><select id="al-neg-sel" class="al-sel"><option>Moderate increase</option><option>Massive increase</option></select></div>
+          <div class="al-div"></div>
+          <div class="al-h">Notification</div>
+          <div class="al-nrow">
+            <select id="al-notify" class="al-sel" style="min-width:170px;" onchange="alNotifyChange()"><option value="individual">Notify individual(s)</option><option value="team">Team notification</option></select>
+            <div class="kw-dd-wrap" style="position:relative;">
+              <button class="al-pbtn" onclick="alToggleDD(event)"><span id="alPeopleLabel">Select people…</span><svg class="al-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div id="alPeopleDD" class="kw-dd" style="display:none;min-width:220px;"></div>
+            </div>
+            <span class="al-via">via</span>
+          </div>
+          <div id="al-channels" class="al-chs"><button class="al-ch on" data-ch="In-app" onclick="alToggleCh(this)">In-app</button><button class="al-ch" data-ch="Email" onclick="alToggleCh(this)">Email</button></div>
+        </div>
+      </div>
 
       <!-- LOOK FOR CONVERSATIONS FROM -->
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f0f1f5;display:flex;align-items:center;gap:16px;">
         <label style="font-size:13px;font-weight:600;color:#1a1a2e;white-space:nowrap;">Look for conversations from</label>
-        <select style="border:1px solid #e0e2e9;border-radius:7px;padding:8px 12px;font-size:13px;color:#4a4f6a;background:#fff;cursor:pointer;font-family:inherit;flex:1;max-width:220px;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+        <select id="as-range" style="border:1px solid #e0e2e9;border-radius:7px;padding:8px 12px;font-size:13px;color:#4a4f6a;background:#fff;cursor:pointer;font-family:inherit;flex:1;max-width:220px;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
           <option>Last 7 days</option>
           <option selected>Last 30 days</option>
           <option>Last 90 days</option>
@@ -1188,10 +1382,67 @@ tbody tr:last-child td{border-bottom:none;}
 
     </div><!-- /body -->
 
+    <!-- PREVIEW (right) -->
+    <aside id="as-right">
+      <div class="pv-hd">
+        <span class="pv-title">Preview</span>
+        <span id="pvStale" class="pv-stale" style="display:none;">Outdated</span>
+        <button id="pvRefresh" class="pv-refresh" style="display:none;" onclick="runPreview()">↻ Refresh</button>
+      </div>
+      <div id="pvBody" class="pv-body"></div>
+    </aside>
+    </div><!-- /as-main -->
+
     <!-- FOOTER -->
     <div style="padding:14px 26px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:flex-end;gap:10px;background:#fafafa;border-radius:0 0 14px 14px;flex-shrink:0;">
       <button onclick="closeAddSearch()" style="padding:9px 22px;border:1.5px solid #e0e2e9;border-radius:7px;background:#fff;color:#4a4f6a;font-size:13px;font-weight:500;cursor:pointer;">Cancel</button>
       <button onclick="createSearch()" style="padding:9px 22px;border:none;border-radius:7px;background:#4b9cf5;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Create search</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CREATE CATEGORY MODAL ===== -->
+<div id="catModalOverlay" onclick="if(event.target===this)closeCategoryModal()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,20,40,0.5);z-index:2100;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;width:480px;max-width:calc(100vw - 32px);max-height:calc(100vh - 48px);display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.18);" onclick="event.stopPropagation()">
+    <div style="padding:20px 24px 16px;border-bottom:1px solid #f0f1f5;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:3px;">Create category</div>
+        <div style="font-size:12.5px;color:#6b7280;">Group related conversations under one category.</div>
+      </div>
+      <button onclick="closeCategoryModal()" style="background:none;border:none;font-size:22px;line-height:1;color:#9399b0;cursor:pointer;padding:0 2px;" aria-label="Close">×</button>
+    </div>
+    <div style="padding:18px 24px 6px;overflow-y:auto;flex:1;min-height:0;">
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:6px;">Category name</label>
+        <input id="catName" type="text" placeholder="e.g. Refunds" style="width:100%;box-sizing:border-box;border:1px solid #e0e2e9;border-radius:7px;padding:9px 12px;font-size:13px;color:#1a1a2e;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#4b9cf5'" onblur="this.style.borderColor='#e0e2e9'">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:6px;">Include keywords</label>
+        <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;" id="catInclBox">
+            <div class="tag-input-area" id="catIncl" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+              <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="Type and press Enter — use @mention, #hashtag" style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;position:relative;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
+            </div>
+            <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:flex-end;gap:5px;font-size:11.5px;color:#4a4f6a;border-radius:0 0 7px 7px;">Match:
+              <select id="catInclMatch" style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option value="any">Any of these</option><option value="all">All of these</option></select>
+            </div>
+          </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:6px;">Exclude keywords <span style="font-weight:400;color:#9399b0;">(optional)</span></label>
+        <div style="border:1.5px solid #e0e2e9;border-radius:8px;background:#fff;" id="catExclBox">
+            <div class="tag-input-area" id="catExcl" style="min-height:56px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-start;cursor:text;" onclick="focusTagArea(this)">
+              <div class="tag-input" contenteditable="true" spellcheck="false" data-placeholder="Type and press Enter to exclude" style="outline:none;font-size:13px;font-family:inherit;color:#1a1a2e;min-width:160px;padding:2px 0;background:transparent;white-space:pre;position:relative;" oninput="handleTagInput(this)" onkeydown="handleTagKeydown(event,this)"></div>
+            </div>
+            <div style="background:#f9fafb;padding:6px 10px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:flex-end;gap:5px;font-size:11.5px;color:#4a4f6a;border-radius:0 0 7px 7px;">Match:
+              <select id="catExclMatch" style="border:1px solid #e0e2e9;border-radius:5px;padding:2px 7px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option value="any">Any of these</option><option value="all">All of these</option></select>
+            </div>
+          </div>
+      </div>
+      <div id="catErr" style="display:none;color:#ef4444;font-size:12px;margin:6px 0 8px;"></div>
+    </div>
+    <div style="padding:14px 24px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:flex-end;gap:10px;background:#fafafa;border-radius:0 0 14px 14px;flex-shrink:0;">
+      <button onclick="closeCategoryModal()" style="padding:9px 22px;border:1.5px solid #e0e2e9;border-radius:7px;background:#fff;color:#4a4f6a;font-size:13px;font-weight:500;cursor:pointer;">Cancel</button>
+      <button onclick="createCategory()" style="padding:9px 22px;border:none;border-radius:7px;background:#4b9cf5;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Create category</button>
     </div>
   </div>
 </div>
@@ -1222,7 +1473,6 @@ const PLATS={
   'Instagram':{cls:'plat-ig',lbl:'In',bg:'#e1306c',xtra:''},
   'YouTube':{cls:'plat-yt',lbl:'Yt',bg:'#ff0000',xtra:''},
   'Reddit':{cls:'plat-rd',lbl:'Rd',bg:'#ff4500',xtra:''},
-  'LinkedIn':{cls:'plat-li',lbl:'Li',bg:'#0077b5',xtra:''},
   'Threads':{cls:'plat-th',lbl:'Th',bg:'#000',xtra:''},
   'Web':{cls:'plat-wb',lbl:'W',bg:'#4b9cf5',xtra:''},
   'Facebook':{cls:'plat-fb',lbl:'Fb',bg:'#1877f2',xtra:''},
@@ -1232,23 +1482,26 @@ const MSGS=[
   {name:'Priya Raman',    handle:'@priyaraman',    plat:'Instagram',time:'4h ago',  type:'Comment', text:'Loving the new AI features in Zylker! Makes content planning so much easier. <span class="tag">#Productivity</span> <span class="tag">#Zylker</span>',     likes:210,comments:18, rt:0,  sent:'pos', eng:'high', thumb:'#6366f1'},
   {name:'TechTalks',      handle:'@techtalks',     plat:'YouTube',  time:'6h ago',  type:'Post',    text:"Zylker's latest update is a game changer for small businesses. Full review here 👇",                                                                         likes:412,comments:52, rt:0,  sent:'neu', eng:'high', thumb:'#1877f2', video:true},
   {name:'u/growthhacker', handle:'r/Productivity', plat:'Reddit',   time:'8h ago',  type:'Comment', text:'Anyone else facing sync issues with Zylker? It worked fine last week. <span class="tag">#Zylker</span> <span class="tag">#bug</span>',                      likes:26, comments:36, rt:14, sent:'neg', eng:'medium'},
-  {name:'Kavya Nair',     handle:'@kavya',         plat:'LinkedIn', time:'12h ago', type:'Post',    text:'The customer support team at Zylker is top-notch. Quick and helpful responses!',                                                                              likes:48, comments:6,  rt:0,  sent:'pos', eng:'low', thumb:'#0077b5'},
+  {name:'Kavya Nair',     handle:'@kavya',         plat:'Facebook', time:'12h ago', type:'Post',    text:'The customer support team at Zylker is top-notch. Quick and helpful responses!',                                                                              likes:48, comments:6,  rt:0,  sent:'pos', eng:'low', thumb:'#0077b5'},
   {name:'Rohit S',        handle:'@rohits',        plat:'X',        time:'14h ago', type:'Comment', text:'Zylker vs Competitor X — which one do you think is better for social scheduling?',                                                                            likes:14, comments:32, rt:8,  sent:'neu', eng:'medium'},
   {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        time:'2d ago',  type:'Post',    text:'Just had the most amazing experience with <span class="tag">@ZylkerTravels</span> in Santorini! Already planning my next trip 💙',                            likes:248,comments:32, rt:12, sent:'pos', eng:'high', thumb:'#764ba2'},
   {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  time:'2d ago',  type:'Post',    text:"The new itinerary planner from Zylker is genuinely one of the best travel tools I've used. Offline maps, live updates.",                                      likes:156,comments:31, rt:22, sent:'pos', eng:'high'},
 ];
 const PEOPLE=[
-  {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        bg:AVC[0],init:'SM',eng:16420,vol:218,inf:92,sent:'pos',sl:'72% Positive'},
-  {name:'Travel With Raj',handle:'@travelwithraj', plat:'Instagram',bg:AVC[1],init:'TR',eng:12381,vol:156,inf:88,sent:'pos',sl:'64% Positive'},
-  {name:'Alex Thompson',  handle:'@alexthompson',  plat:'YouTube',  bg:AVC[2],init:'AT',eng:8560, vol:132,inf:76,sent:'pos',sl:'70% Positive'},
-  {name:'WanderMore',     handle:'u/wandermore',   plat:'Reddit',   bg:AVC[3],init:'WM',eng:4913, vol:96, inf:68,sent:'neu',sl:'48% Neutral'},
-  {name:'Priya Sharma',   handle:'@priyasharma',   plat:'LinkedIn', bg:AVC[4],init:'PS',eng:3842, vol:84, inf:62,sent:'pos',sl:'62% Positive'},
-  {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  bg:AVC[5],init:'ND',eng:2175, vol:71, inf:58,sent:'pos',sl:'58% Positive'},
-  {name:'Mike Chen',      handle:'@mikechen',      plat:'Instagram',bg:AVC[6],init:'MC',eng:1904, vol:64, inf:54,sent:'neg',sl:'22% Negative'},
-  {name:'Emily Carter',   handle:'@emilycarter',   plat:'X',        bg:AVC[7],init:'EC',eng:1622, vol:52, inf:51,sent:'pos',sl:'68% Positive'},
-  {name:'Global Explorer',handle:'@globalexplorer',plat:'YouTube',  bg:AVC[8],init:'GE',eng:1208, vol:46, inf:47,sent:'neu',sl:'50% Neutral'},
-  {name:'James Wilson',   handle:'@jameswilson',   plat:'LinkedIn', bg:AVC[9],init:'JW',eng:986,  vol:41, inf:44,sent:'pos',sl:'60% Positive'},
+  {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        bg:AVC[0],init:'SM',eng:16420,vol:218,sent:'pos',sl:'72% Positive',fol:184200,sig:'Educator',imp:612000,pos:72,neu:18,neg:10},
+  {name:'Travel With Raj',handle:'@travelwithraj', plat:'Instagram',bg:AVC[1],init:'TR',eng:12381,vol:156,sent:'pos',sl:'64% Positive',fol:412000,sig:'Creator',imp:548000,pos:64,neu:24,neg:12},
+  {name:'Alex Thompson',  handle:'@alexthompson',  plat:'YouTube',  bg:AVC[2],init:'AT',eng:8560, vol:132,sent:'pos',sl:'70% Positive',fol:96500,sig:'Reviewer',imp:301000,pos:70,neu:20,neg:10},
+  {name:'WanderMore',     handle:'u/wandermore',   plat:'Reddit',   bg:AVC[3],init:'WM',eng:4913, vol:96, sent:'neu',sl:'48% Neutral',fol:12800,sig:'General',imp:94000,pos:30,neu:48,neg:22},
+  {name:'Priya Sharma',   handle:'@priyasharma',   plat:'Instagram', bg:AVC[4],init:'PS',eng:3842, vol:84, sent:'pos',sl:'62% Positive',fol:28400,sig:'Educator',imp:128000,pos:62,neu:26,neg:12},
+  {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  bg:AVC[5],init:'ND',eng:2175, vol:71, sent:'pos',sl:'58% Positive',fol:41300,sig:'Creator',imp:142000,pos:58,neu:28,neg:14,isNew:true},
+  {name:'Mike Chen',      handle:'@mikechen',      plat:'Instagram',bg:AVC[6],init:'MC',eng:1904, vol:64, sent:'neg',sl:'22% Negative',fol:8900,sig:'Reviewer',imp:47000,pos:22,neu:28,neg:50,isNew:true},
+  {name:'Emily Carter',   handle:'@emilycarter',   plat:'X',        bg:AVC[7],init:'EC',eng:1622, vol:52, sent:'pos',sl:'68% Positive',fol:5200,sig:'General',imp:36000,pos:68,neu:20,neg:12},
+  {name:'Global Explorer',handle:'@globalexplorer',plat:'YouTube',  bg:AVC[8],init:'GE',eng:1208, vol:46, sent:'neu',sl:'50% Neutral',fol:23700,sig:'Creator',imp:83000,pos:30,neu:50,neg:20},
+  {name:'James Wilson',   handle:'@jameswilson',   plat:'Facebook', bg:AVC[9],init:'JW',eng:986,  vol:41, sent:'pos',sl:'60% Positive',fol:3100,sig:'Unclassified',imp:21000,pos:60,neu:26,neg:14},
 ];
+// what kind of signal the author is giving
+const SIGNALS={Educator:['#eef4ff','#3b82f6',''],Reviewer:['#fffbeb','#d97706',''],General:['#f4f5f7','#6b7280',''],Creator:['#f3f0ff','#7c3aed',''],Unclassified:['#fff','#9399b0','border:1px dashed #d1d5db;']};
+function signalPill(s){const k=SIGNALS[s]?s:'Unclassified',m=SIGNALS[k];return `<span class="sg" style="background:${m[0]};color:${m[1]};${m[2]}">${k}</span>`;}
 
 function sE(s){return s==='pos'?'😊':s==='neg'?'😟':'😐';}
 function sC(s){return s==='pos'?'sp-p':s==='neg'?'sp-r':'sp-n';}
@@ -1259,12 +1512,21 @@ function sentPill(s){
 }
 
 let _openMenu=null;
+function _placeMenu(el,btn){
+  if(!btn||!btn.getBoundingClientRect)return;
+  for(let a=el.parentElement;a&&a!==document.body;a=a.parentElement){const s=getComputedStyle(a);if(s.transform!=='none'||s.filter!=='none'||s.perspective!=='none')return;}
+  const r=btn.getBoundingClientRect(),w=el.offsetWidth,hh=el.offsetHeight;
+  let top=r.bottom+4;if(top+hh>innerHeight-8)top=Math.max(8,r.top-hh-4);
+  const left=Math.max(8,Math.min(r.right-w,innerWidth-w-8));
+  el.style.position='fixed';el.style.top=top+'px';el.style.left=left+'px';el.style.right='auto';
+}
 function _toggleMenu(e,id){
   e.stopPropagation();
   const isOpen=_openMenu===id;
   _closeMenu();
-  if(!isOpen){const el=document.getElementById(id);if(el)el.style.display='block';_openMenu=id;}
+  if(!isOpen){const el=document.getElementById(id);if(el){el.style.display='block';_placeMenu(el,e.currentTarget||e.target);}_openMenu=id;}
 }
+document.addEventListener('scroll',()=>{if(_openMenu)_closeMenu();},true);
 function _closeMenu(){
   if(_openMenu){const el=document.getElementById(_openMenu);if(el)el.style.display='none';_openMenu=null;}
 }
@@ -1318,25 +1580,28 @@ function buildMsgCard(m, i, inPanel){
 }
 
 /* RENDER PEOPLE */
+let _pplSort={key:'eng',dir:-1};const _pplOpen=new Set();
 function renderPeople(){
-  document.getElementById('pplTbl').innerHTML=PEOPLE.map((p,i)=>{
-    const pl=PLATS[p.plat];
-    const sc=p.sent==='pos'?'sp-p':p.sent==='neg'?'sp-r':'sp-n';
-    const pId=`ppl-row-${i}`;
+  const tb=document.getElementById('pplTbl');if(!tb)return;
+  const val=(p,k)=>k==='sent'?p.pos:p[k];
+  const rows=PEOPLE.map((p,i)=>({p,i})).sort((a,b)=>(val(a.p,_pplSort.key)-val(b.p,_pplSort.key))*_pplSort.dir);
+  tb.innerHTML=rows.map(({p,i})=>{
+    const pl=PLATS[p.plat],open=_pplOpen.has(i);
     const safeName=p.name.replace(/'/g,"\\'");
-    const safeHandle=p.handle.replace(/'/g,"\\'");
-    return `<tr onclick="openPanel('${safeName}','all')" style="position:relative;">
+    return `<tr class="${open?'tt-open':''}" onclick="openPanel('${safeName}','all')" style="position:relative;">
       <td><div style="display:flex;align-items:center;gap:8px;">
         <div class="ua" style="background:${p.bg};">${p.init}</div>
-        <div><div class="un">${p.name}</div><div class="uh">${p.handle}</div></div>
+        <div><div class="un">${p.name}${p.isNew?NEW_SPARK:''}</div><div class="uh">${p.handle}</div></div>
       </div></td>
-      <td><div style="display:flex;align-items:center;gap:5px;"><div class="si2 ${pl.cls}" style="width:18px;height:18px;font-size:9px;${pl.xtra}">${pl.lbl}</div>${p.plat}</div></td>
-      <td>${p.eng.toLocaleString()}</td>
+      <td>${ttShort(p.fol)}${p.plat==='YouTube'?'<span class="tt-subs"> subs</span>':''}</td>
       <td>${p.vol}</td>
-      <td><div style="display:flex;align-items:center;gap:6px;"><div class="ib"><div class="if_" style="width:${p.inf}%;"></div></div><b style="font-size:12px;">${p.inf}</b></div></td>
-      <td>${sentPill(p.sent)}</td>
-      <td style="position:relative;" onclick="event.stopPropagation()">
-        <button onclick="_toggleMenu(event,'pmenu-${i}')" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:15px;font-weight:900;letter-spacing:3px;padding:2px 5px;border-radius:4px;">•••</button>
+      <td><div class="tt-eng"><b style="font-size:12.5px;color:#1a1a2e;">${ttShort(p.eng)}</b><button class="tt-chev" onclick="pplToggle(event,${i})" aria-label="Toggle engagement breakdown">${open?TT_IC.up:TT_IC.down}</button></div>${open?`<div class="tt-bkwrap">${ttBreakHtml(p.eng)}</div>`:''}</td>
+      <td>${ttShort(p.imp)}</td>
+      <td>${kwSentBar(p.pos,p.neu,p.neg)}<div class="tt-sent">${p.pos}% positive</div></td>
+      <td>${signalPill(p.sig)}</td>
+      <td><div style="display:flex;align-items:center;gap:5px;"><div class="si2 ${pl.cls}" style="width:18px;height:18px;font-size:9px;${pl.xtra}">${pl.lbl}</div>${p.plat}</div></td>
+      <td style="position:relative;text-align:center;" onclick="event.stopPropagation()">
+        <button onclick="_toggleMenu(event,'pmenu-${i}')" style="background:none;border:none;cursor:pointer;color:#9399b0;font-size:15px;font-weight:900;letter-spacing:2px;padding:2px 4px;border-radius:4px;">•••</button>
         <div id="pmenu-${i}" style="display:none;position:absolute;top:28px;right:0;background:#fff;border:1px solid #e4e6ed;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:50;min-width:186px;padding:4px 0;" onclick="event.stopPropagation()">
           <div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">View ${p.handle} profile</div>
           <div onmouseenter="this.style.background='#f4f5f7'" onmouseleave="this.style.background=''" onclick="_closeMenu()" style="padding:9px 14px;font-size:12.5px;color:#2d3047;cursor:pointer;white-space:nowrap;">Message ${p.handle}</div>
@@ -1346,13 +1611,16 @@ function renderPeople(){
       </td>
     </tr>`;
   }).join('');
+  ['fol','vol','eng','imp','sent'].forEach(k=>{
+    const g=document.getElementById('pplSrt-'+k);if(!g)return;
+    const on=_pplSort.key===k;g.textContent=on?(_pplSort.dir<0?'↓':'↑'):'↕';
+    if(g.parentElement)g.parentElement.classList.toggle('sorted',on);
+  });
 }
+function pplToggle(e,i){e.stopPropagation();_pplOpen.has(i)?_pplOpen.delete(i):_pplOpen.add(i);renderPeople();}
+function pplSort(k){if(_pplSort.key===k)_pplSort.dir*=-1;else _pplSort={key:k,dir:-1};renderPeople();}
 
 /* RENDER MSG TAB */
-function renderMsgTab(){
-  document.getElementById('msgTabList').innerHTML=MSGS.map((m,i)=>buildMsgCard(m,i,false)).join('');
-}
-
 /* RENDER PANEL FEED */
 function renderFeed(){
   document.getElementById('rpFeed').innerHTML=MSGS.map((m,i)=>buildMsgCard(m,i,true)).join('');
@@ -1581,7 +1849,7 @@ function renderPerfTable(){
 }
 
 function switchPerfTab(btn, mode){
-  document.querySelectorAll('.tc .kw-tab').forEach(b=>b.classList.remove('active'));
+  btn.parentElement.querySelectorAll('.kw-tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   _perfMode = mode;
   // Adjust header alignment for sentiment bars vs numbers
@@ -1690,7 +1958,7 @@ function compKwLoadMore(){_compKwPage++;renderCompKwTable();}
 /* ===== COMP PEOPLE ===== */
 const COMP_PPL_DATA = [
   {name:'@TechReviewPro',  brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'x',  eng:'12.4K', vol:84,  score:92, pos:78, neu:16, neg:6},
-  {name:'@SalesInsider',   brand:'Salesforce',   brandColor:'#f97316', src:'li', eng:'9.8K',  vol:72,  score:88, pos:52, neu:28, neg:20},
+  {name:'@SalesInsider',   brand:'Salesforce',   brandColor:'#f97316', src:'fb', eng:'9.8K',  vol:72,  score:88, pos:52, neu:28, neg:20},
   {name:'@CRMWatcher',     brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'x',  eng:'8.2K',  vol:61,  score:85, pos:70, neu:20, neg:10},
   {name:'@HubFanatic',     brand:'HubSpot',     brandColor:'#22c55e', src:'ig', eng:'7.6K',  vol:58,  score:83, pos:65, neu:24, neg:11},
   {name:'@MarketingNerd',  brand:'HubSpot',     brandColor:'#22c55e', src:'x',  eng:'6.9K',  vol:53,  score:80, pos:60, neu:28, neg:12},
@@ -1698,7 +1966,7 @@ const COMP_PPL_DATA = [
   {name:'@ZylkerFan',      brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'th', eng:'5.4K',  vol:42,  score:74, pos:80, neu:14, neg:6},
   {name:'@CloudAdvisor',   brand:'Salesforce',   brandColor:'#f97316', src:'yt', eng:'4.8K',  vol:38,  score:72, pos:48, neu:32, neg:20},
   {name:'@StartupStack',   brand:'HubSpot',     brandColor:'#22c55e', src:'x',  eng:'4.2K',  vol:34,  score:69, pos:68, neu:22, neg:10},
-  {name:'@EnterpriseEdge', brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'li', eng:'3.8K',  vol:29,  score:66, pos:74, neu:18, neg:8},
+  {name:'@EnterpriseEdge', brand:'Zylker CRM',  brandColor:'#4b9cf5', src:'fb', eng:'3.8K',  vol:29,  score:66, pos:74, neu:18, neg:8},
 ];
 
 const PLAT_ICON_MAP = {
@@ -1707,10 +1975,9 @@ const PLAT_ICON_MAP = {
   rd: `<div class="si2 plat-rd" style="width:20px;height:20px;font-size:9px;">👽</div>`,
   yt: `<div class="si2 plat-yt" style="width:20px;height:20px;font-size:9px;color:#fff;">▶</div>`,
   th: `<div class="si2 plat-th" style="width:20px;height:20px;font-size:9px;color:#fff;">🧵</div>`,
-  li: `<div class="si2 plat-li" style="width:20px;height:20px;font-size:9px;color:#fff;">in</div>`,
   fb: `<div class="si2 plat-fb" style="width:20px;height:20px;font-size:9px;color:#fff;">f</div>`,
 };
-const SRC_NAME = {x:'X',ig:'Instagram',rd:'Reddit',yt:'YouTube',th:'Threads',li:'LinkedIn',fb:'Facebook'};
+const SRC_NAME = {x:'X',ig:'Instagram',rd:'Reddit',yt:'YouTube',th:'Threads',fb:'Facebook'};
 
 function renderCompPeople(){
   const tbody = document.getElementById('compPplTbl');
@@ -1728,7 +1995,7 @@ function renderCompPeople(){
     return bOk && sOk;
   });
   tbody.innerHTML = filtered.map((r,i)=>{
-    const srcMap={x:'X',ig:'Instagram',rd:'Reddit',yt:'YouTube',th:'Threads',li:'LinkedIn',fb:'Facebook'};
+    const srcMap={x:'X',ig:'Instagram',rd:'Reddit',yt:'YouTube',th:'Threads',fb:'Facebook'};
     const pl = PLATS[srcMap[r.src]] || {bg:'#666',lbl:r.src,cls:'plat-x',xtra:''};
     const init = r.name.replace('@','').slice(0,2).toUpperCase();
     const bgCol = AVC[i%AVC.length];
@@ -1757,44 +2024,6 @@ function renderCompPeople(){
   }).join('');
 }
 
-// Brand tags for each message (cycles through brands for demo)
-const COMP_MSG_BRANDS = [
-  {name:'Zylker CRM', color:'#4b9cf5'},
-  {name:'Salesforce',  color:'#f97316'},
-  {name:'HubSpot',     color:'#22c55e'},
-  {name:'Zylker CRM', color:'#4b9cf5'},
-  {name:'Salesforce',  color:'#f97316'},
-  {name:'HubSpot',     color:'#22c55e'},
-];
-
-function updateCompMsgLabel(){
-  const upd=(ddId,lblId)=>{
-    const el=document.getElementById(ddId); if(!el) return;
-    const c=el.querySelectorAll('input:checked').length, t=el.querySelectorAll('input').length;
-    const lb=document.getElementById(lblId); if(lb) lb.textContent=c===t?'All':c===0?'None':c+' selected';
-  };
-  upd('cMsgBrandDD','cMsgBrandLabel');
-  upd('cMsgEngDD','cMsgEngLabel');
-  upd('cMsgSentDD','cMsgSentLabel');
-  upd('cMsgTypeDD','cMsgTypeLabel');
-}
-
-function renderCompMsgs(){
-  const el = document.getElementById('compMsgList');
-  if(!el) return;
-  // Build each card then inject brand tag into the header row
-  el.innerHTML = MSGS.map((m,i) => {
-    const b = COMP_MSG_BRANDS[i] || COMP_MSG_BRANDS[0];
-    const card = buildMsgCard(m, i, false);
-    // Inject brand tag after the handle span — find the handle span closing and insert after it
-    const brandTag = `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:${b.color};background:${b.color}18;border-radius:50px;padding:1px 8px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:${b.color};display:inline-block;"></span>${b.name}</span>`;
-    // Insert after the handle span (which ends with m.handle followed by </span>)
-    return card.replace(
-      `<span style="font-size:11.5px;color:#9399b0;">${m.handle}</span>`,
-      `<span style="font-size:11.5px;color:#9399b0;">${m.handle}</span>${brandTag}`
-    );
-  }).join('');
-}
 
 function initCompCharts(){
   renderSovChart();
@@ -1805,7 +2034,6 @@ function initCompCharts(){
   renderCompWordCloud();
   renderCompKwTable();
   renderCompPeople();
-  renderCompMsgs();
 }
 
 /* ---- WORD CLOUD ---- */
@@ -1842,7 +2070,7 @@ function toggleKwDD(id){
 }
 document.addEventListener('click', e=>{
   if(!e.target.closest('.kw-dd-wrap')) {
-    ['brandDD','typeDD','sourceDD','cBrandDD','cTypeDD','cSourceDD','pplBrandDD','pplSourceDD','cMsgBrandDD','cMsgEngDD','cMsgSentDD','cMsgTypeDD'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+    ['brandDD','typeDD','sourceDD','cBrandDD','cTypeDD','cSourceDD','pplBrandDD','pplSourceDD','catDD','alPeopleDD'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
   }
 });
 function getChecked(ddId){
@@ -1900,7 +2128,7 @@ const KW_DATA=[
   {kw:'#HubSpotCRM',brand:'HubSpot',brandColor:'#22c55e',type:'hashtag',eng:'4,780',vol:'520',plats:'x ig',pos:72,neu:20,neg:8},
   {kw:'flight booking',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'keyword',eng:'3,780',vol:'380',plats:'fb ig yt',pos:60,neu:28,neg:12},
   {kw:'@ZylkerSupport',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'mention',eng:'3,340',vol:'340',plats:'x fb',pos:44,neu:30,neg:26},
-  {kw:'sales automation',brand:'Salesforce',brandColor:'#f97316',type:'keyword',eng:'3,120',vol:'310',plats:'x fb li',pos:62,neu:26,neg:12},
+  {kw:'sales automation',brand:'Salesforce',brandColor:'#f97316',type:'keyword',eng:'3,120',vol:'310',plats:'x fb',pos:62,neu:26,neg:12},
   {kw:'@HubSpot',brand:'HubSpot',brandColor:'#22c55e',type:'mention',eng:'2,940',vol:'290',plats:'x ig',pos:66,neu:24,neg:10},
   {kw:'#TravelDeals',brand:'Zylker CRM',brandColor:'#4b9cf5',type:'hashtag',eng:'2,280',vol:'210',plats:'x th',pos:74,neu:18,neg:8},
   {kw:'pricing plans',brand:'HubSpot',brandColor:'#22c55e',type:'keyword',eng:'1,980',vol:'190',plats:'rd fb',pos:55,neu:28,neg:17},
@@ -1910,7 +2138,7 @@ let _kwPage=0, _kwFilter='all';
 const KW_PER_PAGE=5;
 
 function kwPlatIcons(str){
-  const map={fb:`<div class="si2 plat-fb" style="width:17px;height:17px;font-size:8px;color:#fff;">f</div>`,ig:`<div class="si2 plat-ig" style="width:17px;height:17px;font-size:8px;">📸</div>`,x:`<div class="si2 plat-x" style="width:17px;height:17px;font-size:7px;color:#fff;font-weight:900;">𝕏</div>`,yt:`<div class="si2 plat-yt" style="width:17px;height:17px;font-size:8px;color:#fff;">▶</div>`,rd:`<div class="si2 plat-rd" style="width:17px;height:17px;font-size:8px;">👽</div>`,th:`<div class="si2 plat-th" style="width:17px;height:17px;font-size:8px;color:#fff;">🧵</div>`,li:`<div class="si2 plat-li" style="width:17px;height:17px;font-size:8px;color:#fff;">💼</div>`};
+  const map={fb:`<div class="si2 plat-fb" style="width:17px;height:17px;font-size:8px;color:#fff;">f</div>`,ig:`<div class="si2 plat-ig" style="width:17px;height:17px;font-size:8px;">📸</div>`,x:`<div class="si2 plat-x" style="width:17px;height:17px;font-size:7px;color:#fff;font-weight:900;">𝕏</div>`,yt:`<div class="si2 plat-yt" style="width:17px;height:17px;font-size:8px;color:#fff;">▶</div>`,rd:`<div class="si2 plat-rd" style="width:17px;height:17px;font-size:8px;">👽</div>`,th:`<div class="si2 plat-th" style="width:17px;height:17px;font-size:8px;color:#fff;">🧵</div>`};
   return `<div style="display:flex;gap:3px;">${str.split(' ').map(p=>map[p]||'').join('')}</div>`;
 }
 function kwSentBar(pos,neu,neg){
@@ -1974,6 +2202,7 @@ function switchTab(tab,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   closePanel();
+  if(tab==='conversations')setTimeout(renderTtIntent,30);
 }
 function selectSI(el){
   document.querySelectorAll('.si').forEach(i=>i.classList.remove('active'));
@@ -2015,35 +2244,36 @@ function toggleY(gid,btn,cb){
   btn.classList.add('active');
   if(cb)cb();
 }
-function toggleMF(gid,btn){
-  document.querySelectorAll('#'+gid+' .mfc').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
 /* CHARTS */
 let cvChart,stChart;
 function mkD(n){const d=[];for(let i=n-1;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);d.push(`${x.toLocaleString('default',{month:'short'})} ${x.getDate()}`);}return d;}
 function mkW(n){return Array.from({length:n},(_,i)=>`W${i+1}`);}
 function mkM(){return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];}
 function rand(n,mn,mx){let v=Math.floor((mn+mx)/2),a=[];for(let i=0;i<n;i++){v=Math.max(mn,Math.min(mx,v+Math.floor(Math.random()*80-38)));a.push(v);}return a;}
-const R={v30:rand(30,200,950),e30:rand(30,400,2100),r30:rand(30,1000,8500),vW:rand(4,1200,5500),eW:rand(4,2500,12500),rW:rand(4,5000,45000),vM:rand(9,3500,16000),eM:rand(9,7000,32000),rM:rand(9,18000,85000),p30:rand(30,350,900),n30:rand(30,120,380),ng30:rand(30,40,180),pW:rand(4,2200,5000),nW:rand(4,700,1800),ngW:rand(4,250,800),pM:rand(9,6500,14000),nM:rand(9,1800,5500),ngM:rand(9,700,2200)};
+const R={v30:rand(30,200,950),e30:rand(30,400,2100),r30:rand(30,1000,8500),i30:rand(30,18000,95000),vW:rand(4,1200,5500),eW:rand(4,2500,12500),rW:rand(4,5000,45000),iW:rand(4,80000,420000),vM:rand(9,3500,16000),eM:rand(9,7000,32000),rM:rand(9,18000,85000),iM:rand(9,220000,1100000),p30:rand(30,350,900),n30:rand(30,120,380),ng30:rand(30,40,180),pW:rand(4,2200,5000),nW:rand(4,700,1800),ngW:rand(4,250,800),pM:rand(9,6500,14000),nM:rand(9,1800,5500),ngM:rand(9,700,2200)};
+function seeded(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+// Deterministic 30-day series with a spike (day 13) and two drops (days 21-22) so anomaly detection has something real to find
+function mkSeries(base,seed,f){const r=seeded(seed);return Array.from({length:30},(_,i)=>{let v=base*(1+0.05*Math.sin(i*0.75+seed)+(r()-0.5)*0.07);if(i===11)v*=1.04;if(i===12)v*=f[0];if(i===13)v*=1.06;if(i===20)v*=f[1];if(i===21)v*=f[2];return Math.round(v);});}
+R.v30=mkSeries(610,11,[2.12,0.41,0.33]);R.e30=mkSeries(1480,23,[1.9,0.55,0.45]);R.i30=mkSeries(52000,37,[2.3,0.5,0.4]);
+function mkSeriesM(base,seed,map){const r=seeded(seed);return Array.from({length:30},(_,i)=>{let v=base*(1+0.05*Math.sin(i*0.75+seed)+(r()-0.5)*0.07);if(map[i])v*=map[i];return Math.round(v);});}
+R.p30=mkSeriesM(380,5,{11:1.04,12:1.1,13:1.06,20:0.5,21:0.42,26:1.9});
+R.n30=mkSeriesM(130,9,{12:1.12,13:1.05});
+R.ng30=mkSeriesM(75,13,{5:0.35,11:1.06,12:3.6,13:1.2});
 const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:9}},scales:{x:{grid:{display:false},ticks:{color:'#9399b0',font:{size:10},maxTicksLimit:8,maxRotation:0},border:{display:false}},y:{grid:{color:'#f0f1f5'},ticks:{color:'#9399b0',font:{size:10}},border:{display:false}}}};
 
 function getCv(){
   const y=document.querySelector('#cvY .yb.active')?.textContent||'Volume';
   const x=document.getElementById('cvX')?.value||'day';
-  const src={day:{Volume:R.v30,Engagement:R.e30,Reach:R.r30},week:{Volume:R.vW,Engagement:R.eW,Reach:R.rW},month:{Volume:R.vM,Engagement:R.eM,Reach:R.rM}};
+  const src={day:{Volume:R.v30,Engagement:R.e30,Impressions:R.i30},week:{Volume:R.vW,Engagement:R.eW,Impressions:R.iW},month:{Volume:R.vM,Engagement:R.eM,Impressions:R.iM}};
   const lbl={day:mkD(30),week:mkW(4),month:mkM()};
-  return{labels:lbl[x],data:src[x][y]||src[x].Volume};
+  return{labels:lbl[x],data:src[x][y]||src[x].Volume,metric:y,isDay:x==='day'};
 }
 function getSt(){
-  const y=document.querySelector('#stY .yb.active')?.textContent||'Volume';
   const x=document.getElementById('stX')?.value||'day';
-  const m=y==='Engagement'?3.1:1;
   const src={day:{p:R.p30,n:R.n30,ng:R.ng30},week:{p:R.pW,n:R.nW,ng:R.ngW},month:{p:R.pM,n:R.nM,ng:R.ngM}};
   const lbl={day:mkD(30),week:mkW(4),month:mkM()};
   const d=src[x];
-  return{labels:lbl[x],pos:d.p.map(v=>Math.round(v*m)),neu:d.n.map(v=>Math.round(v*m)),neg:d.ng.map(v=>Math.round(v*m))};
+  return{labels:lbl[x],pos:d.p.map(v=>Math.round(v)),neu:d.n.map(v=>Math.round(v)),neg:d.ng.map(v=>Math.round(v)),metric:'Volume',isDay:x==='day'};
 }
 function initVtChart(){
   const ctx=document.getElementById('vtChart');
@@ -2051,8 +2281,8 @@ function initVtChart(){
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['Posts','Comments','Reposts / Shares','Other'],
-      datasets:[{data:[54,33,9,4],backgroundColor:['#4b9cf5','#a78bfa','#34d399','#fbbf24'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
+      labels:['Posts','Comments','Reviews','Reposts / Shares','Other'],
+      datasets:[{data:[48,30,10,8,4],backgroundColor:['#4b9cf5','#a78bfa','#f472b6','#34d399','#fbbf24'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
     },
     options:{
       responsive:true,maintainAspectRatio:true,cutout:'62%',
@@ -2063,21 +2293,577 @@ function initVtChart(){
     }
   });
 }
+// ===== TREND ANOMALIES =====
+const T_COL={spike:'#f97316',drop:'#e5546b'};
+// badge = direction of the anomaly: spike -> High, drop -> Low
+const T_BADGE={spike:['High','sp-m'],drop:['Low','sp-r'],normal:['Normal','sp-p']};
+const fmtNum=n=>Math.round(n).toLocaleString('en-US');
+const fmtPct=p=>p===0?'0%':(p>0?'+':'\u2212')+Math.abs(p)+'%';
+const fmtAxis=v=>{if(v<0)return'';const f=(n,u)=>(Math.round(n*10)/10)+u;return v>=1e6?f(v/1e6,'M'):v>=1e4?f(v/1e3,'K'):Math.round(v);};
+function _median(a){const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+
+// one controller per chart; sel = {index, ds} when an event/date is expanded (null = collapsed)
+const TREND={
+  cv:{anomsId:'trendAnoms',detailId:'trendDetail',legendId:'trendLegend',sel:null,bandMode:'always',get chart(){return cvChart;}},
+  st:{anomsId:'sentAnoms',detailId:'sentDetail',legendId:'sentLegend',sel:null,bandMode:'selected',rules:{0:{spike:true,drop:true},1:{spike:false,drop:false},2:{spike:true,drop:true}},get chart(){return stChart;}}
+};
+
+// robust baseline (median) + expected range; a day is anomalous when far outside it
+function detectSeries(data,ds,rule){
+  rule=rule||{spike:true,drop:true};
+  const med=_median(data);
+  const mad=_median(data.map(v=>Math.abs(v-med)));
+  const sigma=Math.max(1.4826*mad,0.02*med);
+  const half=Math.max(2*sigma,0.12*med);
+  const thr=Math.max(3*sigma,0.30*med);
+  const list=[];
+  data.forEach((v,i)=>{
+    if(Math.abs(v-med)>thr&&(v>med?rule.spike:rule.drop))list.push({index:i,ds,value:v,type:v>med?'spike':'drop',pct:Math.round((v-med)/med*100)});
+  });
+  return{ds,median:med,lo:med-half,hi:med+half,list};
+}
+
+function _badge(ctx,x,y,type){
+  const s=26,up=type==='spike';
+  ctx.fillStyle=T_COL[type];
+  ctx.beginPath();ctx.roundRect(x-s/2,y-s/2,s,s,7);ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2.2;ctx.lineCap='round';ctx.lineJoin='round';
+  const t=up?-6:6,b=up?6:-6,hh=up?-1:1;
+  ctx.beginPath();
+  ctx.moveTo(x,y+b);ctx.lineTo(x,y+t);
+  ctx.moveTo(x-5,y+hh);ctx.lineTo(x,y+t);ctx.lineTo(x+5,y+hh);
+  ctx.stroke();
+}
+
+const anomalyPlugin={
+  id:'anomaly',
+  beforeDatasetsDraw(chart){
+    const a=chart.$anom;if(!a)return;
+    const sel=chart.$sel;
+    let ds=null;
+    if(chart.$bandMode==='always')ds=0;else if(sel&&sel.ds>=0)ds=sel.ds;
+    if(ds==null||!a.bands[ds])return;
+    const b=a.bands[ds],{ctx,chartArea:{left,right},scales:{y}}=chart;
+    const col=chart.data.datasets[ds].borderColor||'#4b9cf5';
+    const yt=y.getPixelForValue(b.hi),yb=y.getPixelForValue(b.lo);
+    ctx.save();
+    ctx.fillStyle=col+'14';ctx.fillRect(left,yt,right-left,yb-yt);
+    ctx.strokeStyle='rgba(120,135,160,0.55)';ctx.lineWidth=1;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(left,yt);ctx.lineTo(right,yt);ctx.moveTo(left,yb);ctx.lineTo(right,yb);ctx.stroke();
+    ctx.restore();
+  },
+  afterDatasetsDraw(chart){
+    const a=chart.$anom;if(!a)return;
+    const{ctx,chartArea:{top,bottom},scales:{x,y}}=chart;
+    const sets=chart.data.datasets,sel=chart.$sel;
+    const pos=(i,ds)=>[x.getPixelForValue(i),y.getPixelForValue(sets[ds].data[i])];
+    ctx.save();
+    if(sel){
+      const an=a.list.find(s=>s.index===sel.index&&s.ds===sel.ds);
+      if(sel.ds>=0&&sets[sel.ds]){
+        const[px,py]=pos(sel.index,sel.ds);
+        const col=an?T_COL[an.type]:(sets[sel.ds].borderColor||'#4b9cf5');
+        ctx.setLineDash([4,4]);ctx.strokeStyle=col;ctx.globalAlpha=0.55;ctx.lineWidth=1.3;
+        ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,bottom);ctx.stroke();
+        ctx.setLineDash([]);ctx.globalAlpha=1;
+        ctx.fillStyle=col+'2e';ctx.beginPath();ctx.arc(px,py,12,0,Math.PI*2);ctx.fill();
+        if(!an){ctx.fillStyle='#fff';ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(px,py,5.5,0,Math.PI*2);ctx.fill();ctx.stroke();}
+      } else {
+        const px=x.getPixelForValue(sel.index);
+        ctx.setLineDash([4,4]);ctx.strokeStyle='#4b9cf5';ctx.globalAlpha=0.5;ctx.lineWidth=1.3;
+        ctx.beginPath();ctx.moveTo(px,top);ctx.lineTo(px,bottom);ctx.stroke();
+        ctx.setLineDash([]);ctx.globalAlpha=1;
+      }
+    }
+    a.list.forEach(s=>{
+      const[px,py]=pos(s.index,s.ds),col=T_COL[s.type],up=s.type==='spike';
+      ctx.setLineDash([4,4]);ctx.strokeStyle=col;ctx.lineWidth=1.3;
+      ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,up?bottom:py+17);ctx.stroke();
+      ctx.setLineDash([]);
+      _badge(ctx,px,up?Math.max(py-30,top+14):Math.min(py+30,bottom-14),s.type);
+      ctx.fillStyle=col;ctx.strokeStyle='#fff';ctx.lineWidth=2.5;
+      ctx.beginPath();ctx.arc(px,py,6.5,0,Math.PI*2);ctx.fill();ctx.stroke();
+    });
+    ctx.restore();
+  }
+};
+
+// ---- per-date breakdown (summary, sentiment, source, authors) ----
+const T_SRC=['X','Instagram','Reddit','Facebook','YouTube','Threads','Web'];
+const T_SRC_BASE=[28,18,15,12,11,9,7];
+const T_SVG={
+  up:(c)=>`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="${c}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12l4-4 3 3 7-8"/><path d="M10 3h5v5"/></svg>`,
+  down:(c)=>`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="${c}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 4l4 4 3-3 7 8"/><path d="M10 13h5V8"/></svg>`
+};
+
+function trendProfile(idx,type){
+  const rng=seeded(1000+idx*37);
+  let sent,src;
+  if(type==='spike'){sent=[38,20,42];src=[39,13,22,9,7,6,4];}
+  else if(type==='drop'){
+    sent=idx%2?[50,32,18]:[46,32,22];
+    src=idx%2?[31,19,15,12,10,8,5]:[30,20,14,13,10,8,5];
+  } else {
+    const neg=8+Math.round(rng()*8),neu=20+Math.round(rng()*8);
+    sent=[100-neg-neu,neu,neg];
+    const w=T_SRC_BASE.map(v=>v*(0.85+rng()*0.3)),s=w.reduce((a,b)=>a+b,0);
+    src=w.map(v=>Math.round(v/s*100));src[0]+=100-src.reduce((a,b)=>a+b,0);
+  }
+  const sources=T_SRC.map((n,i)=>({name:n,pct:src[i]})).sort((a,b)=>b.pct-a.pct);
+  return{sent,sources};
+}
+// unique authors that day vs the expected daily baseline (scales with that day's volume)
+function trendAuthors(i,ratio){
+  const base=310,rng=seeded(2000+i*13);
+  const n=Math.round(base*Math.pow(ratio,0.8)*(0.97+rng()*0.06));
+  return{n,pct:Math.round((n-base)/base*100)};
+}
+function trendAI(type,idx){
+  if(type==='spike')return{label:'AI spike summary',text:'The increase appears to be driven by discussions of service interruptions and a new feature launch. Negative discussions are concentrated on X and Reddit, while the launch is generating positive attention.'};
+  if(type==='drop')return{label:'AI drop summary',text:idx%2?'Activity stayed below the expected range for a second consecutive day, with fewer posts and comments across X, Instagram and Reddit.':'Conversations fell considerably below the expected range, with the sharpest decline on X as discussion around the recent travel-deals campaign tapered off.'};
+  return{label:'AI day summary',text:'Activity stayed within the expected range. Conversations centred on travel deals and the itinerary planner, with mostly positive sentiment.'};
+}
+function trendAISent(ds,type,idx){
+  if(type==='normal')return{label:'AI day summary',text:'Sentiment stayed within the expected range. Positive conversations centred on travel deals and the itinerary planner, with only light negative discussion.'};
+  const names=['Positive','Neutral','Negative'];
+  const T={
+    spikeNegative:'Negative mentions rose sharply, driven by discussions of service interruptions. The conversation is concentrated on X and Reddit, while reaction to the new feature launch stayed positive.',
+    spikePositive:'Positive mentions climbed above the expected range, led by praise for the itinerary planner and offline maps.',
+    dropPositive:idx%2?'Positive mentions stayed below the expected range for a second day, with fewer people sharing travel-deal experiences on X, Instagram and Reddit.':'Positive mentions fell considerably below the expected range as discussion of the recent travel-deals campaign tapered off, most visibly on X.',
+    dropNegative:'Negative mentions dropped well below the expected range as fewer complaints and support issues were reported across platforms.'
+  };
+  return{label:`AI ${type} summary`,text:T[type+names[ds]]};
+}
+
+function renderTrendAnoms(key){
+  const T=TREND[key],ch=T.chart,el=document.getElementById(T.anomsId);if(!el||!ch)return;
+  const a=ch.$anom;
+  if(key==='st'&&ch.isDatasetVisible&&[0,1,2].every(k=>!ch.isDatasetVisible(k))){el.innerHTML='<div class="tr-note">Select a sentiment to see its trend.</div>';return;}
+  if(!a){el.innerHTML='<div class="tr-note">Anomaly detection is available in the daily view.</div>';return;}
+  const labels=ch.data.labels,sel=T.sel;
+  const chips=a.list.map(s=>{
+    const on=sel&&sel.index===s.index&&sel.ds===s.ds;
+    const set=ch.data.datasets[s.ds];
+    const who=key==='st'?`<span class="cld" style="background:${set.borderColor};display:inline-block;"></span>${set.label} \u00b7 `:'';
+    return `<button class="an-chip${on?' sel':''}" onclick="trendPick('${key}',${s.index},${s.ds})">${T_SVG[s.type==='spike'?'up':'down'](T_COL[s.type])}${who}${labels[s.index]} \u00b7 ${fmtPct(s.pct)}</button>`;
+  }).join('');
+  el.innerHTML=`<div class="tr-an-hd"><span>Detected anomalies</span><span class="tr-badge">${a.list.length} event${a.list.length===1?'':'s'}</span></div>`+
+    (a.list.length?`<div class="tr-chips">${chips}</div>`:'<div class="tr-note" style="padding-top:0;">No unusual activity detected in this period.</div>');
+}
+
+function renderTrendDetail(key){
+  const T=TREND[key],ch=T.chart,host=document.getElementById(T.detailId);if(!host||!ch)return;
+  const a=ch.$anom,sel=T.sel;
+  if(!a||!sel){host.innerHTML='';return;}          // collapsed by default
+  const i=sel.index,sets=ch.data.datasets,isSent=key==='st';
+  const an=a.list.find(s=>s.index===i&&s.ds===sel.ds);
+  const ds=(!an&&isSent)?-1:sel.ds;                  // sentiment: a normal date shows the whole day
+  const type=an?an.type:'normal';
+  const total=sets.reduce((s,d)=>s+d.data[i],0),totalMed=sets.reduce((s,d,k)=>s+a.bands[k].median,0);
+  const v=ds>=0?sets[ds].data[i]:total, med=ds>=0?a.bands[ds].median:totalMed;
+  const pct=Math.round((v-med)/med*100);
+  const metric=ch.$metric||'Volume',unit=ch.$unit||metric;
+  const series=ds>=0&&isSent?sets[ds].label:'';
+  const dlabel=ch.data.labels[i];
+  let title,sub;
+  if(!isSent){
+    title=type==='spike'?`${metric} spike`:type==='drop'?`Unusual ${metric.toLowerCase()} drop`:`${dlabel} \u00b7 Within expected range`;
+    sub=`vs expected ${metric.toLowerCase()} of ${fmtNum(med)}`;
+  } else {
+    title=type==='spike'?`${series} sentiment spike`:type==='drop'?`Unusual drop in ${series.toLowerCase()} sentiment`:`${dlabel} \u00b7 Within expected range`;
+    sub=`vs expected ${series?series.toLowerCase()+' ':''}${unit} of ${fmtNum(med)}`;
+  }
+  const p=trendProfile(i,type);
+  let sh=p.sent;
+  if(isSent){sh=sets.map(d=>Math.round(d.data[i]/total*100));sh[0]+=100-sh.reduce((x,y)=>x+y,0);}
+  const snames=['Positive','Neutral','Negative'],scol=['#16a34a','#6b7280','#dc2626'];
+  const di=sh.indexOf(Math.max(...sh));
+  const ratio=isSent?total/totalMed:R.v30[i]/_median(R.v30);
+  const au=trendAuthors(i,ratio);
+  const ai=isSent?trendAISent(ds,type,i):trendAI(type,i);
+  const bd=T_BADGE[type];
+  const pcol=type==='spike'?T_COL.spike:type==='drop'?T_COL.drop:'#6b7280';
+  const ico=type==='spike'?T_SVG.up(T_COL.spike):type==='drop'?T_SVG.down(T_COL.drop):'';
+  const top=p.sources[0];
+  host.innerHTML=`<div class="tr-detail">
+    <div class="tr-d-top"><div class="tr-d-title">${ico}${title}</div><span class="sp ${bd[1]}">${bd[0]}</span></div>
+    <div class="tr-d-val"><span class="n">${fmtNum(v)}</span><span class="p" style="color:${pcol};">${fmtPct(pct)}</span><span class="s">${sub}</span></div>
+    <div class="tr-ai">
+      <div class="ai-hd"><span style="font-size:12.5px;font-weight:600;color:#1a1a2e;">${ai.label}</span><span class="ai-tag">\u2726 AI</span></div>
+      <div class="ai-d" style="margin:0;">${ai.text}</div>
+    </div>
+    <div class="tr-stats">
+      <div class="tr-stat">
+        <div class="l">Sentiment</div>
+        <div class="v" style="color:${scol[di]};">${sh[di]}% ${snames[di]}</div>
+        <div class="sent-bar" style="margin-top:6px;"><div class="sent-seg seg-pos" style="width:${sh[0]}%"></div><div class="sent-seg seg-neu" style="width:${sh[1]}%"></div><div class="sent-seg seg-neg" style="width:${sh[2]}%"></div></div>
+      </div>
+      <div class="tr-stat"><div class="l">Top source</div><div class="v">${top.name} \u00b7 ${top.pct}%</div></div>
+      <div class="tr-stat"><div class="l">Authors</div><div class="v">${fmtNum(au.n)} <span class="mc-chg ${au.pct>=0?'up':'dn'}">${au.pct>=0?'\u25b2':'\u25bc'} ${Math.abs(au.pct)}%</span><span class="mc-sub">vs expected</span></div></div>
+    </div>
+    <div class="tr-d-foot"><button class="tr-btn" onclick="exploreTrendDate('${key}',${i},${ds})">Explore messages</button></div>
+  </div>`;
+}
+
+// click a chip or a date: expands that event; click again to collapse
+function trendPick(key,index,ds){
+  const T=TREND[key],ch=T.chart;if(!ch||!ch.$anom)return;
+  T.sel=(T.sel&&T.sel.index===index&&T.sel.ds===ds)?null:{index,ds};
+  ch.$sel=T.sel;ch.draw();
+  renderTrendAnoms(key);renderTrendDetail(key);
+}
+function trendClick(key,e,chart){
+  if(!chart.$anom)return;
+  const pts=chart.getElementsAtEventForMode(e,'index',{intersect:false},true);
+  if(!pts.length)return;
+  const i=pts[0].index,an=chart.$anom.list.find(s=>s.index===i);
+  trendPick(key,i,an?an.ds:(key==='cv'?0:-1));
+}
+function exploreTrendDate(key,i,ds){
+  const ch=TREND[key].chart;
+  const who=key==='cv'?(ch.$metric||'Volume'):(ds>=0?ch.data.datasets[ds].label:'Sentiment');
+  openPanel(`${who} \u00b7 ${ch.data.labels[i]}`,'all');
+}
+function trendOptions(key){
+  return{...CO,
+    onClick:(e,els,chart)=>trendClick(key,e,chart),
+    onHover:(e,els,chart)=>{chart.canvas.style.cursor=chart.$anom?'pointer':'default';},
+    scales:{...CO.scales,y:{...CO.scales.y,ticks:{...CO.scales.y.ticks,maxTicksLimit:6,includeBounds:false,callback:fmtAxis}}}
+  };
+}
+function refreshTrendKey(key,d){
+  const T=TREND[key],ch=T.chart;if(!ch)return;
+  ch.data.labels=d.labels;
+  d.seriesData.forEach((arr,k)=>{ch.data.datasets[k].data=arr;});
+  ch.$metric=d.metric;ch.$unit=d.unit||d.metric;ch.$bandMode=T.bandMode;
+  const yo=ch.options.scales.y;
+  if(d.isDay){
+    const bands={},list=[];
+    const vis=d.seriesData.map((_,k)=>ch.isDatasetVisible?ch.isDatasetVisible(k):true);
+    d.seriesData.forEach((arr,k)=>{const r=detectSeries(arr,k,T.rules&&T.rules[k]);bands[k]=r;if(vis[k])list.push(...r.list);});
+    list.sort((x,y)=>x.index-y.index||x.ds-y.ds);
+    ch.$anom={bands,list};
+    if(T.sel&&T.sel.ds>=0&&!vis[T.sel.ds])T.sel=null;
+    const mx=Math.max(1,...d.seriesData.filter((_,k)=>vis[k]).map(arr=>Math.max(...arr)));
+    yo.max=mx*1.3;yo.min=-mx*0.2;
+    ch.$sel=T.sel;
+  } else {
+    ch.$anom=null;ch.$sel=null;yo.max=undefined;yo.min=undefined;
+  }
+  const lg=document.getElementById(T.legendId);if(lg)lg.style.display=d.isDay?'flex':'none';
+  ch.update();
+  renderTrendAnoms(key);renderTrendDetail(key);
+}
+function refreshTrend(){const d=getCv();refreshTrendKey('cv',{labels:d.labels,seriesData:[d.data],isDay:d.isDay,metric:d.metric,unit:d.metric});}
+function refreshSent(){const d=getSt();refreshTrendKey('st',{labels:d.labels,seriesData:[d.pos,d.neu,d.neg],isDay:d.isDay,metric:d.metric,unit:'mentions'});}
+function toggleSentSeries(i,on){if(!stChart)return;stChart.setDatasetVisibility(i,on);refreshSent();}
+// ===== /TREND ANOMALIES =====
+
 function initCharts(){
   const cc=document.getElementById('cvChart');
   const sc=document.getElementById('stChart');
   if(!cc||!sc)return;
   const cd=getCv();
-  cvChart=new Chart(cc,{type:'line',data:{labels:cd.labels,datasets:[{label:'Value',data:cd.data,borderColor:'#4b9cf5',backgroundColor:'rgba(75,156,245,0.07)',borderWidth:2,fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#4b9cf5',pointBorderColor:'#fff',pointBorderWidth:1.5}]},options:{...CO}});
+  cvChart=new Chart(cc,{type:'line',plugins:[anomalyPlugin],data:{labels:cd.labels,datasets:[{label:'Value',data:cd.data,borderColor:'#4b9cf5',backgroundColor:'rgba(75,156,245,0.07)',borderWidth:2,fill:true,tension:0.25,pointRadius:2.5,pointBackgroundColor:'#4b9cf5',pointBorderColor:'#fff',pointBorderWidth:1.5}]},options:{...trendOptions('cv'),
+    plugins:{...CO.plugins,tooltip:{...CO.plugins.tooltip,callbacks:{label:c=>` ${c.chart.$metric||'Value'}: ${fmtNum(c.parsed.y)}`}}}
+  }});
+  refreshTrend();
   const sd=getSt();
-  stChart=new Chart(sc,{type:'line',data:{labels:sd.labels,datasets:[
-    {label:'Positive',data:sd.pos,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.05)',borderWidth:2,fill:true,tension:0.4,pointRadius:2.5,pointBackgroundColor:'#22c55e'},
-    {label:'Neutral', data:sd.neu,borderColor:'#9ca3af',backgroundColor:'rgba(156,163,175,0.04)',borderWidth:2,fill:true,tension:0.4,pointRadius:2.5,pointBackgroundColor:'#9ca3af',borderDash:[4,3]},
-    {label:'Negative',data:sd.neg,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.04)',borderWidth:2,fill:true,tension:0.4,pointRadius:2.5,pointBackgroundColor:'#ef4444'},
-  ]},options:{...CO}});
+  stChart=new Chart(sc,{type:'line',plugins:[anomalyPlugin],data:{labels:sd.labels,datasets:[
+    {label:'Positive',data:sd.pos,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.05)',borderWidth:2,fill:true,tension:0.25,pointRadius:2.5,pointBackgroundColor:'#22c55e'},
+    {label:'Neutral', data:sd.neu,borderColor:'#9ca3af',backgroundColor:'rgba(156,163,175,0.04)',borderWidth:2,fill:true,tension:0.25,pointRadius:2.5,pointBackgroundColor:'#9ca3af',borderDash:[4,3]},
+    {label:'Negative',data:sd.neg,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.04)',borderWidth:2,fill:true,tension:0.25,pointRadius:2.5,pointBackgroundColor:'#ef4444'},
+  ]},options:trendOptions('st')});
+  refreshSent();
 }
-function redrawConv(){if(!cvChart)return;const d=getCv();cvChart.data.labels=d.labels;cvChart.data.datasets[0].data=d.data;cvChart.update('none');}
-function redrawSent(){if(!stChart)return;const d=getSt();stChart.data.labels=d.labels;stChart.data.datasets[0].data=d.pos;stChart.data.datasets[1].data=d.neu;stChart.data.datasets[2].data=d.neg;stChart.update('none');}
+function redrawConv(){refreshTrend();}
+function redrawSent(){refreshSent();}
+
+
+// ===== TRENDS TAB: categories =====
+const ttEsc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const ttJs=s=>ttEsc(String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
+const ttShort=n=>n>=1e6?(Math.round(n/1e5)/10)+'M':n>=1e3?(Math.round(n/100)/10)+'K':String(Math.round(n));
+const ttType=k=>k[0]==='#'?'hashtag':k[0]==='@'?'mention':'keyword';
+const TT_TYPE_LABEL={keyword:'Words',hashtag:'Hashtags',mention:'Mentions'};
+const NEW_SPARK='<span class="sp-new" title="New this period" aria-label="New"><svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z"/></svg></span>';
+const ttRow=(kw,vol,eng,imp,plats,pos,neu,neg,isNew)=>({kw,type:ttType(kw),vol,eng,imp,plats,pos,neu,neg,isNew:!!isNew});
+const TT_INTENT=[{k:'Complaints',c:'#ef4444'},{k:'Request',c:'#f59e0b'},{k:'Advocacy',c:'#22c55e'},{k:'Evaluation',c:'#4b9cf5'},{k:'Others',c:'#9ca3af'}];
+const TT_KCATS=[
+  {name:'People',vol:4200,pct:32.7,kws:['Travelers','Families','Influencers','Solo travelers','Digital nomads']},
+  {name:'Locations',vol:3650,pct:28.4,kws:['Europe','Bali','Tokyo','New York','Paris']},
+  {name:'Events',vol:2180,pct:17.0,kws:['Summer travel','Holiday season','Travel expo','Black Friday']},
+  {name:'Brands',vol:1840,pct:14.3,kws:['Zylker','TravelGo','Zylker Pro','Zylker App']},
+  {name:'Products',vol:1530,pct:11.9,kws:['Flight booking','Hotel deals','Offline maps','Travel packages']}
+];
+const TT_ALL={
+  ai:[
+    {t:`Travel deals are driving positive buzz`,d:`Conversations around Zylker's latest travel deals are trending, especially Europe packages, with highly positive sentiment.`,s:'p'},
+    {t:`Customer support experience is a key discussion`,d:`Users appreciate quick resolutions, though some mention longer response times in recent weeks.`,s:'m'},
+    {t:`New app features are getting noticed`,d:`The itinerary planner and offline maps are generating excitement, with praise for ease of use.`,s:'p'},
+    {t:`Pricing and refund policies raise concerns`,d:`Some users express concerns about high prices and unclear refund policy, leading to negative sentiment.`,s:'r'}
+  ],
+  intent:[1144,936,1612,884,624],
+  rows:[
+    ttRow('travel deals',2184,16420,214000,'fb ig x',72,18,10),
+    ttRow('#ZylkerTravel',1890,14880,186000,'x ig th',78,15,7,1),
+    ttRow('europe travel',1326,12381,152000,'ig yt rd',64,22,14),
+    ttRow('@ZylkerSupport',1140,9120,98000,'x fb',44,30,26),
+    ttRow('zylker app',892,8560,121000,'x rd th',70,20,10),
+    ttRow('#TravelDeals',820,7340,88000,'x th',74,18,8),
+    ttRow('pricing',640,5400,196000,'rd fb x',22,36,42),
+    ttRow('customer support',583,4913,61000,'fb x yt',35,48,17),
+    ttRow('refund policy',483,3842,47000,'yt rd th',20,38,42),
+    ttRow('#ZylkerApp',460,3610,52000,'x ig',69,21,10),
+    ttRow('flight booking',410,3180,44000,'fb ig yt',60,28,12),
+    ttRow('hotel deals',380,2760,39000,'ig rd',66,24,10),
+    ttRow('@ZylkerHQ',340,2540,36000,'x ig',68,22,10),
+    ttRow('itinerary planner',290,2210,29000,'x ig',80,14,6,1),
+    ttRow('#EuropeTravel',260,1980,26000,'ig rd',72,20,8),
+    ttRow('@ZylkerCares',95,740,9000,'x',55,30,15)
+  ]
+};
+const TT_CATS={
+  pricing:{name:'Pricing',include:['pricing','price','discount','refund policy','subscription cost'],exclude:['job','career'],matchInc:'any',matchExc:'any',data:{
+    kpi:{vol:1040,volChg:14,share:20,shareChg:2.1,eng:9600,engChg:22,avg:9.2,avgChg:7,imp:412000,impChg:9,sent:[28,26,46],sentChg:3},
+    ai:[
+      {t:`Premium plan pricing is the main talking point`,d:`Most mentions compare the Pro tier with competitors, with several users asking whether annual discounts are coming.`,s:'m'},
+      {t:`Refund policy confusion is driving frustration`,d:`Users say the refund window is unclear after booking changes, which accounts for most negative mentions in this category.`,s:'r'},
+      {t:`Discount campaigns are well received`,d:`Summer travel offers and coupon codes are shared widely, with positive reactions on Instagram and X.`,s:'p'},
+      {t:`Families look for bundled pricing`,d:`Families and groups ask for bundled hotel and flight pricing, mostly as questions rather than complaints.`,s:'m'}
+    ],
+    intent:[330,280,150,190,90],
+    rows:[ttRow('pricing',640,5400,196000,'rd fb x',22,36,42),ttRow('refund policy',483,3842,47000,'yt rd th',20,38,42),ttRow('discount',360,3120,78000,'x ig fb',64,24,12),ttRow('subscription cost',210,1540,41000,'rd x',31,33,36),ttRow('coupon',180,1310,36000,'ig x',70,22,8),ttRow('annual plan',120,860,22000,'x fb',48,34,18,1)]}},
+  zia:{name:'Zia',include:['zia','ai assistant','smart replies','#ZiaAI'],exclude:[],matchInc:'any',matchExc:'any',data:{
+    kpi:{vol:780,volChg:38,share:15,shareChg:4.2,eng:11800,engChg:41,avg:15.1,avgChg:2,imp:356000,impChg:33,sent:[71,21,8],sentChg:5},
+    ai:[
+      {t:`Smart replies are generating excitement`,d:`Users say Zia's suggested replies save time on routine questions, with strong positive reactions on X and YouTube.`,s:'p'},
+      {t:`Questions about how Zia handles sensitive requests`,d:`A growing number of requests ask how Zia treats private data and whether replies can be reviewed before sending.`,s:'m'},
+      {t:`Occasional wrong suggestions frustrate early users`,d:`A small group reports irrelevant suggestions for niche travel queries, mostly on Reddit.`,s:'r'},
+      {t:`Zia is becoming part of the brand story`,d:`Advocates mention Zia alongside the itinerary planner when recommending the app to friends.`,s:'p'}
+    ],
+    intent:[70,210,250,160,90],
+    rows:[ttRow('zia',520,6900,214000,'x yt ig',74,18,8),ttRow('ai assistant',310,4100,133000,'x rd yt',66,22,12),ttRow('smart replies',240,3050,92000,'x ig',78,16,6,1),ttRow('#ZiaAI',190,2480,71000,'x th',80,14,6,1),ttRow('@ZiaSupport',90,760,22000,'x',52,30,18),ttRow('wrong suggestion',70,640,18000,'rd x',18,30,52)]}},
+  support:{name:'Customer support',include:['customer support','response time','live chat','#CustomerSupport'],exclude:[],matchInc:'any',matchExc:'any',data:{
+    kpi:{vol:910,volChg:6,share:17.5,shareChg:0.4,eng:6100,engChg:-4,avg:6.7,avgChg:-10,imp:268000,impChg:2,sent:[38,44,18],sentChg:2},
+    ai:[
+      {t:`Quick resolutions earn public praise`,d:`Customers publicly thank the support team for fast fixes, particularly on X and Facebook.`,s:'p'},
+      {t:`Longer response times in recent weeks`,d:`Several users mention waiting more than a day for a reply, which is the main driver of negative mentions.`,s:'r'},
+      {t:`Live chat is the preferred channel`,d:`People ask for live chat availability outside business hours and share their experiences with it.`,s:'m'},
+      {t:`Support advocates recommend the team`,d:`Long-time users recommend contacting support before cancelling bookings.`,s:'p'}
+    ],
+    intent:[240,260,190,120,100],
+    rows:[ttRow('customer support',583,4913,61000,'fb x yt',35,48,17),ttRow('response time',240,1720,33000,'x fb',26,34,40),ttRow('live chat',160,1180,24000,'fb x',58,30,12,1),ttRow('#CustomerSupport',140,1030,19000,'x fb',40,38,22),ttRow('ticket resolved',110,920,17000,'x fb',76,18,6),ttRow('@ZylkerCares',95,740,9000,'x',55,30,15)]}},
+  integrations:{name:'Integrations',include:['integrations','api','whatsapp integration','#ZylkerAPI'],exclude:[],matchInc:'any',matchExc:'any',data:{
+    kpi:{vol:520,volChg:11,share:10,shareChg:0.8,eng:4400,engChg:15,avg:8.5,avgChg:4,imp:187000,impChg:8,sent:[63,27,10],sentChg:2},
+    ai:[
+      {t:`Calendar and WhatsApp integrations are most requested`,d:`Users ask for deeper calendar sync and WhatsApp booking confirmations.`,s:'m'},
+      {t:`Developers praise the new API`,d:`Developers highlight clear docs and quick onboarding for the booking API.`,s:'p'},
+      {t:`Sync delays raise a few complaints`,d:`A small number of users report delays when syncing itineraries with third-party apps.`,s:'r'},
+      {t:`Partners share integration tips`,d:`Travel agencies share setup guides and tips, driving steady discussion on YouTube and the web.`,s:'p'}
+    ],
+    intent:[70,190,110,100,50],
+    rows:[ttRow('integrations',240,1810,62000,'x yt',60,28,12),ttRow('api',180,1420,48000,'x rd',66,26,8),ttRow('whatsapp integration',130,990,31000,'x fb',54,36,10,1),ttRow('#ZylkerAPI',90,700,22000,'x th',72,20,8),ttRow('zapier',85,620,17000,'rd x',58,30,12),ttRow('@ZylkerDev',60,470,12000,'x',68,24,8)]}}
+};
+const TT_CACHE={};
+let _ttCat='all',_ttKwTab='all',_ttKwPage=0,_ttSort={key:'eng',dir:-1},_intentChart=null;
+const _ttOpen=new Set(),_ttCatOpen=new Set();
+const TT_PER=5;
+let _ttCatSeq=0;
+
+function ttHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+// mock data for a user-created category, derived from the keywords entered
+function ttBuildCat(c){
+  const r=seeded(ttHash(c.name+'|'+c.include.join('|')));
+  let kws=c.include.map(k=>k.replace(/^["']|["']$/g,'')).filter(Boolean).slice(0,8);
+  if(!kws.length)kws=[c.name.toLowerCase()];
+  const pool=['x','ig','fb','yt','rd','th'];
+  const rows=kws.map((k,i)=>{
+    const vol=Math.max(30,Math.round((560-i*60)*(0.7+r()*0.6)));
+    const pos=15+Math.round(r()*65),neg=Math.round((100-pos)*(0.15+r()*0.5)),neu=100-pos-neg;
+    const n=2+Math.floor(r()*2),st=Math.floor(r()*pool.length);
+    const plats=Array.from({length:n},(_,j)=>pool[(st+j)%pool.length]).join(' ');
+    return ttRow(k,vol,Math.round(vol*(3+r()*9)),Math.round(vol*(60+r()*160)),plats,pos,neu,neg);
+  });
+  const sum=f=>rows.reduce((s,x)=>s+f(x),0),tv=sum(x=>x.vol);
+  const vol=Math.round(tv*0.8),eng=sum(x=>x.eng),imp=sum(x=>x.imp);
+  const sent=[0,1,2].map(i=>Math.round(sum(x=>[x.pos,x.neu,x.neg][i]*x.vol)/tv));
+  sent[1]+=100-sent.reduce((a,b)=>a+b,0);
+  const ch=()=>Math.round(-6+r()*38);
+  const w=[0.18+r()*0.2,0.14+r()*0.16,0.2+r()*0.2,0.12+r()*0.16,0.06+r()*0.1],ws=w.reduce((a,b)=>a+b,0);
+  const intent=w.map(x=>Math.round(x/ws*vol));intent[4]+=vol-intent.reduce((a,b)=>a+b,0);
+  const di=sent.indexOf(Math.max(...sent)),sn=['p','m','r'][di];
+  const top=kws[0],second=kws[1]||kws[0],low=c.name.toLowerCase();
+  return{
+    kpi:{vol,volChg:ch(),share:Math.round(vol/52*10)/10,shareChg:Math.round((r()*3.5-0.5)*10)/10,eng,engChg:ch(),avg:Math.round(eng/vol*10)/10,avgChg:ch(),imp,impChg:ch(),sent,sentChg:Math.round(r()*8-2)},
+    ai:[
+      {t:`${c.name} conversations are active`,d:`Mentions of ${top} lead this category, with most activity on X and Instagram over the last 30 days.`,s:sn},
+      {t:`${second} draws steady discussion`,d:`People mention ${second} alongside their travel plans, mostly as questions and quick opinions.`,s:'m'},
+      {t:`Sentiment is ${di===0?'mostly positive':di===2?'leaning negative':'mixed'}`,d:`${sent[di]}% of ${low} mentions are ${['positive','neutral','negative'][di]}, with the strongest reactions on X.`,s:sn}
+    ],
+    intent,rows
+  };
+}
+function ttCatData(id){return TT_CACHE[id]||(TT_CACHE[id]=TT_CATS[id].data||ttBuildCat(TT_CATS[id]));}
+const ttCur=()=>_ttCat==='all'?TT_ALL:ttCatData(_ttCat);
+
+// ---- category dropdown ----
+function renderCatDD(){
+  const el=document.getElementById('catDD');if(!el)return;
+  const item=(id,label)=>`<div class="cat-dd-item${id===_ttCat?' active':''}" onclick="ttSelectCat('${id}')">${ttEsc(label)}</div>`;
+  el.innerHTML=item('all','All conversations')+'<div class="cat-dd-sep"></div>'+Object.keys(TT_CATS).map(id=>item(id,TT_CATS[id].name)).join('');
+  const lb=document.getElementById('catDDLabel');if(lb)lb.textContent=_ttCat==='all'?'All conversations':TT_CATS[_ttCat].name;
+}
+function toggleCatDD(){const el=document.getElementById('catDD');if(el)el.style.display=el.style.display==='none'?'block':'none';}
+function ttSelectCat(id){
+  _ttCat=id;_ttKwPage=0;_ttOpen.clear();
+  const dd=document.getElementById('catDD');if(dd)dd.style.display='none';
+  renderCatDD();renderTrends();
+}
+
+// ---- main render ----
+function renderTrends(){
+  const all=_ttCat==='all',d=ttCur(),$=id=>document.getElementById(id);
+  const k=$('ttKpis');if(k){k.style.display=all?'none':'grid';if(!all)k.innerHTML=ttKpiHtml(d.kpi);}
+  renderTtAi(d.ai);
+  // All conversations: cloud | intent.  Category: AI summary | intent.
+  const top=$('ttTop'),mid=$('ttMid'),ic=$('ttIntentCard');
+  if(all){if(ic.parentNode!==mid)mid.appendChild(ic);top.classList.remove('side');$('ttAiGrid').style.gridTemplateColumns='';}
+  else{if(ic.parentNode!==top)top.appendChild(ic);top.classList.add('side');$('ttAiGrid').style.gridTemplateColumns='repeat(2,1fr)';}
+  mid.style.display=all?'':'none';
+  $('ttWcCard').style.display=all?'':'none';
+  $('ttCatCard').style.display=all?'':'none';
+  if(all){renderWordCloud();renderTtCatTable();}
+  renderTtIntent();
+  renderTtKw();
+}
+function renderTtAi(list){
+  const g=document.getElementById('ttAiGrid');if(!g)return;
+  const L={p:'😊 Positive',m:'😐 Mixed',r:'😟 Negative'};
+  g.innerHTML=list.map((c,i)=>`<div class="ai-c"><div class="ai-t"><span class="ai-n">${i+1}</span>${ttEsc(c.t)}</div><div class="ai-d">${ttEsc(c.d)}</div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;"><span class="sp sp-${c.s}">${L[c.s]}</span><button onclick="openPanel('${ttJs(c.t)}','${c.s==='p'?'pos':c.s==='r'?'neg':'all'}')" style="background:none;border:none;color:#4b9cf5;font-size:11.5px;cursor:pointer;padding:0;font-weight:500;">View conversations →</button></div></div>`).join('');
+}
+function ttKpiHtml(k){
+  const chg=(v,suf,cls)=>`<div class="mc-chg ${cls||(v>=0?'up':'dn')}">${v>=0?'▲':'▼'} ${Math.abs(v)}${suf||'%'} <span class="mc-sub">vs previous 30 days</span></div>`;
+  const ico=(bg,svg)=>`<div class="mc-ico" style="background:${bg};">${svg}</div>`;
+  const sv=(c,p)=>`<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="${c}" stroke-width="2">${p}</svg>`;
+  const names=['Positive','Neutral','Negative'],cols=['#16a34a','#6b7280','#dc2626'];
+  const di=k.sent.indexOf(Math.max(...k.sent));
+  const scls=di===0?(k.sentChg>=0?'up':'dn'):di===2?(k.sentChg<=0?'up':'dn'):(k.sentChg>=0?'up':'dn');
+  const card=(label,icon,val,change,t)=>`<div class="mc" onclick="openPanel('${ttJs(t)}','all')"><div class="mc-lbl">${label}${icon}</div>${val}${change}</div>`;
+  return card('Total volume',ico('#eef4ff',sv('#4b9cf5','<path d="M18 14a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h12a2 2 0 012 2z"/>')),`<div class="mc-val">${fmtNum(k.vol)}</div>`,chg(k.volChg),'Total volume')+
+    card('Share of volume',ico('#f3f0ff',sv('#8b5cf6','<circle cx="10" cy="10" r="8"/><path d="M10 2v8l6 4"/>')),`<div class="mc-val">${k.share}%</div>`,chg(k.shareChg,' pts'),'Share of volume')+
+    card('Engagement',ico('#fff0f5',sv('#ec4899','<path d="M10 17l-7-7 3-3 4 4 7-9"/>')),`<div class="mc-val">${ttShort(k.eng)}</div>`,chg(k.engChg),'Engagement')+
+    card('Avg. engagement',ico('#ecfdf5',sv('#10b981','<rect x="2" y="10" width="3" height="7" rx="1"/><rect x="8" y="6" width="3" height="11" rx="1"/><rect x="14" y="2" width="3" height="15" rx="1"/>')),`<div class="mc-val">${k.avg}</div>`,chg(k.avgChg),'Avg. engagement')+
+    card('Impressions',ico('#fef3c7',sv('#d97706','<path d="M1 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="3"/>')),`<div class="mc-val">${ttShort(k.imp)}</div>`,chg(k.impChg),'Impressions')+
+    card('Sentiment',ico('#f0fdf4',sv('#22c55e','<circle cx="10" cy="10" r="8"/><path d="M7 13c.8 1 1.8 1.5 3 1.5s2.2-.5 3-1.5"/>')),`<div class="mc-val" style="color:${cols[di]};">${k.sent[di]}% <span style="font-size:12px;font-weight:600;">${names[di]}</span></div><div class="sent-bar" style="margin:6px 0 4px;"><div class="sent-seg seg-pos" style="width:${k.sent[0]}%"></div><div class="sent-seg seg-neu" style="width:${k.sent[1]}%"></div><div class="sent-seg seg-neg" style="width:${k.sent[2]}%"></div></div>`,chg(k.sentChg,'%',scls),'Sentiment');
+}
+
+// ---- intent donut ----
+function renderTtIntent(){
+  const cv=document.getElementById('intentChart'),rows=document.getElementById('ttIntentRows');if(!cv||!rows)return;
+  const counts=ttCur().intent,total=counts.reduce((a,b)=>a+b,0);
+  rows.innerHTML=TT_INTENT.map((it,i)=>{const pc=Math.round(counts[i]/total*100);return `<div class="tt-irow" onclick="openPanel('${it.k} intent','all')"><span class="d" style="background:${it.c}"></span><span class="nm">${it.k}</span><div class="tt-ibar"><i style="width:${pc}%;background:${it.c}"></i></div><span class="ct">${fmtNum(counts[i])}</span><span class="pc">${pc}%</span></div>`;}).join('');
+  if(_intentChart){_intentChart.destroy();_intentChart=null;}
+  if(typeof Chart==='undefined')return;
+  const center={id:'ict',beforeDraw(ch){const{ctx:c,chartArea:{top,bottom,left,right}}=ch;const cx=(left+right)/2,cy=(top+bottom)/2;c.save();c.textAlign='center';c.textBaseline='middle';c.font='700 15px system-ui,sans-serif';c.fillStyle='#1a1a2e';c.fillText(fmtNum(total),cx,cy-6);c.font='400 10px system-ui,sans-serif';c.fillStyle='#9399b0';c.fillText('Conversations',cx,cy+9);c.restore();}};
+  _intentChart=new Chart(cv,{type:'doughnut',plugins:[center],data:{labels:TT_INTENT.map(i=>i.k),datasets:[{data:counts,backgroundColor:TT_INTENT.map(i=>i.c),borderWidth:2,borderColor:'#fff',hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmtNum(c.parsed)} (${Math.round(c.parsed/total*100)}%)`},backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}},onClick:(e,els)=>{if(els.length)openPanel(TT_INTENT[els[0].index].k+' intent','all');}}});
+}
+
+// ---- keyword categories table (all conversations) ----
+function renderTtCatTable(){
+  const el=document.getElementById('ttCatBody');if(!el)return;
+  el.innerHTML=TT_KCATS.map((c,i)=>{
+    const open=_ttCatOpen.has(i),shown=open?c.kws:c.kws.slice(0,3),more=c.kws.length-3;
+    return `<tr onclick="openPanel('${ttJs(c.name)}','all')" style="cursor:pointer;"><td class="tt-catn">${c.name}</td><td><div class="tt-krow">${shown.map(k=>`<span class="cat-chip">${ttEsc(k)}</span>`).join('')}${more>0?`<span class="tt-more" onclick="ttCatMore(event,${i})">${open?'Show less':'+'+more+' more'}</span>`:''}</div></td><td><div class="tt-vrow"><div class="tt-vbar"><i style="width:${c.pct}%"></i></div><b>${fmtNum(c.vol)}</b><span>${c.pct.toFixed(1)}%</span></div></td></tr>`;
+  }).join('');
+}
+function ttCatMore(e,i){e.stopPropagation();_ttCatOpen.has(i)?_ttCatOpen.delete(i):_ttCatOpen.add(i);renderTtCatTable();}
+
+// ---- keywords table ----
+const ttIco=p=>`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const TT_IC={
+  heart:ttIco('<path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 000-7.8z"/>'),
+  comment:ttIco('<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>'),
+  repost:ttIco('<path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/>'),
+  quote:ttIco('<path d="M3 21c3 0 7-1 7-8V5a2 2 0 00-2-2H4a2 2 0 00-2 2v6a2 2 0 002 2h4"/><path d="M15 21c3 0 7-1 7-8V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v6a2 2 0 002 2h4"/>'),
+  save:ttIco('<path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>'),
+  down:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+  up:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>'
+};
+// engagement split (proportions taken from the reference): interactions add up to the total, reactions split the likes
+function ttBreak(eng){
+  const f=[0.7317,0.1585,0.0671,0.0256,0.01768],rf=[0.5,0.25,0.0833,0.0625,0.0792,0.025];
+  const it=f.map(x=>eng*x);
+  return{inter:it,react:rf.map(x=>it[0]*x)};
+}
+function ttBreakHtml(eng){
+  const b=ttBreak(eng),em=['👍','❤️','😆','😮','😢','😡'],ic=['heart','comment','repost','quote','save'];
+  return `<div class="tt-bk">${b.inter.map((v,i)=>`<span class="tt-bi">${TT_IC[ic[i]]}${ttShort(v)}</span>`).join('')}</div><div class="tt-bk">${b.react.map((v,i)=>`<span class="tt-bi">${em[i]} ${ttShort(v)}</span>`).join('')}</div>`;
+}
+function ttSortVal(r,key){return key==='sent'?r.pos:r[key];}
+function renderTtKw(){
+  const tb=document.getElementById('ttKwBody');if(!tb)return;
+  let rows=ttCur().rows.map((r,i)=>({...r,id:i}));
+  if(_ttKwTab!=='all')rows=rows.filter(r=>r.type===_ttKwTab);
+  rows.sort((a,b)=>(ttSortVal(a,_ttSort.key)-ttSortVal(b,_ttSort.key))*_ttSort.dir);
+  const slice=rows.slice(0,(_ttKwPage+1)*TT_PER);
+  tb.innerHTML=slice.map(r=>{
+    const key=_ttCat+':'+r.id,open=_ttOpen.has(key);
+    return `<tr class="${open?'tt-open':''}" onclick="openPanel('${ttJs(r.kw)}','all')" style="cursor:pointer;">
+      <td><div class="kw-n">${ttEsc(r.kw)}${r.isNew?NEW_SPARK:''}</div><div class="tt-type">${TT_TYPE_LABEL[r.type]}</div></td>
+      <td>${fmtNum(r.vol)}</td>
+      <td><div class="tt-eng"><b style="font-size:12.5px;color:#1a1a2e;">${ttShort(r.eng)}</b><button class="tt-chev" onclick="ttToggle(event,'${key}')" aria-label="Toggle engagement breakdown">${open?TT_IC.up:TT_IC.down}</button></div>${open?`<div class="tt-bkwrap">${ttBreakHtml(r.eng)}</div>`:''}</td>
+      <td>${ttShort(r.imp)}</td>
+      <td>${kwSentBar(r.pos,r.neu,r.neg)}<div class="tt-sent">${r.pos}% positive</div></td>
+      <td>${kwPlatIcons(r.plats)}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="6" style="text-align:center;color:#9399b0;padding:18px;">No keywords of this type</td></tr>';
+  const btn=document.getElementById('ttKwMore');if(btn)btn.style.display=slice.length<rows.length?'inline-block':'none';
+  ['vol','sent','imp','eng'].forEach(k=>{
+    const g=document.getElementById('ttSrt-'+k);if(!g)return;
+    const on=_ttSort.key===k;g.textContent=on?(_ttSort.dir<0?'↓':'↑'):'↕';
+    if(g.parentElement)g.parentElement.classList.toggle('sorted',on);
+  });
+}
+function ttToggle(e,key){e.stopPropagation();_ttOpen.has(key)?_ttOpen.delete(key):_ttOpen.add(key);renderTtKw();}
+function ttSort(key){if(_ttSort.key===key)_ttSort.dir*=-1;else _ttSort={key,dir:-1};_ttKwPage=0;renderTtKw();}
+function ttKwMore(){_ttKwPage++;renderTtKw();}
+function ttKwTab(btn,f){btn.parentElement.querySelectorAll('.kw-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');_ttKwTab=f;_ttKwPage=0;renderTtKw();}
+
+// ---- create category modal ----
+function ttReadTags(areaId){
+  const el=document.querySelector('#'+areaId+' .tag-input');if(!el)return[];
+  const tags=[...(_tags.get(el)||[])],pend=(_rv.get(el)||'').trim();
+  if(pend)tags.push(pend);
+  return tags.map(t=>t.trim()).filter(Boolean);
+}
+function ttResetTags(areaId){const el=document.querySelector('#'+areaId+' .tag-input');if(!el)return;el.innerHTML='';_tags.set(el,[]);_rv.set(el,'');}
+const ttNameTaken=n=>Object.values(TT_CATS).some(c=>c.name.toLowerCase()===n.trim().toLowerCase())||n.trim().toLowerCase()==='all conversations';
+function ttCatErr(msg,boxId){
+  const e=document.getElementById('catErr');if(e){e.textContent=msg||'';e.style.display=msg?'block':'none';}
+  ['catName','catInclBox'].forEach(id=>{const x=document.getElementById(id);if(x)x.style.borderColor='#e0e2e9';});
+  if(boxId){const x=document.getElementById(boxId);if(x)x.style.borderColor='#ef4444';}
+}
+function openCategoryModal(){
+  const ov=document.getElementById('catModalOverlay');if(!ov)return;
+  document.getElementById('catName').value='';
+  ttResetTags('catIncl');ttResetTags('catExcl');
+  document.getElementById('catInclMatch').value='any';document.getElementById('catExclMatch').value='any';
+  ttCatErr('');
+  ov.style.display='flex';
+  setTimeout(()=>document.getElementById('catName').focus(),30);
+}
+function closeCategoryModal(){const ov=document.getElementById('catModalOverlay');if(ov)ov.style.display='none';}
+function createCategory(){
+  const name=document.getElementById('catName').value.trim();
+  const incl=ttReadTags('catIncl'),excl=ttReadTags('catExcl');
+  if(!name){ttCatErr('Enter a category name.','catName');return;}
+  if(ttNameTaken(name)){ttCatErr('A category with this name already exists.','catName');return;}
+  if(!incl.length){ttCatErr('Add at least one include keyword.','catInclBox');return;}
+  const id='c'+(++_ttCatSeq)+Date.now().toString(36);
+  TT_CATS[id]={name,include:incl,exclude:excl,matchInc:document.getElementById('catInclMatch').value,matchExc:document.getElementById('catExclMatch').value};
+  closeCategoryModal();ttSelectCat(id);
+}
 
 /* ===== ADD SEARCH MODAL ===== */
 let _listenType='brand', _competitorCount=1, _mfOpen=false;
@@ -2382,6 +3168,9 @@ const SEARCH_CONFIGS = {
   },
 };
 
+SEARCH_CONFIGS['Zylker'].alerts={metrics:{vol:'Moderate increase',neg:'Massive increase'},notify:'individual',people:['Aisha Khan','Ravi Menon'],channels:['In-app','Email']};
+SEARCH_CONFIGS['Zylker App'].alerts={metrics:{eng:'Moderate increase'},notify:'team',people:['Social media team'],channels:['In-app']};
+SEARCH_CONFIGS['Competitors'].alerts={metrics:{vol:'Massive increase',pos:'Moderate increase',neg:'Moderate increase'},notify:'team',people:['Brand & PR','Leadership'],channels:['In-app','Email']};
 function openEditSearch(name){
   const cfg = SEARCH_CONFIGS[name];
   // Open modal fresh first
@@ -2439,15 +3228,18 @@ function openEditSearch(name){
     }
 
     // 6. Noise checkboxes
-    const noiseBoxes = document.querySelectorAll('#addSearchOverlay input[type=checkbox]');
+    const noiseBoxes = document.querySelectorAll('#as-noise input');
     const labels = ['jobs','promo','coupons'];
     noiseBoxes.forEach((cb,i)=>{ if(labels[i]) cb.checked = cfg.noise[labels[i]]||false; });
 
     // 7. Date range
-    const dateSel = document.querySelector('#addSearchOverlay select');
+    const dateSel = document.getElementById('as-range');
     if(dateSel){
       [...dateSel.options].forEach(o=>{ o.selected = o.text===cfg.dateRange; });
     }
+
+    // 8. Alerts (stay collapsed; the badge shows how many are on)
+    alApply(cfg.alerts);
   }, 60);
 }
 
@@ -2458,6 +3250,7 @@ function openAddSearch(){
   ov.style.justifyContent='center';
   document.body.style.overflow='hidden';
   setListenType('brand');
+  alReset();pvReset();
 }
 function saveEditSearch(){
   // Reset modal back to create mode and close
@@ -2480,12 +3273,7 @@ function closeAddSearch(){
   document.body.style.overflow='';
   document.getElementById('as-name').value='';
   hideSyntaxHint();
-  // Reset all tag-input areas
-  document.querySelectorAll('#addSearchOverlay .tag-input-area').forEach(area=>{
-    area.querySelectorAll('span').forEach(s=>s.remove());
-    const inp=area.querySelector('.tag-input');
-    if(inp) inp.value='';
-  });
+  resetModalTags();
   // Reset kw-blocks to one
   ['kw-blocks-container','cmp-kw-blocks-container'].forEach(cid=>{
     const kc=document.getElementById(cid);
@@ -2496,6 +3284,8 @@ function closeAddSearch(){
   const cl=document.getElementById('competitors-list');
   if(cl) while(cl.children.length>1) cl.removeChild(cl.lastChild);
   if(_mfOpen) toggleMoreFilters();
+  if(_alOpen) toggleAlerts();
+  alReset();pvReset();
   setListenType('brand');
 }
 function handleOverlayClick(e){
@@ -2564,30 +3354,6 @@ function appendToLastKw(val){
 }
 function appendExcl(val){ const t=document.getElementById('as-exclude'); if(t){ t.value+=(t.value?', ':'')+val; t.focus(); } }
 
-function addKwBlock(op){
-  const container=document.getElementById('kw-blocks-container');
-  // Add operator label
-  const opLabel=document.createElement('div');
-  opLabel.className='kw-op-label';
-  opLabel.style.cssText='display:flex;align-items:center;gap:10px;margin:6px 0;';
-  opLabel.innerHTML=`<div style="flex:1;height:1px;background:#e8eaed;"></div><span style="font-size:12px;font-weight:700;color:#4b9cf5;background:#eef4ff;border:1px solid #c7deff;border-radius:50px;padding:2px 12px;">${op}</span><div style="flex:1;height:1px;background:#e8eaed;"></div>`;
-  container.appendChild(opLabel);
-  // Add new block
-  const block=document.createElement('div');
-  block.className='kw-block';
-  block.style.cssText='margin-bottom:10px;position:relative;';
-  block.innerHTML=`<div style="border:1px solid #e0e2e9;border-radius:8px;overflow:hidden;">
-    <textarea rows="3" placeholder="Enter keywords, hashtags, mentions or phrases..." style="width:100%;border:none;padding:10px 12px;font-size:13px;font-family:inherit;resize:none;outline:none;color:#1a1a2e;display:block;"></textarea>
-    <div style="background:#f9fafb;padding:7px 12px;border-top:1px solid #f0f1f5;display:flex;align-items:center;justify-content:space-between;">
-      <div style="font-size:11.5px;color:#9399b0;"></div>
-      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#4a4f6a;">
-        Match: <select style="border:1px solid #e0e2e9;border-radius:5px;padding:3px 8px;font-size:11.5px;color:#4a4f6a;background:#fff;font-family:inherit;cursor:pointer;"><option selected>Any of these</option><option>All of these</option></select>
-      </div>
-    </div>
-  </div>
-  <button onclick="removeKwBlock(this)" style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;background:#ef4444;border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>`;
-  container.appendChild(block);
-}
 function removeKwBlock(btn){
   const block=btn.closest('.kw-block');
   // also remove the preceding op label
@@ -2599,9 +3365,197 @@ function removeKwBlock(btn){
 function toggleMoreFilters(){
   _mfOpen=!_mfOpen;
   document.getElementById('more-filters-body').style.display=_mfOpen?'block':'none';
+  document.getElementById('acc-mf').classList.toggle('open',_mfOpen);
   document.getElementById('mf-chevron').style.transform=_mfOpen?'rotate(180deg)':'';
   document.getElementById('mf-desc').style.display=_mfOpen?'block':'block';
 }
+
+
+// ===== SEARCH PREVIEW + ALERTS =====
+function resetModalTags(){document.querySelectorAll('#addSearchOverlay .tag-input').forEach(el=>{el.innerHTML='';_tags.set(el,[]);_rv.set(el,'');});}
+
+/* ---------- Preview ---------- */
+const PV_GENERIC=new Set(['travel','travels','trip','trips','hotel','hotels','flight','flights','deal','deals','sale','offer','offers','free','new','best','app','apps','tech','news','love','good','great','price','pricing','ai','crm','business','marketing','support','customer','video','music','food','fashion','sports','vacation','holiday']);
+const PV_SRC_NAME={x:'X',ig:'Instagram',th:'Threads',fb:'Facebook',rd:'Reddit',yt:'YouTube',wb:'Web'};
+const PV_SRC_W={x:0.30,ig:0.14,th:0.08,fb:0.12,rd:0.12,yt:0.10,wb:0.14};
+const PV_MSGS=[
+  'Just tried {kw} for the first time and honestly it is better than I expected 🙌',
+  'Anyone else seeing prices change on {kw} lately? Starting to feel like a bait and switch.',
+  'Big thanks to the team behind {kw}, support sorted my issue in under 10 minutes.',
+  'Thread: 5 things nobody tells you about {kw} before you book 🧵',
+  'Not impressed. {kw} promised a lot and delivered very little this week.',
+  'Looking for recommendations. Is {kw} worth it for a family trip?',
+  'Saw {kw} trending today, here is why people are talking about it.',
+  'We have been using {kw} for months now and the results speak for themselves.'
+];
+const PV_WHO=[['Amy Lin','@wanderlust_amy'],['Dan Ortiz','@dealhunter_dan'],['Nina Roy','@nina.explores'],['Raj Patel','@roamwithraj'],['Kai Brown','u/travelnerd22'],['Lena Fox','@globe_trotter'],['Tom Reid','@tripnotes']];
+const PV_TIMES=['12m ago','48m ago','2h ago'];
+let _pvState='empty',_pvStale=false,_pvTimer=null;
+
+function pvTags(el){if(!el)return[];const t=[...(_tags.get(el)||[])],p=(_rv.get(el)||'').trim();if(p)t.push(p);return t.map(s=>s.trim()).filter(Boolean);}
+const pvClean=k=>String(k).replace(/^["']|["']$/g,'').trim();
+// include blocks + the AND/OR between them
+function pvBlocks(containerId){
+  const c=document.getElementById(containerId),out=[];if(!c)return out;
+  let op='OR';
+  [...c.children].forEach(ch=>{
+    if(ch.classList.contains('kw-op-label')){op=/AND/i.test(ch.textContent)?'AND':'OR';}
+    else if(ch.classList.contains('kw-block')){
+      const kws=pvTags(ch.querySelector('.tag-input')),sel=ch.querySelector('select');
+      if(kws.length)out.push({op:out.length?op:null,kws,match:sel&&/all/i.test(sel.value)?'all':'any'});
+      op='OR';
+    }
+  });
+  return out;
+}
+function pvCollect(){
+  const type=_listenType;
+  const d={type,sources:Object.keys(_srcState).filter(k=>_srcState[k]),noise:[...document.querySelectorAll('#as-noise input')].filter(i=>i.checked).length,excl:[],blocks:[],brands:[],compare:[]};
+  if(type==='competitor'){
+    d.excl=pvTags(document.querySelector('.excl-tag-area-cmp .tag-input'));
+    document.querySelectorAll('#competitors-list > div').forEach(card=>{
+      const ins=card.querySelectorAll('input[type="text"]');if(ins.length<2)return;
+      const kws=ins[1].value.split(',').map(s=>s.trim()).filter(Boolean);
+      if(kws.length)d.brands.push({name:ins[0].value.trim()||'Brand',kws});
+    });
+    d.compare=pvBlocks('cmp-kw-blocks-container').flatMap(b=>b.kws);
+  } else {
+    d.excl=pvTags(document.querySelector('.excl-tag-area .tag-input'));
+    d.blocks=pvBlocks('kw-blocks-container');
+  }
+  return d;
+}
+const pvHasKw=d=>d.type==='competitor'?(d.brands.length>0||d.compare.length>0):d.blocks.length>0;
+
+// mock per-keyword daily volume: stable per keyword, huge for broad everyday words
+function pvKwVol(kw){
+  const k=pvClean(kw),r=(ttHash(k.toLowerCase())%1000)/1000;
+  const tokens=k.replace(/^[#@]/,'').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const g=tokens.filter(t=>PV_GENERIC.has(t)).length;
+  let v=60+r*840;
+  if(k[0]==='#')v*=0.6;else if(k[0]==='@')v*=0.5;
+  if(k[0]==='<')v*=0.25;else if(tokens.length>1)v*=0.5;
+  if(g)v*=tokens.length<=2?(8+4*g):3;
+  return Math.round(v);
+}
+function pvSamples(d,kws){
+  const names=d.sources.map(k=>PV_SRC_NAME[k]),seed=ttHash(kws.join('|'));
+  return [0,1,2].map(i=>({kw:kws[i%kws.length],tpl:PV_MSGS[(seed+i*3)%PV_MSGS.length],plat:names[i%names.length],who:PV_WHO[(seed+i*2)%PV_WHO.length],time:PV_TIMES[i],bg:AVC[(seed+i)%AVC.length]}));
+}
+function pvEstimate(d){
+  const vols={},add=k=>{const c=pvClean(k);if(!c)return 0;if(!(c in vols))vols[c]=pvKwVol(c);return vols[c];};
+  let total=0;
+  if(d.type==='competitor'){
+    const narrow=d.compare.length?0.45:1;
+    d.brands.forEach(b=>{total+=b.kws.map(add).reduce((a,x)=>a+x,0)*0.85*narrow;});
+    d.compare.forEach(add);
+  } else {
+    d.blocks.forEach((b,i)=>{
+      const vs=b.kws.map(add),bv=b.match==='all'?Math.min(...vs)*0.5:vs.reduce((a,x)=>a+x,0)*0.85;
+      if(i===0)total=bv;else if(b.op==='AND')total=Math.min(total,bv)*0.4;else total+=bv;
+    });
+  }
+  const sf=d.sources.reduce((s,k)=>s+PV_SRC_W[k],0);
+  total*=sf*Math.pow(0.9,d.excl.length)*Math.pow(0.96,d.noise);
+  const perDay=total<1000?Math.round(total/10)*10:total<10000?Math.round(total/50)*50:Math.round(total/100)*100;
+  const names=Object.keys(vols),all=names.reduce((s,k)=>s+vols[k],0)||1;
+  const flagged=names.map(k=>({kw:k,vol:Math.round(vols[k]*sf),share:Math.min(99,Math.round(vols[k]/all*100))})).filter(x=>x.vol>=1500).sort((a,b)=>b.vol-a.vol).slice(0,3);
+  return{perDay:Math.max(10,perDay),flagged,samples:pvSamples(d,names)};
+}
+
+const pvFmt=n=>n>=1000?(Math.round(n/100)/10)+'K':String(n);
+const pvSvg=(c,p)=>`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function pvBtn(label){return `<button class="pv-btn" onclick="runPreview()">${pvSvg('#fff','<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>')}${label}</button>`;}
+function pvEmptyHtml(){
+  const li=(bg,c,p,t,s)=>`<li><span class="pv-li-ico" style="background:${bg};">${pvSvg(c,p)}</span><div><b>${t}</b><span class="d">${s}</span></div></li>`;
+  return `<div class="pv-empty">
+    <div class="pv-ico">${pvSvg('#4b9cf5','<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>')}</div>
+    <div class="pv-t">Preview your search</div>
+    <div class="pv-s">See what this search would pick up before you create it.</div>
+    <ul class="pv-list">
+      ${li('#eef4ff','#4b9cf5','<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>','Estimated volume','How many messages a day to expect')}
+      ${li('#fffbeb','#d97706','<path d="M12 3l10 18H2z"/><path d="M12 10v5"/><path d="M12 18h.01"/>','Flagged keywords','Broad terms that could flood your results')}
+      ${li('#f0fdf4','#16a34a','<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>','Sample messages','A few examples of what would match')}
+    </ul>
+    ${pvBtn('Preview')}
+  </div>`;
+}
+function pvErrorHtml(msg){return `<div class="pv-empty"><div class="pv-ico" style="background:#fef2f2;">${pvSvg('#ef4444','<circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/>')}</div><div class="pv-t">Nothing to preview yet</div><div class="pv-s">${ttEsc(msg)}</div>${pvBtn('Preview')}</div>`;}
+function pvLoadingHtml(){return `<div class="pv-skel" style="height:78px;"></div><div class="pv-skel" style="height:118px;"></div><div class="pv-skel" style="height:170px;"></div>`;}
+function pvResultHtml(r){
+  const flag=r.flagged.length
+    ?`<div class="pv-flagnote">These could bring in massive volume. Make them more specific or add exclusions.</div>`+r.flagged.map(f=>`<div class="pv-fk"><span class="n" title="${ttEsc(f.kw)}">${ttEsc(f.kw)}</span><div class="bar"><i style="width:${f.share}%"></i></div><span class="v">~${pvFmt(f.vol)}/day</span></div>`).join('')
+    :`<div class="pv-ok">${pvSvg('#16a34a','<path d="M20 6L9 17l-5-5"/>')}<span>No keywords look likely to flood your results.</span></div>`;
+  const msgs=r.samples.map(s=>{
+    const pl=PLATS[s.plat],parts=s.tpl.split('{kw}');
+    const text=ttEsc(parts[0])+`<span class="pv-hl">${ttEsc(s.kw)}</span>`+ttEsc(parts.slice(1).join(s.kw));
+    return `<div class="pv-msg"><div class="pv-msg-h"><div class="pv-av" style="background:${s.bg};">${s.who[0].split(' ').map(x=>x[0]).join('')}</div><div class="pv-who"><b>${s.who[0]}</b>${s.who[1]} · ${s.time}</div><div class="si2 ${pl.cls}" style="width:18px;height:18px;font-size:9px;${pl.xtra}">${pl.lbl}</div></div><div class="pv-msg-t">${text}</div></div>`;
+  }).join('');
+  return `<div class="pv-sec"><div class="pv-lbl">Estimated volume</div><div class="pv-vol"><b>~${r.perDay.toLocaleString('en-US')}</b><span>messages/day</span></div></div>
+    <div class="pv-sec"><div class="pv-lbl">Flagged keywords</div>${flag}</div>
+    <div class="pv-sec"><div class="pv-lbl">Sample messages</div><div class="pv-msgs">${msgs}</div></div>`;
+}
+function pvSet(state,html){
+  _pvState=state;_pvStale=false;
+  const b=document.getElementById('pvBody');if(b){b.innerHTML=html;b.scrollTop=0;}
+  const s=document.getElementById('pvStale');if(s)s.style.display='none';
+  const r=document.getElementById('pvRefresh');if(r)r.style.display=state==='result'?'inline-block':'none';
+}
+function pvReset(){clearTimeout(_pvTimer);pvSet('empty',pvEmptyHtml());}
+function runPreview(){
+  const d=pvCollect();
+  const err=!d.sources.length?'Select at least one source to preview.':!pvHasKw(d)?'Add at least one keyword to preview.':'';
+  if(err){pvSet('error',pvErrorHtml(err));return;}
+  pvSet('loading',pvLoadingHtml());
+  clearTimeout(_pvTimer);
+  _pvTimer=setTimeout(()=>pvSet('result',pvResultHtml(pvEstimate(d))),650);
+}
+// once a preview is showing, edits to the search mark it outdated (alerts don't affect it)
+function pvDirty(e){
+  if(_pvState!=='result'||_pvStale)return;
+  const t=e.target;if(!t||!t.closest)return;
+  if(t.closest('[data-pv-ignore]'))return;
+  if(e.type==='keydown'&&!(t.closest('.tag-input')&&(e.key.length===1||e.key==='Enter'||e.key==='Backspace')))return;
+  _pvStale=true;const s=document.getElementById('pvStale');if(s)s.style.display='inline-block';
+}
+
+/* ---------- Alerts ---------- */
+let _alOpen=false;const _alSel=new Set();
+const AL_METRICS=[['vol','Volume'],['eng','Engagement'],['pos','Positive sentiment'],['neg','Negative sentiment']];
+const AL_PEOPLE=['Aisha Khan','Ravi Menon','Meera Iyer','Tom Becker','Sofia Alvarez'];
+const AL_TEAMS=['Social media team','Customer support','Brand & PR','Leadership'];
+function toggleAlerts(){_alOpen=!_alOpen;document.getElementById('alerts-body').style.display=_alOpen?'block':'none';document.getElementById('acc-al').classList.toggle('open',_alOpen);document.getElementById('al-chevron').style.transform=_alOpen?'rotate(180deg)':'';}
+function alRefreshBadge(){const n=AL_METRICS.filter(([k])=>document.getElementById('al-'+k).checked).length,b=document.getElementById('al-badge');b.style.display=n?'inline-block':'none';b.textContent=n+' on';}
+const alIsTeam=()=>document.getElementById('al-notify').value==='team';
+function alLabel(){
+  const el=document.getElementById('alPeopleLabel'),sel=[..._alSel];
+  el.textContent=sel.length?sel.slice(0,2).join(', ')+(sel.length>2?' +'+(sel.length-2):''):(alIsTeam()?'Select teams…':'Select people…');
+  el.style.color=sel.length?'#1a1a2e':'#9399b0';
+}
+function alRenderList(){
+  const list=alIsTeam()?AL_TEAMS:AL_PEOPLE;
+  document.getElementById('alPeopleDD').innerHTML=list.map((n,i)=>`<label class="kw-dd-item"><input type="checkbox" ${_alSel.has(n)?'checked':''} onchange="alPick(${i},this.checked)"> ${ttEsc(n)}</label>`).join('');
+  alLabel();
+}
+function alPick(i,on){const n=(alIsTeam()?AL_TEAMS:AL_PEOPLE)[i];on?_alSel.add(n):_alSel.delete(n);alLabel();}
+function alNotifyChange(){_alSel.clear();alRenderList();}
+function alToggleDD(e){e.stopPropagation();const d=document.getElementById('alPeopleDD');d.style.display=d.style.display==='none'?'block':'none';if(d.style.display==='block'&&d.scrollIntoView)d.scrollIntoView({block:'nearest'});}
+function alToggleCh(btn){btn.classList.toggle('on');}
+function alReset(){
+  AL_METRICS.forEach(([k])=>{const c=document.getElementById('al-'+k),s=document.getElementById('al-'+k+'-sel');if(c)c.checked=false;if(s)s.value='Moderate increase';});
+  document.getElementById('al-notify').value='individual';_alSel.clear();alRenderList();
+  document.querySelectorAll('#al-channels .al-ch').forEach(b=>b.classList.toggle('on',b.dataset.ch==='In-app'));
+  document.getElementById('alPeopleDD').style.display='none';
+  alRefreshBadge();
+}
+function alApply(a){
+  alReset();if(!a)return;
+  AL_METRICS.forEach(([k])=>{const lv=a.metrics&&a.metrics[k];if(lv){document.getElementById('al-'+k).checked=true;document.getElementById('al-'+k+'-sel').value=lv;}});
+  document.getElementById('al-notify').value=a.notify||'individual';_alSel.clear();(a.people||[]).forEach(n=>_alSel.add(n));alRenderList();
+  document.querySelectorAll('#al-channels .al-ch').forEach(b=>b.classList.toggle('on',(a.channels||[]).includes(b.dataset.ch)));
+  alRefreshBadge();
+}
+// ===== /SEARCH PREVIEW + ALERTS =====
 
 function addCompetitor(){
   _competitorCount++;
@@ -2644,11 +3598,12 @@ function createSearch(){
 }
 
 renderPeople();
-renderMsgTab();
 initCharts();
 initVtChart();
-renderWordCloud();
-renderKwTable();
+renderCatDD();
+renderTrends();
+alReset();pvReset();
+(function(){const l=document.getElementById('as-left');if(l)['input','change','click','keydown'].forEach(t=>l.addEventListener(t,pvDirty));})();
 </script>
 </body>
 </html>
