@@ -102,7 +102,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tab-panel.active{display:block;}
 
 /* when right panel is open, content area narrows */
-.body.panel-open .content{margin-right:360px;}
+:root{--rp-w:min(540px,60vw);}
+.body.panel-open .content{margin-right:var(--rp-w);}
 
 /* METRIC CARDS */
 .mrow{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:11px;margin-bottom:14px;align-items:stretch;}
@@ -170,6 +171,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tt-top.side .ai-sec,.tt-top.side .tc{margin-bottom:0;}
 .tt-top.side .tc{display:flex;flex-direction:column;}
 .tt-top.side .tt-intent{flex:1;}
+#vtCard{display:flex;flex-direction:column;}
+#vtCard .tt-intent{flex:1;}
+#vtCard .tt-intent{gap:28px;padding:18px 22px;}
+#vtCard .tt-donut{width:min(230px,46%);height:auto;aspect-ratio:1/1;}
+.tt-srow{display:flex;align-items:center;gap:11px;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:13px;color:#2d3047;}
+.tt-srow:hover{background:#f4f5f7;}
+.tt-srow .d{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tt-srow .nm{flex:1;min-width:0;}
+.tt-sv{text-align:right;line-height:1.2;}
+.tt-sv b{display:block;font-size:14px;font-weight:700;color:#1a1a2e;}
+.tt-sv span{font-size:11px;color:#9399b0;}
 .tt-intent{display:flex;align-items:center;gap:24px;padding:16px 18px;}
 .tt-donut{position:relative;width:140px;height:140px;flex-shrink:0;}
 .tt-irows{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
@@ -180,13 +192,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tt-ibar{width:70px;height:5px;border-radius:3px;background:#f0f1f5;overflow:hidden;flex-shrink:0;}
 .tt-ibar i{display:block;height:100%;border-radius:3px;}
 .tt-irow .ct{font-weight:600;color:#1a1a2e;min-width:40px;text-align:right;}
-.tt-irow .pc{width:34px;text-align:right;color:#9399b0;font-size:11px;}
+.tt-irow .pc{width:46px;text-align:right;color:#9399b0;font-size:11px;}
 .tt-catn{font-weight:600;color:#1a1a2e;font-size:12.5px;}
 .tt-krow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
 .tt-more{font-size:11px;color:#4b9cf5;font-weight:500;cursor:pointer;white-space:nowrap;}
 .tt-vrow{display:flex;align-items:center;gap:14px;}
 .tt-vrow b{min-width:48px;text-align:right;font-size:13px;color:#1a1a2e;}
-.tt-vrow span{min-width:44px;text-align:right;font-size:11px;color:#9399b0;white-space:nowrap;}
+.tt-vrow span{min-width:54px;text-align:right;font-size:11px;color:#9399b0;white-space:nowrap;}
 .tt-vbar{flex:1;height:6px;border-radius:3px;background:#f0f1f5;overflow:hidden;}
 .tt-vbar i{display:block;height:100%;background:#4b9cf5;border-radius:3px;}
 .tt-kwtable{table-layout:fixed;}
@@ -262,6 +274,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #addSearchOverlay select,#catModalOverlay select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;background-repeat:no-repeat !important;background-position:right 10px center !important;background-size:11px 11px !important;padding-right:28px !important;}
 .al-caret{width:12px;height:12px;flex-shrink:0;color:#6b7280;}
 .sp-new{display:inline-flex;align-items:center;margin-left:5px;vertical-align:-1px;}
+.pct-sub{font-size:11px;font-weight:400;color:#9399b0;white-space:nowrap;}
+td>.pct-sub{margin-left:6px;}
+td>.pct-sub.vs-p{margin-left:0;margin-top:4px;}
+/* keyword categories: add / view as a Trends category */
+.tt-kc-act{text-align:right;padding-right:16px;}
+.tt-cb{width:28px;height:28px;border-radius:50%;border:none;background:#f1f2f5;color:#4a4f6a;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;opacity:0;transition:opacity 0.15s,background 0.12s,color 0.12s;}
+#ttCatBody tr:hover .tt-cb,.tt-cb:focus-visible,.tt-cb.tt-flash{opacity:1;}
+@media (hover:none){.tt-cb{opacity:1;}}
+.tt-cb:hover{background:#e3edfc;color:#4b9cf5;}
+.tt-cb.view{background:#e6f0fd;color:#4b9cf5;}
+.tt-cb.tt-flash{animation:tt-flash 1.4s ease-out;}
+@keyframes tt-flash{0%{box-shadow:0 0 0 0 rgba(75,156,245,0.55);}70%{box-shadow:0 0 0 8px rgba(75,156,245,0);}100%{box-shadow:0 0 0 0 rgba(75,156,245,0);}}
+
 
 
 th.tt-sort{cursor:pointer;user-select:none;}
@@ -420,7 +445,7 @@ tbody tr:last-child td{border-bottom:none;}
 .ppl-more-btn:hover{background:#f4f5f7;color:#4a4f6a;border-color:#c0c5d8;}
 
 /* RIGHT PANEL */
-.rp{position:absolute;top:0;right:0;bottom:0;width:360px;background:#fff;border-left:1px solid #e4e6ed;box-shadow:-4px 0 18px rgba(0,0,0,0.07);display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.22s ease;z-index:200;}
+.rp{position:absolute;top:0;right:0;bottom:0;width:var(--rp-w);background:#fff;border-left:1px solid #e4e6ed;box-shadow:-4px 0 18px rgba(0,0,0,0.07);display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.22s ease;z-index:200;}
 .rp.open{transform:translateX(0);}
 .rp-hd{padding:13px 16px 11px;border-bottom:1px solid #e4e6ed;display:flex;align-items:flex-start;flex-shrink:0;}
 .rp-info{flex:1;}
@@ -428,7 +453,29 @@ tbody tr:last-child td{border-bottom:none;}
 .rp-count{font-size:11.5px;color:#9399b0;margin-top:2px;}
 .rp-close{background:none;border:none;cursor:pointer;color:#9399b0;font-size:18px;padding:0 4px;border-radius:4px;line-height:1;margin-left:8px;}
 .rp-close:hover{background:#f4f5f7;color:#4a4f6a;}
-.rp-filters{padding:10px 14px;border-bottom:1px solid #e4e6ed;display:flex;align-items:center;gap:7px;flex-shrink:0;flex-wrap:wrap;}
+.rp-fwrap{border-bottom:1px solid #e4e6ed;flex-shrink:0;}
+.rp-filters{padding:10px 14px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;position:relative;}
+.rp-morepop{position:absolute;top:calc(100% - 3px);left:14px;right:14px;background:#fff;border:1px solid #e4e6ed;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.14);z-index:300;padding:12px 14px 14px;}
+.rp-mp-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:12.5px;font-weight:600;color:#1a1a2e;}
+.rp-mp-cols{display:grid;grid-template-columns:1fr;gap:12px;}
+.rp-mp-lbl{font-size:11px;font-weight:700;color:#9399b0;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+.rp-mp-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.rp-chip{border:1px solid #e0e2e9;border-radius:50px;padding:4px 12px;font-size:12px;background:#fff;color:#4a4f6a;cursor:pointer;font-family:inherit;transition:border-color 0.12s,background 0.12s;}
+.rp-chip:hover{border-color:#b9d3f7;}
+.rp-chip.on{border-color:#4b9cf5;background:#eef4ff;color:#4b9cf5;font-weight:600;}
+.rpf.rp-mp-dd{width:100%;justify-content:space-between;}
+#rpDD-cat{max-height:220px;overflow-y:auto;}
+.rpf .rp-chev{width:11px;height:11px;opacity:0.6;fill:none;flex-shrink:0;}
+.rpf{gap:5px;}
+.rpf-v{font-weight:600;color:#1a1a2e;}
+.rpf.on{border-color:#4b9cf5;background:#f4f8ff;}
+.rpf.rp-iconbtn{position:relative;width:32px;height:30px;padding:0;justify-content:center;color:#4a4f6a;}
+.rpf.rp-iconbtn svg{width:16px;height:16px;opacity:1;}
+.rp-dot{position:absolute;top:-6px;right:-6px;min-width:15px;height:15px;padding:0 4px;box-sizing:border-box;border-radius:50px;background:#4b9cf5;color:#fff;font-size:9.5px;font-weight:700;line-height:15px;text-align:center;}
+.rp-clear{background:none;border:none;color:#4b9cf5;font-size:12px;font-weight:500;cursor:pointer;padding:0 4px;font-family:inherit;}
+.rp-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:46px 24px;}
+.rp-empty b{font-size:13.5px;color:#1a1a2e;margin-bottom:4px;}
+.rp-empty span{font-size:12px;color:#6b7280;margin-bottom:14px;}
 .rpf{display:flex;align-items:center;gap:3px;padding:5px 11px;border:1px solid #e0e2e9;border-radius:6px;background:#fff;font-size:12px;color:#4a4f6a;cursor:pointer;font-weight:500;}
 .rpf svg{width:9px;height:9px;opacity:0.5;}
 .rpf:hover{border-color:#b0b8d8;}
@@ -891,27 +938,21 @@ tbody tr:last-child td{border-bottom:none;}
       <div class="g2">
         <div class="tc">
           <div class="tc-hd">Volume by source</div>
-          <table><thead><tr><th>Source</th><th>Volume <span class="s-col">↕</span></th><th>Sentiment <span class="s-col">↕</span></th><th>Engagement <span class="s-col">↕</span></th></tr></thead>
+          <table><thead><tr><th>Source</th><th>Volume <span class="s-col">↕</span></th><th>Sentiment <span class="s-col">↕</span></th><th>Engagement <span class="s-col">↕</span></th><th>Avg. engagement <span class="s-col">↕</span></th></tr></thead>
           <tbody>
-            <tr onclick="openPanel('X (Twitter)','all')"><td><div class="sn"><div class="si2 plat-x" style="color:#fff;font-size:8px;font-weight:900;">𝕏</div>X (Twitter)</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:100%;"></div></div>1.9K</div></td><td><div class="sent-bar" title="Positive 72% · Neutral 18% · Negative 10%"><div class="sent-seg seg-pos" style="width:72%"></div><div class="sent-seg seg-neu" style="width:18%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div></td><td>37%</td></tr>
-            <tr onclick="openPanel('Instagram','all')"><td><div class="sn"><div class="si2 plat-ig" style="font-size:9px;">📸</div>Instagram</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:63%;"></div></div>1.2K</div></td><td><div class="sent-bar" title="Positive 64% · Neutral 22% · Negative 14%"><div class="sent-seg seg-pos" style="width:64%"></div><div class="sent-seg seg-neu" style="width:22%"></div><div class="sent-seg seg-neg" style="width:14%"></div></div></td><td>23%</td></tr>
-            <tr onclick="openPanel('YouTube','all')"><td><div class="sn"><div class="si2 plat-yt" style="color:#fff;font-size:9px;">▶</div>YouTube</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:41%;"></div></div>780</div></td><td><div class="sent-bar" title="Positive 70% · Neutral 20% · Negative 10%"><div class="sent-seg seg-pos" style="width:70%"></div><div class="sent-seg seg-neu" style="width:20%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div></td><td>15%</td></tr>
-            <tr onclick="openPanel('Reddit','all')"><td><div class="sn"><div class="si2 plat-rd" style="font-size:9px;">👽</div>Reddit</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:33%;"></div></div>620</div></td><td><div class="sent-bar" title="Positive 35% · Neutral 48% · Negative 17%"><div class="sent-seg seg-pos" style="width:35%"></div><div class="sent-seg seg-neu" style="width:48%"></div><div class="sent-seg seg-neg" style="width:17%"></div></div></td><td>12%</td></tr>
-            <tr onclick="openPanel('Threads','all')"><td><div class="sn"><div class="si2 plat-th" style="color:#fff;font-size:9px;">🧵</div>Threads</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:23%;"></div></div>430</div></td><td><div class="sent-bar" title="Positive 62% · Neutral 28% · Negative 10%"><div class="sent-seg seg-pos" style="width:62%"></div><div class="sent-seg seg-neu" style="width:28%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div></td><td>8%</td></tr>
-            <tr onclick="openPanel('Web','all')"><td><div class="sn"><div class="si2 plat-wb" style="color:#fff;font-size:9px;">🌐</div>Web</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:13%;"></div></div>250</div></td><td><div class="sent-bar" title="Positive 44% · Neutral 51% · Negative 5%"><div class="sent-seg seg-pos" style="width:44%"></div><div class="sent-seg seg-neu" style="width:51%"></div><div class="sent-seg seg-neg" style="width:5%"></div></div></td><td>5%</td></tr>
+            <tr onclick="openPanel('X (Twitter)','all')"><td><div class="sn"><div class="si2 plat-x" style="color:#fff;font-size:8px;font-weight:900;">𝕏</div>X (Twitter)</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:100%;"></div></div>1.9K</div><div class="pct-sub vs-p">37%</div></td><td><div class="sent-bar" title="Positive 72% · Neutral 18% · Negative 10%"><div class="sent-seg seg-pos" style="width:72%"></div><div class="sent-seg seg-neu" style="width:18%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div><div class="tt-sent">72% positive</div></td><td>5K</td><td>2.6</td></tr>
+            <tr onclick="openPanel('Instagram','all')"><td><div class="sn"><div class="si2 plat-ig" style="font-size:9px;">📸</div>Instagram</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:63%;"></div></div>1.2K</div><div class="pct-sub vs-p">23%</div></td><td><div class="sent-bar" title="Positive 64% · Neutral 22% · Negative 14%"><div class="sent-seg seg-pos" style="width:64%"></div><div class="sent-seg seg-neu" style="width:22%"></div><div class="sent-seg seg-neg" style="width:14%"></div></div><div class="tt-sent">64% positive</div></td><td>4.1K</td><td>3.4</td></tr>
+            <tr onclick="openPanel('YouTube','all')"><td><div class="sn"><div class="si2 plat-yt" style="color:#fff;font-size:9px;">▶</div>YouTube</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:41%;"></div></div>780</div><div class="pct-sub vs-p">15%</div></td><td><div class="sent-bar" title="Positive 70% · Neutral 20% · Negative 10%"><div class="sent-seg seg-pos" style="width:70%"></div><div class="sent-seg seg-neu" style="width:20%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div><div class="tt-sent">70% positive</div></td><td>2.2K</td><td>2.8</td></tr>
+            <tr onclick="openPanel('Reddit','all')"><td><div class="sn"><div class="si2 plat-rd" style="font-size:9px;">👽</div>Reddit</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:33%;"></div></div>620</div><div class="pct-sub vs-p">12%</div></td><td><div class="sent-bar" title="Positive 35% · Neutral 48% · Negative 17%"><div class="sent-seg seg-pos" style="width:35%"></div><div class="sent-seg seg-neu" style="width:48%"></div><div class="sent-seg seg-neg" style="width:17%"></div></div><div class="tt-sent">35% positive</div></td><td>1.3K</td><td>2.1</td></tr>
+            <tr onclick="openPanel('Threads','all')"><td><div class="sn"><div class="si2 plat-th" style="color:#fff;font-size:9px;">🧵</div>Threads</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:23%;"></div></div>430</div><div class="pct-sub vs-p">8%</div></td><td><div class="sent-bar" title="Positive 62% · Neutral 28% · Negative 10%"><div class="sent-seg seg-pos" style="width:62%"></div><div class="sent-seg seg-neu" style="width:28%"></div><div class="sent-seg seg-neg" style="width:10%"></div></div><div class="tt-sent">62% positive</div></td><td>900</td><td>2.1</td></tr>
+            <tr onclick="openPanel('Web','all')"><td><div class="sn"><div class="si2 plat-wb" style="color:#fff;font-size:9px;">🌐</div>Web</div></td><td><div class="bw"><div class="bt"><div class="bf" style="width:13%;"></div></div>250</div><div class="pct-sub vs-p">5%</div></td><td><div class="sent-bar" title="Positive 44% · Neutral 51% · Negative 5%"><div class="sent-seg seg-pos" style="width:44%"></div><div class="sent-seg seg-neu" style="width:51%"></div><div class="sent-seg seg-neg" style="width:5%"></div></div><div class="tt-sent">44% positive</div></td><td>600</td><td>2.4</td></tr>
           </tbody></table>
         </div>
-        <div class="tc" onclick="openPanel('Volume type','all')">
+        <div class="tc" id="vtCard">
           <div class="tc-hd">Volume type</div>
-          <div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center;">
-            <canvas id="vtChart" role="img" aria-label="Volume type pie chart"></canvas>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;padding:0 8px 8px;">
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#4b9cf5;flex-shrink:0;display:inline-block;"></span>Posts <span style="color:#9399b0;">48%</span></span>
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#a78bfa;flex-shrink:0;display:inline-block;"></span>Comments <span style="color:#9399b0;">30%</span></span>
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#f472b6;flex-shrink:0;display:inline-block;"></span>Reviews <span style="color:#9399b0;">10%</span></span>
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#34d399;flex-shrink:0;display:inline-block;"></span>Reposts <span style="color:#9399b0;">8%</span></span>
-            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a4f6a;"><span style="width:10px;height:10px;border-radius:50%;background:#fbbf24;flex-shrink:0;display:inline-block;"></span>Other <span style="color:#9399b0;">4%</span></span>
+          <div class="tt-intent">
+            <div class="tt-donut"><canvas id="vtChart" role="img" aria-label="Volume type pie chart"></canvas></div>
+            <div class="tt-irows" id="vtRows"></div>
           </div>
         </div>
       </div>
@@ -922,7 +963,7 @@ tbody tr:last-child td{border-bottom:none;}
       <!-- category switcher -->
       <div class="tt-bar">
         <div class="kw-dd-wrap" style="position:relative;">
-          <button class="kw-dd-btn cat-dd-btn" onclick="toggleCatDD()"><span id="catDDLabel">All conversations</span> ▾</button>
+          <button class="kw-dd-btn cat-dd-btn" onclick="toggleCatDD()"><span id="catDDLabel">All messages</span> ▾</button>
           <div id="catDD" class="kw-dd" style="display:none;min-width:220px;"></div>
         </div>
         <button class="cat-add-btn" onclick="openCategoryModal()">+ Category</button>
@@ -939,7 +980,7 @@ tbody tr:last-child td{border-bottom:none;}
         </div>
       </div>
 
-      <!-- keyword cloud (all conversations) + intent -->
+      <!-- keyword cloud (all messages) + intent -->
       <div class="g2" id="ttMid">
         <div class="tc" id="ttWcCard" style="margin-bottom:0;">
           <div class="tc-hd">Trending keywords</div>
@@ -954,11 +995,11 @@ tbody tr:last-child td{border-bottom:none;}
         </div>
       </div>
 
-      <!-- keyword categories (all conversations) -->
+      <!-- keyword categories (all messages) -->
       <div class="tc" id="ttCatCard">
         <div class="tc-hd">Keyword categories</div>
         <table>
-          <thead><tr><th style="width:140px;">Category</th><th>Related keywords</th><th style="width:380px;">Volume</th></tr></thead>
+          <thead><tr><th style="width:140px;">Category</th><th>Related keywords</th><th style="width:380px;">Volume</th><th style="width:64px;"></th></tr></thead>
           <tbody id="ttCatBody"></tbody>
         </table>
       </div>
@@ -1026,14 +1067,26 @@ tbody tr:last-child td{border-bottom:none;}
       </div>
       <button class="rp-close" onclick="closePanel()">✕</button>
     </div>
-    <div class="rp-filters">
-      <button class="rpf">Engagement <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 6l4 4 4-4"/></svg></button>
-      <button class="rpf">Sentiment <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 6l4 4 4-4"/></svg></button>
-      <button class="rpf" style="margin-left:auto;">
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="17" y2="6"/><line x1="6" y1="10" x2="14" y2="10"/><line x1="9" y1="14" x2="11" y2="14"/></svg>
-        Author
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 6l4 4 4-4"/></svg>
-      </button>
+    <div class="rp-fwrap">
+      <div class="rp-filters">
+        <div class="kw-dd-wrap" style="position:relative;"><button class="rpf" id="rpB-eng" onclick="rpToggleDD('eng',event)"><span>Engagement:</span><span class="rpf-v" id="rpL-eng">All</span><svg class="rp-chev" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="kw-dd" id="rpDD-eng" style="display:none;min-width:190px;"></div></div>
+        <div class="kw-dd-wrap" style="position:relative;"><button class="rpf" id="rpB-sent" onclick="rpToggleDD('sent',event)"><span>Sentiment:</span><span class="rpf-v" id="rpL-sent">All</span><svg class="rp-chev" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="kw-dd" id="rpDD-sent" style="display:none;min-width:190px;"></div></div>
+        <button class="rp-clear" id="rpClear" style="display:none;" onclick="rpClearAll()">Clear all</button>
+        <div class="kw-dd-wrap" style="position:static;margin-left:auto;">
+          <button class="rpf rp-iconbtn" id="rpMoreBtn" title="More filters" aria-label="More filters" onclick="rpToggleMore(event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="4" x2="14" y2="4"/><line x1="10" y1="4" x2="3" y2="4"/><line x1="21" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="3" y2="12"/><line x1="21" y1="20" x2="16" y2="20"/><line x1="12" y1="20" x2="3" y2="20"/><line x1="14" y1="2" x2="14" y2="6"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="16" y1="18" x2="16" y2="22"/></svg><span id="rpMoreBadge" class="rp-dot" style="display:none;"></span></button>
+          <div class="rp-morepop" id="rpMore" style="display:none;" onclick="rpPopClick(event)">
+            <div class="rp-mp-hd"><span>More filters</span><button class="rp-clear" onclick="rpClearMore()">Clear</button></div>
+            <div class="rp-mp-cols">
+              <div class="rp-mp-col"><div class="rp-mp-lbl">Category</div>
+                <div class="kw-dd-wrap" id="rpCatWrap" style="position:relative;"><button class="rpf rp-mp-dd" id="rpB-cat" onclick="rpToggleDD('cat',event)"><span class="rpf-v" id="rpL-cat">All</span><svg class="rp-chev" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="kw-dd" id="rpDD-cat" style="display:none;min-width:100%;"></div></div>
+              </div>
+              <div class="rp-mp-col"><div class="rp-mp-lbl">Impressions</div><div class="rp-mp-chips" id="rpList-imp"></div></div>
+              <div class="rp-mp-col"><div class="rp-mp-lbl">Intent</div><div class="rp-mp-chips" id="rpList-intent"></div></div>
+              <div class="rp-mp-col"><div class="rp-mp-lbl">Type</div><div class="rp-mp-chips" id="rpList-type"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="rp-feed" id="rpFeed"></div>
   </div>
@@ -1478,14 +1531,14 @@ const PLATS={
   'Facebook':{cls:'plat-fb',lbl:'Fb',bg:'#1877f2',xtra:''},
 };
 const MSGS=[
-  {name:'Arjun Mehta',    handle:'@arjunmehta',    plat:'X',        time:'2h ago',  type:'Post',    text:'Really disappointed with the latest update. The app keeps crashing on iOS. 😤 <span class="tag">#Zylker</span>',                                            likes:86, comments:24, rt:12, sent:'neg', eng:'high'},
-  {name:'Priya Raman',    handle:'@priyaraman',    plat:'Instagram',time:'4h ago',  type:'Comment', text:'Loving the new AI features in Zylker! Makes content planning so much easier. <span class="tag">#Productivity</span> <span class="tag">#Zylker</span>',     likes:210,comments:18, rt:0,  sent:'pos', eng:'high', thumb:'#6366f1'},
-  {name:'TechTalks',      handle:'@techtalks',     plat:'YouTube',  time:'6h ago',  type:'Post',    text:"Zylker's latest update is a game changer for small businesses. Full review here 👇",                                                                         likes:412,comments:52, rt:0,  sent:'neu', eng:'high', thumb:'#1877f2', video:true},
-  {name:'u/growthhacker', handle:'r/Productivity', plat:'Reddit',   time:'8h ago',  type:'Comment', text:'Anyone else facing sync issues with Zylker? It worked fine last week. <span class="tag">#Zylker</span> <span class="tag">#bug</span>',                      likes:26, comments:36, rt:14, sent:'neg', eng:'medium'},
-  {name:'Kavya Nair',     handle:'@kavya',         plat:'Facebook', time:'12h ago', type:'Post',    text:'The customer support team at Zylker is top-notch. Quick and helpful responses!',                                                                              likes:48, comments:6,  rt:0,  sent:'pos', eng:'low', thumb:'#0077b5'},
-  {name:'Rohit S',        handle:'@rohits',        plat:'X',        time:'14h ago', type:'Comment', text:'Zylker vs Competitor X — which one do you think is better for social scheduling?',                                                                            likes:14, comments:32, rt:8,  sent:'neu', eng:'medium'},
-  {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        time:'2d ago',  type:'Post',    text:'Just had the most amazing experience with <span class="tag">@ZylkerTravels</span> in Santorini! Already planning my next trip 💙',                            likes:248,comments:32, rt:12, sent:'pos', eng:'high', thumb:'#764ba2'},
-  {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  time:'2d ago',  type:'Post',    text:"The new itinerary planner from Zylker is genuinely one of the best travel tools I've used. Offline maps, live updates.",                                      likes:156,comments:31, rt:22, sent:'pos', eng:'high'},
+  {name:'Arjun Mehta',    handle:'@arjunmehta',    plat:'X',        time:'2h ago',  type:'Post',    text:'Really disappointed with the latest update. The app keeps crashing on iOS. 😤 <span class="tag">#Zylker</span>',                                            likes:86, comments:24, rt:12, sent:'neg', eng:'high',imp:48200,intent:'Complaints',cats:['Customer support']},
+  {name:'Priya Raman',    handle:'@priyaraman',    plat:'Instagram',time:'4h ago',  type:'Comment', text:'Loving the new AI features in Zylker! Makes content planning so much easier. <span class="tag">#Productivity</span> <span class="tag">#Zylker</span>',     likes:210,comments:18, rt:0,  sent:'pos', eng:'high', thumb:'#6366f1',imp:128000,intent:'Advocacy',cats:['Zia']},
+  {name:'TechTalks',      handle:'@techtalks',     plat:'YouTube',  time:'6h ago',  type:'Review',    text:"Zylker's latest update is a game changer for small businesses. Full review here 👇",                                                                         likes:412,comments:52, rt:0,  sent:'neu', eng:'high', thumb:'#1877f2', video:true,imp:342000,intent:'Evaluation',cats:[]},
+  {name:'u/growthhacker', handle:'r/Productivity', plat:'Reddit',   time:'8h ago',  type:'Comment', text:'Anyone else facing sync issues with Zylker? It worked fine last week. <span class="tag">#Zylker</span> <span class="tag">#bug</span>',                      likes:26, comments:36, rt:14, sent:'neg', eng:'medium',imp:17400,intent:'Complaints',cats:['Integrations']},
+  {name:'Kavya Nair',     handle:'@kavya',         plat:'Facebook', time:'12h ago', type:'Review',    text:'The customer support team at Zylker is top-notch. Quick and helpful responses!',                                                                              likes:48, comments:6,  rt:0,  sent:'pos', eng:'low', thumb:'#0077b5',imp:9600,intent:'Advocacy',cats:['Customer support']},
+  {name:'Rohit S',        handle:'@rohits',        plat:'X',        time:'14h ago', type:'Comment', text:'Zylker vs Competitor X on pricing — which one do you think is better for social scheduling?',                                                                            likes:14, comments:32, rt:8,  sent:'neu', eng:'medium',imp:31800,intent:'Request',cats:[]},
+  {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        time:'2d ago',  type:'Post',    text:'Just had the most amazing experience with <span class="tag">@ZylkerTravels</span> in Santorini! Already planning my next trip 💙',                            likes:248,comments:32, rt:12, sent:'pos', eng:'high', thumb:'#764ba2',imp:212000,intent:'Others',cats:[]},
+  {name:'Nomad Diaries',  handle:'@nomaddiaries',  plat:'Threads',  time:'2d ago',  type:'Post',    text:"The new itinerary planner from Zylker is genuinely one of the best travel tools I've used. Offline maps, live updates.",                                      likes:156,comments:31, rt:22, sent:'pos', eng:'high',imp:86500,intent:'Evaluation',cats:[]},
 ];
 const PEOPLE=[
   {name:'Sarah Mitchell', handle:'@sarahmitchell', plat:'X',        bg:AVC[0],init:'SM',eng:16420,vol:218,sent:'pos',sl:'72% Positive',fol:184200,sig:'Educator',imp:612000,pos:72,neu:18,neg:10},
@@ -1537,6 +1590,7 @@ function buildMsgCard(m, i, inPanel){
   const av=m.name.split(' ').map(w=>w[0]).join('').slice(0,2);
   const bgCol=AVC[i%AVC.length];
   const isPost=m.type==='Post';
+  const tp=({Post:['#eef4ff','#4b9cf5'],Comment:['#f4f5f7','#6b7280'],Review:['#fdf2f8','#db2777']})[m.type]||['#f4f5f7','#6b7280'];
   const pfx=inPanel?'p':'t';
   const menuId=`menu-${pfx}-${i}`;
   const [sl,sbg,sc]=({pos:['Positive','#f0fdf4','#16a34a'],neg:['Negative','#fef2f2','#dc2626'],neu:['Neutral','#f8f9fa','#6b7280']})[m.sent]||['Neutral','#f8f9fa','#6b7280'];
@@ -1552,7 +1606,7 @@ function buildMsgCard(m, i, inPanel){
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;min-width:0;">
             <span style="font-size:13px;font-weight:700;color:#1a1a2e;">${m.name}</span>
             <span style="font-size:11.5px;color:#9399b0;">${m.handle}</span>
-            <span style="background:${isPost?'#eef4ff':'#f4f5f7'};color:${isPost?'#4b9cf5':'#6b7280'};padding:1px 7px;border-radius:50px;font-size:11px;font-weight:600;">${m.type}</span>
+            <span style="background:${tp[0]};color:${tp[1]};padding:1px 7px;border-radius:50px;font-size:11px;font-weight:600;">${m.type}</span>
             <span style="background:${sbg};color:${sc};padding:1px 8px;border-radius:50px;font-size:11px;font-weight:600;">${sl}</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap;position:relative;" onclick="event.stopPropagation()">
@@ -1622,15 +1676,108 @@ function pplSort(k){if(_pplSort.key===k)_pplSort.dir*=-1;else _pplSort={key:k,di
 
 /* RENDER MSG TAB */
 /* RENDER PANEL FEED */
-function renderFeed(){
-  document.getElementById('rpFeed').innerHTML=MSGS.map((m,i)=>buildMsgCard(m,i,true)).join('');
+// ---- messages panel filters ----
+const RP={eng:new Set(),sent:new Set(),cat:new Set(),imp:new Set(),intent:new Set(),type:new Set()};
+const RP_MORE=['cat','imp','intent','type'];
+const RP_OPTS={
+  eng:[['high','High'],['medium','Medium'],['low','Low']],
+  sent:[['pos','Positive'],['neu','Neutral'],['neg','Negative']],
+  imp:[['high','High (100K+)'],['medium','Medium (20K–100K)'],['low','Low (under 20K)']],
+  intent:[['Complaints','Complaints'],['Request','Request'],['Advocacy','Advocacy'],['Evaluation','Evaluation'],['Others','Others']],
+  type:[['Post','Post'],['Comment','Comment'],['Review','Review']]
+};
+let _rpTotal=5214;
+const rpImpBand=n=>n>=100000?'high':n>=20000?'medium':'low';
+const rpOpts=k=>k==='cat'?Object.keys(TT_CATS).map(id=>[id,TT_CATS[id].name]):RP_OPTS[k];
+const RP_DD=['eng','sent','cat'];   // controls that are dropdown menus (Category lives inside the More popover)
+const rpListId=k=>RP_DD.includes(k)?'rpDD-'+k:'rpList-'+k;
+// a message is in a category when it is tagged with it, or its text matches the category's keyword rules
+function rpInCat(m,id){
+  const c=TT_CATS[id];if(!c)return false;
+  if((m.cats||[]).includes(c.name))return true;
+  const text=String(m.text).replace(/<[^>]+>/g,' ').toLowerCase();
+  const inc=c.include.map(ttNorm).filter(Boolean),exc=c.exclude.map(ttNorm).filter(Boolean);
+  if(!inc.length)return false;
+  const hit=c.matchInc==='all'?inc.every(k=>text.includes(k)):inc.some(k=>text.includes(k));
+  const out=exc.length&&(c.matchExc==='all'?exc.every(k=>text.includes(k)):exc.some(k=>text.includes(k)));
+  return hit&&!out;
 }
-
-/* PANEL */
+function rpMatch(m){
+  if(RP.eng.size&&!RP.eng.has(m.eng))return false;
+  if(RP.sent.size&&!RP.sent.has(m.sent))return false;
+  if(RP.imp.size&&!RP.imp.has(rpImpBand(m.imp)))return false;
+  if(RP.intent.size&&!RP.intent.has(m.intent))return false;
+  if(RP.type.size&&!RP.type.has(m.type))return false;
+  if(RP.cat.size&&![...RP.cat].some(id=>rpInCat(m,id)))return false;
+  return true;
+}
+const rpActive=()=>Object.values(RP).some(s=>s.size>0);
+function rpLabelOf(k){
+  const s=RP[k];if(!s.size)return'All';
+  if(s.size===1){const v=[...s][0],o=rpOpts(k).find(x=>x[0]===v);return o?o[1]:v;}
+  return s.size+' selected';
+}
+function rpRenderList(k){
+  const el=document.getElementById(rpListId(k));if(!el)return;
+  if(RP_DD.includes(k))   // dropdown menus (Engagement, Sentiment, Category): checkbox rows
+    el.innerHTML=rpOpts(k).map(([v,l])=>`<label class="kw-dd-item"><input type="checkbox" ${RP[k].has(v)?'checked':''} onchange="rpPick('${k}','${ttJs(v)}',this.checked)"> ${ttEsc(l)}</label>`).join('');
+  else                    // fixed sets (Impressions, Intent, Type): toggle chips, one click each
+    el.innerHTML=rpOpts(k).map(([v,l])=>`<button type="button" class="rp-chip${RP[k].has(v)?' on':''}" aria-pressed="${RP[k].has(v)}" onclick="rpToggleChip('${k}','${ttJs(v)}')">${ttEsc(l)}</button>`).join('');
+}
+function rpToggleChip(k,v){RP[k].has(v)?RP[k].delete(v):RP[k].add(v);rpRenderList(k);rpSync();}
+// labels, badge, Clear, feed + count (does not rebuild the lists, so a scrolled list stays put)
+function rpSync(){
+  RP_DD.forEach(k=>{
+    const lb=document.getElementById('rpL-'+k);if(lb)lb.textContent=rpLabelOf(k);
+    const b=document.getElementById('rpB-'+k);if(b&&b.classList)b.classList.toggle('on',RP[k].size>0);
+  });
+  const more=RP_MORE.filter(k=>RP[k].size).length,bd=document.getElementById('rpMoreBadge');
+  if(bd){bd.style.display=more?'inline-block':'none';bd.textContent=more;}
+  const mb=document.getElementById('rpMoreBtn');if(mb&&mb.classList)mb.classList.toggle('on',more>0);
+  const cl=document.getElementById('rpClear');if(cl)cl.style.display=rpActive()?'inline-block':'none';
+  renderFeed();rpUpdateCount();
+}
+function rpRefresh(){Object.keys(RP).forEach(rpRenderList);rpSync();}
+function rpPick(k,v,on){on?RP[k].add(v):RP[k].delete(v);rpSync();}
+function rpClearAll(){Object.values(RP).forEach(s=>s.clear());rpRefresh();}
+function rpClearMore(){RP_MORE.forEach(k=>RP[k].clear());rpRefresh();}
+function rpCloseCat(){const c=document.getElementById('rpDD-cat');if(c)c.style.display='none';}
+function rpCloseMore(){const m=document.getElementById('rpMore');if(m)m.style.display='none';rpCloseCat();}
+// a click anywhere in the popover outside the Category dropdown closes that dropdown
+function rpPopClick(e){if(!e.target.closest||!e.target.closest('#rpCatWrap'))rpCloseCat();}
+function rpToggleDD(k,e){
+  if(e)e.stopPropagation();
+  if(k!=='cat')rpCloseMore();                 // Engagement / Sentiment menus close the More popover; Category lives inside it
+  RP_DD.forEach(o=>{if(o!==k){const d=document.getElementById('rpDD-'+o);if(d)d.style.display='none';}});
+  const d=document.getElementById('rpDD-'+k);if(!d)return;
+  const open=d.style.display==='none'||!d.style.display;
+  if(open&&k==='cat')rpRenderList('cat');    // categories are dynamic: rebuild the menu each time it opens
+  d.style.display=open?'block':'none';
+}
+function rpToggleMore(e){
+  if(e)e.stopPropagation();
+  RP_DD.forEach(o=>{const d=document.getElementById('rpDD-'+o);if(d)d.style.display='none';});
+  const m=document.getElementById('rpMore');if(!m)return;
+  m.style.display=(m.style.display==='none'||!m.style.display)?'block':'none';
+}
+function rpUpdateCount(){
+  const matched=MSGS.filter(rpMatch).length,n=rpActive()?Math.round(_rpTotal*matched/MSGS.length):_rpTotal;
+  const c=document.getElementById('rpCount');if(c)c.textContent=n.toLocaleString()+' results';
+}
+function renderFeed(){
+  const feed=document.getElementById('rpFeed');
+  const cards=MSGS.map((m,i)=>[m,i]).filter(([m])=>rpMatch(m)).map(([m,i])=>buildMsgCard(m,i,true));
+  feed.innerHTML=cards.length?cards.join(''):`<div class="rp-empty"><b>No messages match these filters</b><span>Try removing a filter to see more conversations.</span><button class="rp-clear" style="font-size:12.5px;" onclick="rpClearAll()">Clear filters</button></div>`;
+  feed.scrollTop=0;
+}
 function openPanel(title, filter){
   document.getElementById('rpTitle').textContent=title;
-  document.getElementById('rpCount').textContent=(Math.floor(Math.random()*3500)+400).toLocaleString()+' results';
-  renderFeed();
+  _rpTotal=Math.floor(Math.random()*3500)+400;
+  // fresh filters per open; a sentiment hint from the caller pre-selects that sentiment
+  Object.values(RP).forEach(s=>s.clear());
+  if(filter==='pos')RP.sent.add('pos');else if(filter==='neg')RP.sent.add('neg');
+  rpCloseMore();
+  rpRefresh();
   document.getElementById('rpPanel').classList.add('open');
   document.getElementById('bodyWrap').classList.add('panel-open');
 }
@@ -2070,7 +2217,7 @@ function toggleKwDD(id){
 }
 document.addEventListener('click', e=>{
   if(!e.target.closest('.kw-dd-wrap')) {
-    ['brandDD','typeDD','sourceDD','cBrandDD','cTypeDD','cSourceDD','pplBrandDD','pplSourceDD','catDD','alPeopleDD'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+    ['brandDD','typeDD','sourceDD','cBrandDD','cTypeDD','cSourceDD','pplBrandDD','pplSourceDD','catDD','alPeopleDD','rpDD-eng','rpDD-sent','rpDD-cat','rpMore'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
   }
 });
 function getChecked(ddId){
@@ -2275,23 +2422,14 @@ function getSt(){
   const d=src[x];
   return{labels:lbl[x],pos:d.p.map(v=>Math.round(v)),neu:d.n.map(v=>Math.round(v)),neg:d.ng.map(v=>Math.round(v)),metric:'Volume',isDay:x==='day'};
 }
+const VT_ITEMS=[{k:'Posts',c:'#4b9cf5'},{k:'Comments',c:'#a78bfa'},{k:'Reviews',c:'#f472b6'},{k:'Reposts / Shares',c:'#34d399'},{k:'Other',c:'#fbbf24'}];
+const VT_COUNTS=[2496,1560,520,416,208];   // 48 / 30 / 10 / 8 / 4 % of the 5,200 conversations
 function initVtChart(){
   const ctx=document.getElementById('vtChart');
   if(!ctx) return;
-  new Chart(ctx,{
-    type:'doughnut',
-    data:{
-      labels:['Posts','Comments','Reviews','Reposts / Shares','Other'],
-      datasets:[{data:[48,30,10,8,4],backgroundColor:['#4b9cf5','#a78bfa','#f472b6','#34d399','#fbbf24'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:true,cutout:'62%',
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed}%`},backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}
-      }
-    }
-  });
+  const total=VT_COUNTS.reduce((a,b)=>a+b,0),rows=document.getElementById('vtRows');
+  if(rows)rows.innerHTML=ttRowsStacked(VT_ITEMS,VT_COUNTS,total);
+  new Chart(ctx,{type:'pie',data:{labels:VT_ITEMS.map(i=>i.k),datasets:[{data:VT_COUNTS,backgroundColor:VT_ITEMS.map(i=>i.c),borderWidth:2,borderColor:'#fff',hoverOffset:5}]},options:ttPieOptions(VT_ITEMS,total,'')});
 }
 // ===== TREND ANOMALIES =====
 const T_COL={spike:'#f97316',drop:'#e5546b'};
@@ -2686,7 +2824,7 @@ function ttBuildCat(c){
     return ttRow(k,vol,Math.round(vol*(3+r()*9)),Math.round(vol*(60+r()*160)),plats,pos,neu,neg);
   });
   const sum=f=>rows.reduce((s,x)=>s+f(x),0),tv=sum(x=>x.vol);
-  const vol=Math.round(tv*0.8),eng=sum(x=>x.eng),imp=sum(x=>x.imp);
+  const vol=Math.max(Math.round(tv*0.8),Math.max(...rows.map(x=>x.vol))),eng=sum(x=>x.eng),imp=sum(x=>x.imp);
   const sent=[0,1,2].map(i=>Math.round(sum(x=>[x.pos,x.neu,x.neg][i]*x.vol)/tv));
   sent[1]+=100-sent.reduce((a,b)=>a+b,0);
   const ch=()=>Math.round(-6+r()*38);
@@ -2711,8 +2849,8 @@ const ttCur=()=>_ttCat==='all'?TT_ALL:ttCatData(_ttCat);
 function renderCatDD(){
   const el=document.getElementById('catDD');if(!el)return;
   const item=(id,label)=>`<div class="cat-dd-item${id===_ttCat?' active':''}" onclick="ttSelectCat('${id}')">${ttEsc(label)}</div>`;
-  el.innerHTML=item('all','All conversations')+'<div class="cat-dd-sep"></div>'+Object.keys(TT_CATS).map(id=>item(id,TT_CATS[id].name)).join('');
-  const lb=document.getElementById('catDDLabel');if(lb)lb.textContent=_ttCat==='all'?'All conversations':TT_CATS[_ttCat].name;
+  el.innerHTML=item('all','All messages')+'<div class="cat-dd-sep"></div>'+Object.keys(TT_CATS).map(id=>item(id,TT_CATS[id].name)).join('');
+  const lb=document.getElementById('catDDLabel');if(lb)lb.textContent=_ttCat==='all'?'All messages':TT_CATS[_ttCat].name;
 }
 function toggleCatDD(){const el=document.getElementById('catDD');if(el)el.style.display=el.style.display==='none'?'block':'none';}
 function ttSelectCat(id){
@@ -2726,7 +2864,7 @@ function renderTrends(){
   const all=_ttCat==='all',d=ttCur(),$=id=>document.getElementById(id);
   const k=$('ttKpis');if(k){k.style.display=all?'none':'grid';if(!all)k.innerHTML=ttKpiHtml(d.kpi);}
   renderTtAi(d.ai);
-  // All conversations: cloud | intent.  Category: AI summary | intent.
+  // All messages: cloud | intent.  Category: AI summary | intent.
   const top=$('ttTop'),mid=$('ttMid'),ic=$('ttIntentCard');
   if(all){if(ic.parentNode!==mid)mid.appendChild(ic);top.classList.remove('side');$('ttAiGrid').style.gridTemplateColumns='';}
   else{if(ic.parentNode!==top)top.appendChild(ic);top.classList.add('side');$('ttAiGrid').style.gridTemplateColumns='repeat(2,1fr)';}
@@ -2759,24 +2897,48 @@ function ttKpiHtml(k){
 }
 
 // ---- intent donut ----
+// one row builder for every pie legend: dot, name, bar, count, (%)
+function ttRowsHtml(items,counts,total,suffix){
+  return items.map((it,i)=>{const pc=Math.round(counts[i]/total*100);return `<div class="tt-irow" onclick="openPanel('${ttJs(it.k+suffix)}','all')"><span class="d" style="background:${it.c}"></span><span class="nm">${ttEsc(it.k)}</span><div class="tt-ibar"><i style="width:${pc}%;background:${it.c}"></i></div><span class="ct">${fmtNum(counts[i])}</span><span class="pc">(${pc}%)</span></div>`;}).join('');
+}
+// Volume type legend: dot + name on the left, count with its % stacked underneath on the right (no bar)
+function ttRowsStacked(items,counts,total){
+  return items.map((it,i)=>{const pc=Math.round(counts[i]/total*100);return `<div class="tt-srow" onclick="openPanel('${ttJs(it.k)}','all')"><span class="d" style="background:${it.c}"></span><span class="nm">${ttEsc(it.k)}</span><div class="tt-sv"><b>${fmtNum(counts[i])}</b><span>${pc}%</span></div></div>`;}).join('');
+}
+function ttPieOptions(items,total,suffix){
+  return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmtNum(c.parsed)} (${Math.round(c.parsed/total*100)}%)`},backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}},onClick:(e,els)=>{if(els.length)openPanel(items[els[0].index].k+suffix,'all');}};
+}
 function renderTtIntent(){
   const cv=document.getElementById('intentChart'),rows=document.getElementById('ttIntentRows');if(!cv||!rows)return;
   const counts=ttCur().intent,total=counts.reduce((a,b)=>a+b,0);
-  rows.innerHTML=TT_INTENT.map((it,i)=>{const pc=Math.round(counts[i]/total*100);return `<div class="tt-irow" onclick="openPanel('${it.k} intent','all')"><span class="d" style="background:${it.c}"></span><span class="nm">${it.k}</span><div class="tt-ibar"><i style="width:${pc}%;background:${it.c}"></i></div><span class="ct">${fmtNum(counts[i])}</span><span class="pc">${pc}%</span></div>`;}).join('');
+  rows.innerHTML=ttRowsHtml(TT_INTENT,counts,total,' intent');
   if(_intentChart){_intentChart.destroy();_intentChart=null;}
   if(typeof Chart==='undefined')return;
-  const center={id:'ict',beforeDraw(ch){const{ctx:c,chartArea:{top,bottom,left,right}}=ch;const cx=(left+right)/2,cy=(top+bottom)/2;c.save();c.textAlign='center';c.textBaseline='middle';c.font='700 15px system-ui,sans-serif';c.fillStyle='#1a1a2e';c.fillText(fmtNum(total),cx,cy-6);c.font='400 10px system-ui,sans-serif';c.fillStyle='#9399b0';c.fillText('Conversations',cx,cy+9);c.restore();}};
-  _intentChart=new Chart(cv,{type:'doughnut',plugins:[center],data:{labels:TT_INTENT.map(i=>i.k),datasets:[{data:counts,backgroundColor:TT_INTENT.map(i=>i.c),borderWidth:2,borderColor:'#fff',hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmtNum(c.parsed)} (${Math.round(c.parsed/total*100)}%)`},backgroundColor:'#fff',titleColor:'#1a1a2e',bodyColor:'#6b7280',borderColor:'#e4e6ed',borderWidth:1,padding:8}},onClick:(e,els)=>{if(els.length)openPanel(TT_INTENT[els[0].index].k+' intent','all');}}});
+  _intentChart=new Chart(cv,{type:'pie',data:{labels:TT_INTENT.map(i=>i.k),datasets:[{data:counts,backgroundColor:TT_INTENT.map(i=>i.c),borderWidth:2,borderColor:'#fff',hoverOffset:5}]},options:ttPieOptions(TT_INTENT,total,' intent')});
 }
 
-// ---- keyword categories table (all conversations) ----
+// ---- keyword categories table (all messages) ----
 function renderTtCatTable(){
   const el=document.getElementById('ttCatBody');if(!el)return;
   el.innerHTML=TT_KCATS.map((c,i)=>{
     const open=_ttCatOpen.has(i),shown=open?c.kws:c.kws.slice(0,3),more=c.kws.length-3;
-    return `<tr onclick="openPanel('${ttJs(c.name)}','all')" style="cursor:pointer;"><td class="tt-catn">${c.name}</td><td><div class="tt-krow">${shown.map(k=>`<span class="cat-chip">${ttEsc(k)}</span>`).join('')}${more>0?`<span class="tt-more" onclick="ttCatMore(event,${i})">${open?'Show less':'+'+more+' more'}</span>`:''}</div></td><td><div class="tt-vrow"><div class="tt-vbar"><i style="width:${c.pct}%"></i></div><b>${fmtNum(c.vol)}</b><span>${c.pct.toFixed(1)}%</span></div></td></tr>`;
+    const cid=ttCatForKeywordCat(c);
+    const btn=cid
+      ?`<button class="tt-cb view" id="ttKc-${i}" title="View category" aria-label="View ${ttEsc(c.name)} category" onclick="ttKcatView(event,'${cid}')">${TT_SVG_EYE}</button>`
+      :`<button class="tt-cb add" id="ttKc-${i}" title="Add as category" aria-label="Add ${ttEsc(c.name)} as a category" onclick="ttKcatAdd(event,${i})">${TT_SVG_PLUS}</button>`;
+    return `<tr onclick="openPanel('${ttJs(c.name)}','all')" style="cursor:pointer;"><td><span class="tt-catn">${c.name}</span></td><td><div class="tt-krow">${shown.map(k=>`<span class="cat-chip">${ttEsc(k)}</span>`).join('')}${more>0?`<span class="tt-more" onclick="ttCatMore(event,${i})">${open?'Show less':'+'+more+' more'}</span>`:''}</div></td><td><div class="tt-vrow"><div class="tt-vbar"><i style="width:${c.pct}%"></i></div><b>${fmtNum(c.vol)}</b><span>(${c.pct.toFixed(1)}%)</span></div></td><td class="tt-kc-act">${btn}</td></tr>`;
   }).join('');
 }
+const TT_SVG_PLUS='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+const TT_SVG_EYE='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const ttNorm=s=>String(s).replace(/^["']|["']$/g,'').trim().toLowerCase();
+// a keyword category already is a Trends category if one has the same name or the same set of keywords
+function ttCatForKeywordCat(c){
+  const nm=c.name.trim().toLowerCase(),set=c.kws.map(ttNorm).sort().join('|');
+  return Object.keys(TT_CATS).find(id=>TT_CATS[id].name.trim().toLowerCase()===nm||TT_CATS[id].include.map(ttNorm).sort().join('|')===set)||null;
+}
+function ttKcatAdd(e,i){e.stopPropagation();const c=TT_KCATS[i];openCategoryModal({name:c.name,include:c.kws,row:i});}
+function ttKcatView(e,id){e.stopPropagation();ttSelectCat(id);const t=document.getElementById('tab-conversations');if(t)t.scrollTop=0;}
 function ttCatMore(e,i){e.stopPropagation();_ttCatOpen.has(i)?_ttCatOpen.delete(i):_ttCatOpen.add(i);renderTtCatTable();}
 
 // ---- keywords table ----
@@ -2800,9 +2962,13 @@ function ttBreakHtml(eng){
   const b=ttBreak(eng),em=['👍','❤️','😆','😮','😢','😡'],ic=['heart','comment','repost','quote','save'];
   return `<div class="tt-bk">${b.inter.map((v,i)=>`<span class="tt-bi">${TT_IC[ic[i]]}${ttShort(v)}</span>`).join('')}</div><div class="tt-bk">${b.react.map((v,i)=>`<span class="tt-bi">${em[i]} ${ttShort(v)}</span>`).join('')}</div>`;
 }
+// % of the conversations in the current view (All = 5,200; a category = its own total). Keywords overlap, so these don't add up to 100.
+const ttVolTotal=()=>_ttCat==='all'?TT_ALL.intent.reduce((a,b)=>a+b,0):ttCatData(_ttCat).kpi.vol;
+function ttPct(v,total){const p=Math.min(100,v/total*100);return p<1?'<1%':Math.round(p)+'%';}
 function ttSortVal(r,key){return key==='sent'?r.pos:r[key];}
 function renderTtKw(){
   const tb=document.getElementById('ttKwBody');if(!tb)return;
+  const total=ttVolTotal();
   let rows=ttCur().rows.map((r,i)=>({...r,id:i}));
   if(_ttKwTab!=='all')rows=rows.filter(r=>r.type===_ttKwTab);
   rows.sort((a,b)=>(ttSortVal(a,_ttSort.key)-ttSortVal(b,_ttSort.key))*_ttSort.dir);
@@ -2811,7 +2977,7 @@ function renderTtKw(){
     const key=_ttCat+':'+r.id,open=_ttOpen.has(key);
     return `<tr class="${open?'tt-open':''}" onclick="openPanel('${ttJs(r.kw)}','all')" style="cursor:pointer;">
       <td><div class="kw-n">${ttEsc(r.kw)}${r.isNew?NEW_SPARK:''}</div><div class="tt-type">${TT_TYPE_LABEL[r.type]}</div></td>
-      <td>${fmtNum(r.vol)}</td>
+      <td>${fmtNum(r.vol)}<span class="pct-sub" title="Share of conversations in this view">(${ttPct(r.vol,total)})</span></td>
       <td><div class="tt-eng"><b style="font-size:12.5px;color:#1a1a2e;">${ttShort(r.eng)}</b><button class="tt-chev" onclick="ttToggle(event,'${key}')" aria-label="Toggle engagement breakdown">${open?TT_IC.up:TT_IC.down}</button></div>${open?`<div class="tt-bkwrap">${ttBreakHtml(r.eng)}</div>`:''}</td>
       <td>${ttShort(r.imp)}</td>
       <td>${kwSentBar(r.pos,r.neu,r.neg)}<div class="tt-sent">${r.pos}% positive</div></td>
@@ -2838,16 +3004,24 @@ function ttReadTags(areaId){
   return tags.map(t=>t.trim()).filter(Boolean);
 }
 function ttResetTags(areaId){const el=document.querySelector('#'+areaId+' .tag-input');if(!el)return;el.innerHTML='';_tags.set(el,[]);_rv.set(el,'');}
-const ttNameTaken=n=>Object.values(TT_CATS).some(c=>c.name.toLowerCase()===n.trim().toLowerCase())||n.trim().toLowerCase()==='all conversations';
+const ttNameTaken=n=>Object.values(TT_CATS).some(c=>c.name.toLowerCase()===n.trim().toLowerCase())||n.trim().toLowerCase()==='all messages';
 function ttCatErr(msg,boxId){
   const e=document.getElementById('catErr');if(e){e.textContent=msg||'';e.style.display=msg?'block':'none';}
   ['catName','catInclBox'].forEach(id=>{const x=document.getElementById(id);if(x)x.style.borderColor='#e0e2e9';});
   if(boxId){const x=document.getElementById(boxId);if(x)x.style.borderColor='#ef4444';}
 }
-function openCategoryModal(){
+let _ttFrom=null;
+function openCategoryModal(pre){
   const ov=document.getElementById('catModalOverlay');if(!ov)return;
   document.getElementById('catName').value='';
   ttResetTags('catIncl');ttResetTags('catExcl');
+  _ttFrom=null;
+  if(pre){
+    document.getElementById('catName').value=pre.name;
+    const el=document.querySelector('#catIncl .tag-input');
+    if(el){_tags.set(el,[...pre.include]);_rv.set(el,'');_rerender(el);}
+    _ttFrom=pre.row;
+  }
   document.getElementById('catInclMatch').value='any';document.getElementById('catExclMatch').value='any';
   ttCatErr('');
   ov.style.display='flex';
@@ -2862,7 +3036,14 @@ function createCategory(){
   if(!incl.length){ttCatErr('Add at least one include keyword.','catInclBox');return;}
   const id='c'+(++_ttCatSeq)+Date.now().toString(36);
   TT_CATS[id]={name,include:incl,exclude:excl,matchInc:document.getElementById('catInclMatch').value,matchExc:document.getElementById('catExclMatch').value};
-  closeCategoryModal();ttSelectCat(id);
+  const from=_ttFrom;
+  closeCategoryModal();_ttFrom=null;
+  if(from!==null&&_ttCat==='all'){
+    // came from the Keyword categories table: stay there, the + turns into an eye
+    renderCatDD();renderTtCatTable();
+    const b=document.getElementById('ttKc-'+from);
+    if(b&&b.classList){b.classList.add('tt-flash');setTimeout(()=>b.classList.remove('tt-flash'),1500);}
+  } else ttSelectCat(id);
 }
 
 /* ===== ADD SEARCH MODAL ===== */
